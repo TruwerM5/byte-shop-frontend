@@ -1,0 +1,18 @@
+{
+    "common": {
+        "Home": "Home",
+        "About": "About",
+        "Catalog": "Catalog"
+    },
+    "products": {
+        "CPU": "CPU",
+        "Motherboards": "Motherboards",
+        "Graphics Cards": "Graphics Cards",
+        "RAM": "RAM",
+        "Power Supplies": "Power Supplies",
+        "Cases": "Cases",
+        "Cooling Systems": "Cooling Systems",
+        "HDD": "HDD",
+        "SSD": "SSD"
+    }
+}

@@ -1,0 +1,19 @@
+
+
+.header {
+    display: block;
+    padding-block: 3px;
+
+    &__item-inner {
+        position: relative;
+    }
+
+    &__link {
+        border-bottom: 2px solid #000;
+        padding-block: 12px;
+
+        &_active {
+            border-bottom: 2px solid #fff;
+        }
+    }
+}

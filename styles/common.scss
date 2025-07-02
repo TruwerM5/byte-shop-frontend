@@ -1,0 +1,15 @@
+.menu-link {
+    display: block;
+    color: #fff;
+    transition: color .2s, border-color .2s;
+    padding-block: 5px;
+    color: #fff;
+    background-color: #000;
+    border: 1px solid #000;
+
+    &_active {
+        border-bottom-color: #fff;
+    }
+
+    
+}

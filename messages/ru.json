@@ -1,0 +1,18 @@
+{
+    "common": {
+        "Home": "Главная",
+        "About": "О нас",
+        "Catalog": "Каталог"
+    },
+    "products": {
+        "CPU": "ЦПУ",
+        "Motherboards": "Материнские платы",
+        "Graphics Cards": "Видеокарты",
+        "RAM": "ОЗУ",
+        "Power Supplies": "Блоки питания",
+        "Cases": "Корпусы",
+        "Cooling Systems": "Системы охлаждение",
+        "HDD": "HDD",
+        "SSD": "SSD"
+    }
+}
