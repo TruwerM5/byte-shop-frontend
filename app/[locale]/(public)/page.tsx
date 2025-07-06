@@ -4,7 +4,7 @@ import {Link} from '@/i18n/navigation';
 export default function HomePage() {
   const t = useTranslations('common');
   return (
-    <div>
+    <div className='page'>
       <h1>{t('Home')}</h1>
     </div>
   );

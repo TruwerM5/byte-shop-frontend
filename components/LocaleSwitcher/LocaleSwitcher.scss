@@ -1,0 +1,15 @@
+// absolute top-full left-0 flex flex-col border-1 border-black border-solid min-w-[50px] bg-white text-black
+@use '@/styles/_variables' as *;
+
+.locale-switcher {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid $black;
+    min-width: 50px;
+    background-color: $white;
+    color: $black;
+    z-index: 1;
+}

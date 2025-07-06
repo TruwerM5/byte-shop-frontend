@@ -2,7 +2,10 @@
     "common": {
         "Home": "Главная",
         "About": "О нас",
-        "Catalog": "Каталог"
+        "Catalog": "Каталог",
+        "Bestsellers": "Хиты продаж",
+        "Product name or ID": "Название или ID товара",
+        "Nothing found matching your request": "По вашему запросу ничего не найдено"
     },
     "products": {
         "CPU": "ЦПУ",
@@ -13,6 +16,14 @@
         "Cases": "Корпусы",
         "Cooling Systems": "Системы охлаждение",
         "HDD": "HDD",
-        "SSD": "SSD"
+        "SSD": "SSD",
+        "Periphery": "Периферия",
+        "Keyboards": "Клавиатуры",
+        "Mice": "Мыши",
+        "Monitors": "Мониторы",
+        "Headphones": "Наушники",
+        "Laptops": "Ноутбуки",
+        "Mechanical": "Механические",
+        "Membrane": "Мембранные"
     }
 }

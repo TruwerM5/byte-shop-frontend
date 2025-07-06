@@ -1,4 +1,5 @@
 
-@use "tailwindcss";
-@use './variables.module.css';
+@use 'tailwindcss';
+@use './_reset.scss';
+@use './_variables.scss';
 @use './common.scss';

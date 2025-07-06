@@ -5,9 +5,9 @@ import { useTranslations } from 'next-intl';
 import LocaleSwitcher from '@/components/LocaleSwitcher/LocaleSwitcher';
 import Logo from '@/components/Logo/Logo';
 import './Header.scss';
-import type { HeaderLinks } from '@/types';
+import type { HeaderLinks, Route } from '@/types';
 import NestedMenu from '../NestedMenu/NestedMenu';
-import { useMemo, useState } from 'react';
+import { MouseEventHandler, useMemo, useState } from 'react';
 import { usePathname } from '@/i18n/navigation';
 
 
@@ -17,25 +17,25 @@ export default function Header ({
     locale: string
 }) {
 
-    const headerLinks: HeaderLinks[] = useMemo(() => [
+    const headerLinks: Route[] = useMemo(() => [
     {
         id: 1,
         title: 'Home',
         href: '/',
-    },{
+    },
+    {
         id: 2,
         title: 'Catalog',
-        href: '/catalog',
         nestedRoutes: [
             {
                 id: 1,
                 title: 'CPU',
-                href: '/catalog/cpu'
+                href: '/catalog/cpu',
             },
             {
                 id: 2,
                 title: 'Graphics Cards',
-                href: '/catalog/graphisc-cards',
+                href: '/catalog/graphics-cards',
             },
             {
                 id: 3,
@@ -61,9 +61,56 @@ export default function Header ({
                 id: 7,
                 title: 'Cases',
                 href: '/catalog/cases',
+            },
+            {
+                id: 8,
+                title: 'Periphery',
+                nestedRoutes: [
+                    {
+                        id: 9,
+                        title: 'Keyboards',
+                        href: '/catalog/keyboards',
+                    },
+                    {
+                        id: 10,
+                        title: 'Mice',
+                        href: '/catalog/mice',
+                    },
+                    {
+                        id: 11,
+                        title: 'Monitors',
+                        href: '/catalog/monitors'
+                    }
+                ]
             }
+            // {
+            //     id: 8,
+            //     title: 'Keyboards',
+            //     href: '/catalog/keyboards',
+            // },
+            // {
+            //     id: 9,
+            //     title: 'Mice',
+            //     href: '/catalog/mice',
+            // },
+            // {
+            //     id: 10,
+            //     title: 'Monitors',
+            //     href: '/catalog/monitors',
+            // },
+            // {
+            //     id: 11,
+            //     title: 'Headphones',
+            //     href: '/catalog/headphones',
+            // },
+            // {
+            //     id: 12,
+            //     title: 'Laptops',
+            //     href: '/catalog/laptops',
+            // }
         ]
-    },{
+    },
+    {
         id: 3,
         title: 'About',
         href: '/about'
@@ -75,12 +122,12 @@ export default function Header ({
 
     const [isShowNestedMenu, setIsShowNestedMenu] = useState(false);
 
-    function closeNestedMenu(isNested: boolean) {
-        return isNested && setIsShowNestedMenu(false);
+    function isNestedRoute(route: Route): route is Route & { nestedRoutes: Route[] } {
+        return 'nestedRoutes' in route;
     }
 
-    function openNestedMenu(isNested: boolean) {
-        return isNested && setIsShowNestedMenu(true);
+    function toggleMenu(e: any) {        
+        setIsShowNestedMenu(!isShowNestedMenu);
     }
 
     return (
@@ -93,9 +140,12 @@ export default function Header ({
                         
                         const isNested = 'nestedRoutes' in link;
                         let linkClassName = 'menu-link header__link';
-                        
+                        let hrefText = '';
                         const separatePath = path.split('/').filter(p => p.length);
-                        const hrefText = link.href.slice(1);
+                        
+                        if(!isNestedRoute(link)) {
+                            hrefText = link.href.slice(1); 
+                        }
                         const isActiveIndexPage = path === '/' && link.href === '/';
                         const isLinkActive = separatePath.includes(hrefText) && !separatePath.includes('/') || isActiveIndexPage;
                         if (isLinkActive) {
@@ -105,22 +155,30 @@ export default function Header ({
                         return (
                         <li className='header__item' key={link.id}>
                             {    
-                                    <div
-                                        onMouseEnter={() => openNestedMenu(isNested)}
-                                        onMouseLeave={() => closeNestedMenu(isNested)}  
-                                        onClick={() => closeNestedMenu(isNested)}
-                                        className="header__item-inner"
-                                    >
-                                        <Link
-                                            href={link.href}
+                                <div
+                                    className='header__item-inner'
+                                    onClick={toggleMenu}
+                                >
+                                    {link.nestedRoutes ? (
+                                        <button 
+                                            onClick={toggleMenu}
                                             className={linkClassName}
                                         >
                                             {t(link.title)}
+                                        </button>
+                                    ) : (
+                                        <Link
+                                            href={link.href}
+                                            className={linkClassName}
+                                            
+                                        >
+                                            {t(link.title)}
                                         </Link>
-                                            { isNested && 
-                                                <NestedMenu isActive={isShowNestedMenu} links={link.nestedRoutes} />
-                                            } 
-                                    </div>
+                                    )}
+                                    { isNestedRoute(link) && 
+                                        <NestedMenu isActive={isShowNestedMenu} links={link.nestedRoutes} closeAllFn={() => setIsShowNestedMenu(false)} />
+                                    } 
+                                </div>
                             }
                         </li>
                         )

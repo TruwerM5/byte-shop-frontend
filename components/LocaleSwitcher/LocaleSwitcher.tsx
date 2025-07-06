@@ -1,9 +1,12 @@
 'use client';
-import { routing } from "@/i18n/routing";
+import { routing } from '@/i18n/routing';
 import Link from 'next/link'
-import { useState } from "react";
-import { FaChevronDown } from "react-icons/fa";
-import { usePathname } from "@/i18n/navigation";
+import { useState } from 'react';
+import { FaChevronDown } from 'react-icons/fa';
+import { usePathname } from '@/i18n/navigation';
+import useOutsideClick from '@/hooks/useOutsideClick';
+
+import './LocaleSwitcher.scss';
 
 export default function LocaleSwitcher({
     currentLocale
@@ -12,6 +15,10 @@ export default function LocaleSwitcher({
 }) { 
     const path = usePathname();
     const [isOpened, setIsOpened] = useState(false);
+
+    const ref = useOutsideClick(() => {
+        setIsOpened(false);
+    });
 
     function toggleLocaleSwitcher() {
         setIsOpened(!isOpened);
@@ -25,22 +32,22 @@ export default function LocaleSwitcher({
     const anotherLocales = routing.locales.filter(locale => locale !== currentLocale);
 
     return (
-        <div className="relative py-[15px]">
+        <div className='relative py-[15px]'>
             <button 
                 onClick={() => toggleLocaleSwitcher()} 
-                className="uppercase cursor-pointer flex items-center justify-center gap-[5px]">
+                className='uppercase cursor-pointer flex items-center justify-center gap-[5px]'>
                     {currentLocale}
                 <FaChevronDown className={iconClassName} />
             </button>
             {isOpened && (
-                <ul className="absolute top-full left-0 flex flex-col border-1 border-black border-solid min-w-[50px] bg-white text-black">
+                <ul ref={ref} className='locale-switcher'>
                     {
                         anotherLocales.map(locale => {
                             const href = '/' + locale + path;
                             const localeText = locale.toUpperCase();
                             return (
-                                <li key={locale} className="w-full">
-                                    <Link href={href} className="block p-[5px] bg-black text-white hover:bg-white hover:text-black">
+                                <li key={locale} className='w-full'>
+                                    <Link href={href} className='block p-[5px] bg-black text-white hover:bg-white hover:text-black'>
                                         {localeText}
                                     </Link>
                                 </li>

@@ -5,6 +5,7 @@
     transform: translateX(-50%);
     width: 300px;
     background-color: #000;
+    z-index: 1;
 
     &__list {
         display: flex;
@@ -14,7 +15,8 @@
 
     &__link {
         padding: 15px 20px;
-
+        text-align: left;
+        
         &_active,
         &:hover {
             background-color: #fff;

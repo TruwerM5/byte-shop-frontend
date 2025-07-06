@@ -1,0 +1,52 @@
+@use '../../styles/_variables' as *;
+
+.search {
+    position: relative;
+    border: 1px solid $border-gray;
+    padding: 13px 4rem 13px 13px;
+    color: $text-gray;
+
+    &__placeholder {
+        position: absolute;
+        top: 50%;
+        left: 13px;
+        transform: translateY(-50%);
+        font-size: 14px;
+        transition: font-size .3s, top .3s, left .3s;
+
+        &_moved {
+            font-size: 10px;
+            top: 5px;
+            left: 5px;
+        }
+    }
+
+    &__input {
+        display: block;
+        width: 100%;
+        color: $black;
+
+        &:focus {
+            outline: none;
+
+            & + .search__placeholder {
+                font-size: 10px;
+                top: 5px;
+                left: 5px;
+            }
+        } 
+    }
+
+    &__button {
+        position: absolute;
+        right: 5px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 25px;
+        z-index: 1;
+
+        &_clear {
+            right: 35px;
+        }
+    }
+}
