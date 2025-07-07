@@ -120,67 +120,78 @@ export default function Header ({
     const path = usePathname();
     const t = useTranslations('common');
 
-    const [isShowNestedMenu, setIsShowNestedMenu] = useState(false);
+    const [openedMenus, setOpenedMenus] = useState<Set<number>>(new Set());
 
-    function isNestedRoute(route: Route): route is Route & { nestedRoutes: Route[] } {
-        return 'nestedRoutes' in route;
+    function toggleMenu(id: number) {        
+        setOpenedMenus(prev => {
+            const newSet = new Set(prev);
+            if(newSet.has(id)) {
+                newSet.delete(id);
+            } else {
+                newSet.add(id);
+            }
+            return newSet;
+        });
     }
 
-    function toggleMenu(e: any) {        
-        setIsShowNestedMenu(!isShowNestedMenu);
+    function closeAllMenus() {
+        setOpenedMenus(new Set());
     }
 
     return (
         <header className='header bg-black text-white px-[25px]'>
-            
             <nav className='nav flex justify-center items-center'>
                 <Logo />
                 <ul className='header__list flex justify-center items-center gap-[120px] mx-auto'>
                     {headerLinks.map(link => {
                         
-                        const isNested = 'nestedRoutes' in link;
                         let linkClassName = 'menu-link header__link';
                         let hrefText = '';
-                        const separatePath = path.split('/').filter(p => p.length);
                         
-                        if(!isNestedRoute(link)) {
+                        if(!link.nestedRoutes) {
                             hrefText = link.href.slice(1); 
                         }
-                        const isActiveIndexPage = path === '/' && link.href === '/';
-                        const isLinkActive = separatePath.includes(hrefText) && !separatePath.includes('/') || isActiveIndexPage;
+
+                        const isLinkActive = path === link.href || path.startsWith(link.href + '/');
+
                         if (isLinkActive) {
                             linkClassName += ' header__link_active';
                         }
 
                         return (
-                        <li className='header__item' key={link.id}>
-                            {    
-                                <div
-                                    className='header__item-inner'
-                                    onClick={toggleMenu}
-                                >
-                                    {link.nestedRoutes ? (
-                                        <button 
-                                            onClick={toggleMenu}
-                                            className={linkClassName}
-                                        >
-                                            {t(link.title)}
-                                        </button>
-                                    ) : (
-                                        <Link
-                                            href={link.href}
-                                            className={linkClassName}
-                                            
-                                        >
-                                            {t(link.title)}
-                                        </Link>
-                                    )}
-                                    { isNestedRoute(link) && 
-                                        <NestedMenu isActive={isShowNestedMenu} links={link.nestedRoutes} closeAllFn={() => setIsShowNestedMenu(false)} />
-                                    } 
-                                </div>
-                            }
-                        </li>
+                            <li className='header__item' key={link.id}>
+                                {    
+                                    <div
+                                        className='header__item-inner'
+                                    >
+                                        {link.nestedRoutes ? (
+                                            <button 
+                                                onClick={() => toggleMenu(link.id)}
+                                                className={linkClassName}
+                                            >
+                                                {t(link.title)}
+                                            </button>
+                                        ) : (
+                                            <Link
+                                                href={link.href}
+                                                className={linkClassName}
+                                                onClick={closeAllMenus}
+                                            >
+                                                {t(link.title)}
+                                            </Link>
+                                        )}
+                                        { link.nestedRoutes && 
+                                            <NestedMenu
+                                                isActive={openedMenus.has(link.id)}
+                                                links={link.nestedRoutes}
+                                                openedMenus={openedMenus}
+                                                toggleMenu={toggleMenu}
+                                                closeAllFn={closeAllMenus}
+                                            />
+                                        }
+                                    </div>
+                                }
+                            </li>
                         )
                     })}
                 </ul>

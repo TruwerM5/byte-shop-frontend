@@ -6,6 +6,17 @@
     width: 300px;
     background-color: #000;
     z-index: 1;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .3s;
+
+    &_relative {
+        position: relative;
+    }
+
+    &.opened {
+        max-height: 9999px;
+    }
 
     &__list {
         display: flex;
