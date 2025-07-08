@@ -25,10 +25,6 @@
     }
 
     &__link {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
         padding: 15px 20px;
         text-align: left;
         
@@ -37,12 +33,5 @@
             background-color: #fff;
             color: #000;
         }
-    }
-}
-
-.chevron {
-    transition: transform .1s;
-    &_active {
-        transform: rotate(90deg);
     }
 }

@@ -28,63 +28,58 @@ export default function Header ({
         title: 'Catalog',
         nestedRoutes: [
             {
-                id: 3,
+                id: 1,
                 title: 'CPU',
                 href: '/catalog/cpu',
             },
             {
-                id: 4,
+                id: 2,
                 title: 'Graphics Cards',
                 href: '/catalog/graphics-cards',
             },
             {
-                id: 5,
+                id: 3,
                 title: 'Motherboards',
                 href: '/catalog/motherboards',
             },
             {
-                id: 6,
+                id: 4,
                 title: 'RAM',
                 href: '/catalog/ram',
             },
             {
-                id: 7,
+                id: 5,
                 title: 'Power Supplies',
                 href: '/catalog/power-supplies',
             },
             {
-                id: 8,
+                id: 6,
                 title: 'Cooling Systems',
                 href: '/catalog/cooling',
             },
             {
-                id: 9,
+                id: 7,
                 title: 'Cases',
                 href: '/catalog/cases',
             },
             {
-                id: 10,
+                id: 8,
                 title: 'Periphery',
                 nestedRoutes: [
                     {
-                        id: 11,
+                        id: 9,
                         title: 'Keyboards',
                         href: '/catalog/keyboards',
                     },
                     {
-                        id: 12,
+                        id: 10,
                         title: 'Mice',
                         href: '/catalog/mice',
                     },
                     {
-                        id: 13,
+                        id: 11,
                         title: 'Monitors',
                         href: '/catalog/monitors'
-                    },
-                    {
-                        id: 14,
-                        title: 'Headphones',
-                        href: '/catalog/headphones'
                     }
                 ]
             }
