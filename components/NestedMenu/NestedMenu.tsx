@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import './NestedMenu.scss';
 import { usePathname } from '@/i18n/navigation';
+import { FaChevronRight } from "react-icons/fa6";
 
 export default function NestedMenu({
     links,
@@ -23,21 +24,32 @@ export default function NestedMenu({
     const path = usePathname();
     const t = useTranslations('products');
 
+    function getIsLinkActive(link: Route) {
+        if(path === link.href) {
+            return true;
+        }
+
+        if(openedMenus.has(link.id) && !link.href) {
+            return true;
+        }
+
+        return false;
+    }
     
-    let getClassName = 'nested-menu';
+    let getWrapperClassName = 'nested-menu';
 
     if(isActive) {
-        getClassName += ' opened';
+        getWrapperClassName += ' opened';
     }
     if(className) {
-        getClassName += className;
+        getWrapperClassName += className;
     }
 
     return (
-        <div className={getClassName}>
+        <div className={getWrapperClassName}>
             <ul className="nested-menu__list">
                 {links.map(link => {
-                const isActiveLink = path === link.href;
+                const isActiveLink = getIsLinkActive(link);
                 const linkClassName = `nested-menu__link menu-link${isActiveLink ? ' nested-menu__link_active' : ''}`;
 
                     return (
@@ -49,6 +61,7 @@ export default function NestedMenu({
                                 onClick={() => toggleMenu(link.id)}
                             >
                                 {t(link.title)}
+                                <FaChevronRight className={`chevron ${isActiveLink ? ' chevron_active': ''}`} />
                             </button>
                             <NestedMenu
                                 links={link.nestedRoutes!}
