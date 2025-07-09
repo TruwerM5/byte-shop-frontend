@@ -1,19 +1,21 @@
-
-
 .header {
     display: block;
     padding-block: 3px;
 
-    &__item-inner {
-        position: relative;
+    &__nav {
+        display: flex;
+        align-items: center;
     }
 
-    &__link {
-        border-bottom: 2px solid #000;
-        padding-block: 12px;
+    &__list {
+        display: flex;
+        align-items: center;
+        gap: 60px;
+        margin: 0 auto;
+    }
 
-        &_active {
-            border-bottom: 2px solid #fff;
-        }
+    &__button {
+        font-size: 18px;
+        letter-spacing: 1px;
     }
 }

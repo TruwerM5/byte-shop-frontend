@@ -1,5 +1,4 @@
-import type { Product } from "@/types"
-
+import type { Product } from '@/types';
 
 export const products: Product[] = [
     {
@@ -56,7 +55,7 @@ export const products: Product[] = [
         isWithCooler: false,
         isGraphicsIntegrated: true,
         graphicsCard: 'Intel UHD Graphics 730',
-        line: 'Core i5'
+        line: 'Core i5',
     },
     {
         id: 3,
@@ -91,6 +90,5 @@ export const products: Product[] = [
         bandwidth: 504,
         videoMemoryFrequency: 21000,
         recommendedPower: 750,
-
-    }
-]
+    },
+];

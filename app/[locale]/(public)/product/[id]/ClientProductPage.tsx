@@ -7,27 +7,25 @@ import { fetchProductById } from '@/api/products';
 
 export default function ClientProductPage({
     initialProduct,
-    productId
+    productId,
 }: {
-    initialProduct: Product,
-    productId: number
+    initialProduct: Product;
+    productId: number;
 }) {
-
     const [product, setProduct] = useState<Product>(initialProduct);
     const { getProductById, storeProducts, products } = useProductStore();
 
     useEffect(() => {
         const storeProduct = getProductById(productId);
-        if(storeProduct) {
+        if (storeProduct) {
             setProduct(storeProduct);
             return;
         }
 
-        if(!initialProduct) {
-            fetchProductById(productId)
-            .then(res => {
-                if(res) {
-                    setProduct(res);    
+        if (!initialProduct) {
+            fetchProductById(productId).then((res) => {
+                if (res) {
+                    setProduct(res);
                     storeProducts([...products, res]);
                 }
             });
@@ -39,5 +37,5 @@ export default function ClientProductPage({
             <h1>{product.brand}</h1>
             <p>Price: {product.price}</p>
         </div>
-    )
+    );
 }

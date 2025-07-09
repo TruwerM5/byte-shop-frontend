@@ -12,7 +12,10 @@
         left: 13px;
         transform: translateY(-50%);
         font-size: 14px;
-        transition: font-size .3s, top .3s, left .3s;
+        transition:
+            font-size 0.3s,
+            top 0.3s,
+            left 0.3s;
 
         &_moved {
             font-size: 10px;
@@ -34,7 +37,7 @@
                 top: 5px;
                 left: 5px;
             }
-        } 
+        }
     }
 
     &__button {
