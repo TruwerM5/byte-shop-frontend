@@ -40,7 +40,8 @@ export default function Header({ locale }: { locale: string }) {
             },
             {
                 id: 2,
-                title: 'Graphic Cards',
+                title: 'Graphics Cards',
+                href: '/graphics-cards',
                 nestedRoutes: [
                     {
                         id: 31,
@@ -72,6 +73,7 @@ export default function Header({ locale }: { locale: string }) {
             {
                 id: 6,
                 title: 'Periphery',
+                href: '/periphery',
                 nestedRoutes: [
                     {
                         id: 7,

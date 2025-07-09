@@ -24,6 +24,8 @@
         "Headphones": "Наушники",
         "Laptops": "Ноутбуки",
         "Mechanical": "Механические",
-        "Membrane": "Мембранные"
+        "Membrane": "Мембранные",
+        "NVIDIA": "NVIDIA",
+        "AMD Radeon": "AMD Radeon"
     }
 }

@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react';
 import Submenu from '@/components/Submenu/Submenu';
 import { usePathname } from '@/i18n/navigation';
 import './Catalog.scss';
+import { useTranslations } from 'next-intl';
 
 export default function Catalog({
     links,
@@ -12,6 +13,8 @@ export default function Catalog({
     links: Route[];
     toggleFn: () => void;
 }) {
+
+    const t = useTranslations('products');
     const path = usePathname();
     const [activeSubmenuIndex, setActiveSubmenuIndex] = useState<number>(0);
     const nestedRoutes = useMemo(() => {
@@ -58,25 +61,16 @@ export default function Catalog({
                     }
                     return (
                         <li key={link.id} className="catalog__list-item">
-                            {link.href ? (
-                                <Link
-                                    href={`/catalog${link.href}`}
-                                    onClick={toggleFn}
-                                    className={buttonClassName}
-                                >
-                                    {link.title}
-                                </Link>
-                            ) : (
-                                <button
-                                    onClick={() => setActiveNestedId(link.id)}
-                                    onMouseEnter={() =>
-                                        setActiveNestedId(link.id)
-                                    }
-                                    className={buttonClassName}
-                                >
-                                    {link.title}
-                                </button>
-                            )}
+                            <Link
+                                href={`/catalog${link.href}`}
+                                onClick={toggleFn}
+                                onMouseEnter={() =>
+                                    setActiveNestedId(link.id)
+                                }
+                                className={buttonClassName}
+                            >
+                                {t(link.title)}
+                            </Link>
                         </li>
                     );
                 })}

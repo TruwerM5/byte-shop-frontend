@@ -8,12 +8,12 @@ export type Route =
     | {
           id: number;
           title: string;
+          href: string;
           nestedRoutes: {
               id: number;
               title: string;
               href: string;
           }[];
-          href?: never;
       };
 
 export type NestedRoute = {

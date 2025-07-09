@@ -36,18 +36,17 @@ export default function Submenu({
                         buttonClassName += ' catalog__button_active-link';
                     }
 
-                    if (route)
-                        return (
-                            <li key={route.id} className="catalog__list-item">
-                                <Link
-                                    href={`/catalog${route.href}`}
-                                    onClick={(e) => closeAll(e, 0)}
-                                    className={buttonClassName}
-                                >
-                                    {t(route.title)}
-                                </Link>
-                            </li>
-                        );
+                    return (
+                        <li key={route.id} className="catalog__list-item">
+                            <Link
+                                href={`/catalog${route.href}`}
+                                onClick={(e) => closeAll(e, 0)}
+                                className={buttonClassName}
+                            >
+                                {t(route.title)}
+                            </Link>
+                        </li>
+                    );
                 })}
         </ul>
     );
