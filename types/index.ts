@@ -1,22 +1,26 @@
-
-export type Route = {
-    id: number;
-    title: string;
-    href: string;
-    nestedRoutes?: never;
-} | {
-    id: number;
-    title: string;
-    nestedRoutes: Route[];
-    href?: never;
-};
+export type Route =
+    | {
+          id: number;
+          title: string;
+          href: string;
+          nestedRoutes?: never;
+      }
+    | {
+          id: number;
+          title: string;
+          nestedRoutes: {
+              id: number;
+              title: string;
+              href: string;
+          }[];
+          href?: never;
+      };
 
 export type NestedRoute = {
     id: number;
     title: string;
     href: string;
-    
-}
+};
 
 export type HeaderLinks = Route;
 
@@ -56,7 +60,7 @@ export type CPU = AbstractProduct & {
     cashLOne?: number;
     cashLTwo?: string;
     cashLThree?: string;
-}
+};
 
 export type GraphicsCard = AbstractProduct & {
     serie: string;
@@ -74,6 +78,6 @@ export type GraphicsCard = AbstractProduct & {
     videoMemoryFrequency: number;
     recommendedPower: number;
     clockSpeedTurbo?: number;
-}
+};
 
 export type Product = CPU | GraphicsCard;

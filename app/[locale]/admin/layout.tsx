@@ -1,17 +1,13 @@
-import type { Metadata } from 'next'
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
     title: 'Admin',
-}
+};
 
 export default async function AdminLayout({
-    children
+    children,
 }: {
-    children: React.ReactNode
+    children: React.ReactNode;
 }) {
-    return (
-        <div className='admin'>
-            {children}
-        </div>
-    )
+    return <div className="admin">{children}</div>;
 }

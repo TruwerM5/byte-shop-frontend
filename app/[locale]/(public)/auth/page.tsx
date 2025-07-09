@@ -1,3 +1,3 @@
 export default function PublicAuthPage() {
-    return <h1>Public auth</h1>
+    return <h1>Public auth</h1>;
 }

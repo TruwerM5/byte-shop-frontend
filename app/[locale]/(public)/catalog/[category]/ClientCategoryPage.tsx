@@ -7,14 +7,14 @@ import { useProductStore } from '@/store/productStore';
 import { useEffect } from 'react';
 
 export default function ClientCategoryPage({
-    serverProducts
+    serverProducts,
 }: {
-    serverProducts: Product[]
+    serverProducts: Product[];
 }) {
     const { products, storeProducts } = useProductStore();
 
     useEffect(() => {
-        if(!products) {
+        if (!products) {
             storeProducts(serverProducts);
         }
     }, [serverProducts, products]);
@@ -22,11 +22,10 @@ export default function ClientCategoryPage({
     return (
         <>
             <Search />
-            <div className='category-page flex'>
-                <div className='category-page__sidebar'>Sidebar</div>
+            <div className="category-page flex">
+                <div className="category-page__sidebar">Sidebar</div>
                 <ProductList products={serverProducts} />
             </div>
         </>
-    )
-
+    );
 }

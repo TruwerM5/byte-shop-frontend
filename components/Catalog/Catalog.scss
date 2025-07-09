@@ -1,0 +1,49 @@
+@use '@/styles/_variables' as *;
+
+.catalog {
+    position: fixed;
+    inset: 0;
+    height: 70%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 300px);
+    gap: 80px;
+    padding: 30px;
+    background-color: $black;
+    z-index: 10;
+
+    &__list {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    &__button {
+        display: block;
+        width: 100%;
+        padding: 15px;
+        font-size: 18px;
+        text-align: left;
+        color: $white;
+        transition:
+            color 0.3s,
+            background-color 0.3s;
+
+        &_active-button,
+        &:hover {
+            color: $black;
+            background-color: $white;
+        }
+
+        &_active-link {
+            border-bottom: 2px solid $white;
+        }
+    }
+
+    &__close-button {
+        position: absolute;
+        top: 40px;
+        right: 40px;
+        font-size: 30px;
+    }
+}

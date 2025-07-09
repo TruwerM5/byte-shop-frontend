@@ -1,7 +1,9 @@
 .menu-link {
     display: block;
     color: #fff;
-    transition: color .2s, border-color .2s;
+    transition:
+        color 0.2s,
+        border-color 0.2s;
     padding-block: 5px;
     color: #fff;
     background-color: #000;
