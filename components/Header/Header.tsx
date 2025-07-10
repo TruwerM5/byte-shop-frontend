@@ -3,12 +3,13 @@
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import LocaleSwitcher from '@/components/LocaleSwitcher/LocaleSwitcher';
-import Logo from '@/components/Logo/Logo';
-import './Header.scss';
-import type { Route } from '@/types';
-import { useMemo, useState } from 'react';
-import { usePathname } from '@/i18n/navigation';
 import Catalog from '@/components/Catalog/Catalog';
+import CatalogMobile from '../CatalogMobile/CatalogMobile';
+import Logo from '@/components/Logo/Logo';
+import { useMemo, useState } from 'react';
+import { RxHamburgerMenu } from 'react-icons/rx';
+import type { Route } from '@/types';
+import './Header.scss';
 
 export default function Header({ locale }: { locale: string }) {
     const headerLinks = useMemo(
@@ -44,11 +45,13 @@ export default function Header({ locale }: { locale: string }) {
                 href: '/graphics-cards',
                 nestedRoutes: [
                     {
+                        parentId: 2,
                         id: 31,
                         title: 'NVIDIA',
                         href: '/nvidia',
                     },
                     {
+                        parentId: 2,
                         id: 32,
                         title: 'AMD Radeon',
                         href: '/amd-radeon',
@@ -76,16 +79,19 @@ export default function Header({ locale }: { locale: string }) {
                 href: '/periphery',
                 nestedRoutes: [
                     {
+                        parentId: 6,
                         id: 7,
                         title: 'Keyboards',
                         href: '/keyboards',
                     },
                     {
+                        parentId: 6,
                         id: 8,
                         title: 'Mice',
                         href: '/mice',
                     },
                     {
+                        parentId: 6,
                         id: 9,
                         title: 'Monitors',
                         href: '/monitors',
@@ -96,7 +102,6 @@ export default function Header({ locale }: { locale: string }) {
         [],
     );
 
-    const path = usePathname();
     const t = useTranslations('common');
 
     const [isCatalogOpened, setIsCatalogOpened] = useState(false);
@@ -106,23 +111,26 @@ export default function Header({ locale }: { locale: string }) {
     }
 
     return (
-        <header className="header bg-black text-white px-[25px]">
-            <nav className="header__nav">
+        <header className='header bg-black text-white px-[25px]'>
+            <nav className='header__nav'>
+                <button className='header__burger-button' onClick={toggleCatalog}>
+                    <RxHamburgerMenu className='header__burger-icon' />
+                </button>
                 <Logo />
-                <ul className="header__list">
+                <ul className='header__list'>
                     {headerLinks.map((headerLink) => (
-                        <li key={headerLink.id} className="header__list-item">
+                        <li key={headerLink.id} className='header__list-item'>
                             {headerLink.href ? (
                                 <Link
                                     href={headerLink.href}
-                                    className="header__button"
+                                    className='header__button'
                                 >
                                     {t(headerLink.title)}
                                 </Link>
                             ) : (
                                 <button
                                     onClick={toggleCatalog}
-                                    className="header__button"
+                                    className='header__button'
                                 >
                                     {t(headerLink.title)}
                                 </button>
@@ -131,8 +139,13 @@ export default function Header({ locale }: { locale: string }) {
                     ))}
                 </ul>
                 {isCatalogOpened && (
-                    <Catalog links={catalogData} toggleFn={toggleCatalog} />
+                    <Catalog links={catalogData} closeCatalogFn={toggleCatalog} />
                 )}
+                <CatalogMobile
+                    buttons={catalogData}
+                    isOpened={isCatalogOpened}
+                    closeMenuFn={toggleCatalog}
+                />
                 <LocaleSwitcher currentLocale={locale} />
             </nav>
         </header>

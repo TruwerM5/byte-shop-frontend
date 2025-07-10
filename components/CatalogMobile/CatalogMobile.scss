@@ -1,0 +1,55 @@
+@use '../../styles/_variables' as *;
+
+.catalog-mobile {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    background-color: $black;
+    z-index: 10;
+
+    &__close-button {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 30px;
+    }
+
+    &__list {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    &__item {
+        height: fit-content;
+    }
+
+    &__button {
+        display: block;
+        font-size: 20px;
+        color: $white;
+        text-align: left;
+    }
+
+    &__submenu {
+        position: relative;
+        max-height: 0;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        transition: max-height .3s;
+
+        &_opened {
+            max-height: 9999px;
+        }
+    }
+}
+
+@media screen and (min-width: $laptop) {
+    .catalog-mobile {
+        display: none;
+    }
+}

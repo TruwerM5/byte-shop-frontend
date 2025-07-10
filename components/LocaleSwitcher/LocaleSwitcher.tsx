@@ -16,7 +16,7 @@ export default function LocaleSwitcher({
     const path = usePathname();
     const [isOpened, setIsOpened] = useState(false);
 
-    const ref = useOutsideClick(() => {
+    const ref = useOutsideClick<HTMLUListElement>(() => {
         setIsOpened(false);
     });
 

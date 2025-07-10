@@ -1,11 +1,12 @@
 import { Ref, useEffect, useRef } from 'react';
 
-const useOutsideClick = (callback: () => void) => {
-    const ref = useRef<HTMLUListElement>(null);
+const useOutsideClick = <T extends HTMLElement>(callback: () => void) => {
+    const ref = useRef<T>(null);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            if (ref.current && !ref.current.contains(event.target as Node)) {
+            if (ref.current && !ref.current.contains(event.target as Node) && !ref.current.classList.contains('catalog')) {
+                console.log(ref.current.classList)
                 callback();
             }
         };

@@ -5,33 +5,30 @@ import Submenu from '@/components/Submenu/Submenu';
 import { usePathname } from '@/i18n/navigation';
 import './Catalog.scss';
 import { useTranslations } from 'next-intl';
+import type { NestedRoute } from '@/types';
+import useOutsideClick from '@/hooks/useOutsideClick';
 
 export default function Catalog({
     links,
-    toggleFn,
+    closeCatalogFn,
 }: {
     links: Route[];
-    toggleFn: () => void;
+    closeCatalogFn: () => void;
 }) {
 
     const t = useTranslations('products');
     const path = usePathname();
+    const ref = useOutsideClick<HTMLDivElement>(() => {
+        closeCatalogFn();
+    });
     const [activeSubmenuIndex, setActiveSubmenuIndex] = useState<number>(0);
     const nestedRoutes = useMemo(() => {
-        const result: {
-            id: number;
-            href: string;
-            title: string;
-            parentId: number;
-        }[] = [];
+        const result: NestedRoute[] = [];
 
         links.forEach((link) => {
             if (link.nestedRoutes) {
                 link.nestedRoutes.forEach((nestedRoute) => {
-                    result.push({
-                        parentId: link.id,
-                        ...nestedRoute,
-                    });
+                    result.push({...nestedRoute});
                 });
             }
         });
@@ -44,11 +41,11 @@ export default function Catalog({
     }
 
     function closeAll() {
-        toggleFn();
+        closeCatalogFn();
     }
 
     return (
-        <div className="catalog" onMouseLeave={toggleFn}>
+        <div className="catalog" onMouseLeave={closeCatalogFn} ref={ref}>
             <ul className="catalog__list">
                 {links.map((link) => {
                     let buttonClassName = 'catalog__button';
@@ -63,7 +60,7 @@ export default function Catalog({
                         <li key={link.id} className="catalog__list-item">
                             <Link
                                 href={`/catalog${link.href}`}
-                                onClick={toggleFn}
+                                onClick={closeCatalogFn}
                                 onMouseEnter={() =>
                                     setActiveNestedId(link.id)
                                 }

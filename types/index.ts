@@ -1,3 +1,12 @@
+
+
+export type NestedRoute = {
+    id: number;
+    parentId: number;
+    title: string;
+    href: string;
+};
+
 export type Route =
     | {
           id: number;
@@ -9,20 +18,8 @@ export type Route =
           id: number;
           title: string;
           href: string;
-          nestedRoutes: {
-              id: number;
-              title: string;
-              href: string;
-          }[];
+          nestedRoutes: NestedRoute[];
       };
-
-export type NestedRoute = {
-    id: number;
-    title: string;
-    href: string;
-};
-
-export type HeaderLinks = Route;
 
 export type AbstractProduct = {
     id: number | string;

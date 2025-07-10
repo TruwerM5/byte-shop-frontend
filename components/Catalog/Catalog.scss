@@ -11,6 +11,7 @@
     padding: 30px;
     background-color: $black;
     z-index: 10;
+    display: none;
 
     &__list {
         display: flex;
@@ -28,21 +29,23 @@
         color: $white;
         transition: color 0.3s, background-color 0.3s;
 
-        &_active-button,
-        &:hover {
-            color: $black;
-            background-color: $white;
-        }
-
-        &_active-link::after {
+        &::after {
             content: '';
             display: block;
             position: absolute;
             height: 2px;
-            width: 100%;
+            width: 0;
             bottom: 0;
             left: 0;
             background-color: $white;
+            transition: width .3s;
+        }
+
+        &:hover,
+        &_active-link {
+            &::after {
+                width: 100%;
+            }
         }
     }
 
@@ -51,5 +54,11 @@
         top: 40px;
         right: 40px;
         font-size: 30px;
+    }
+}
+
+@media screen and (min-width: $laptop) {
+    .catalog {
+        display: grid;
     }
 }

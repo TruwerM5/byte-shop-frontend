@@ -1,18 +1,13 @@
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
-
+import type { NestedRoute } from '@/types';
 export default function Submenu({
     nestedRoutes,
     activeIndex,
     setActiveIndex,
 }: {
-    nestedRoutes: {
-        id: number;
-        parentId: number;
-        title: string;
-        href: string;
-    }[];
+    nestedRoutes: NestedRoute[];
     activeIndex: number;
     setActiveIndex: () => void;
 }) {
