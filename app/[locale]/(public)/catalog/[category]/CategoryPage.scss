@@ -1,0 +1,15 @@
+@use '../../../../../styles/variables' as *;
+
+.category-page {
+    padding: 30px 15px;
+    
+    &__sidebar {
+        display: none;
+    }
+
+    @media screen and (min-width: $tablet) {
+        &__sidebar {
+            display: block;
+        }
+    }
+}

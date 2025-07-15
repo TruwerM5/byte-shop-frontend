@@ -1,0 +1,11 @@
+@use '../../styles/variables' as *;
+
+.product-item {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 15px;
+
+    &__actions {
+        grid-column: 2/3;
+    }
+}

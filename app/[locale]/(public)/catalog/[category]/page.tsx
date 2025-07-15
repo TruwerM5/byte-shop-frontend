@@ -8,6 +8,7 @@ import ProductList from '@/components/ProductList/ProductList';
 import { Product } from '@/types';
 import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import './CategoryPage.scss';
 
 export default function CategoryPage({
     params,
@@ -37,8 +38,8 @@ export default function CategoryPage({
     return (
         <>
             <Search />
-            <div className="category-page flex">
-                <div className="category-page__sidebar">Sidebar</div>
+            <div className='category-page flex'>
+                <div className='category-page__sidebar'>Sidebar</div>
                 {products ? (
                     <ProductList products={products} />
                 ) : (

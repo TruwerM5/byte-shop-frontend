@@ -1,9 +1,9 @@
-import type { Product } from '@/types';
+import { Product, Categories } from '@/types';
 
 export const products: Product[] = [
     {
         id: 1,
-        category: 'cpu',
+        category: Categories.cpu,
         name: 'AMD Ryzen 7 7700 OEM',
         slug: 'amd-ryzen-7',
         manufacturer: 'AMD',
@@ -12,8 +12,9 @@ export const products: Product[] = [
         images: ['amd-ryzen-7-7700.webp'],
         warrantyMonths: 12,
         popularity: 4.5,
+        inStock: true,
         socket: 'AM5',
-        acrhitecture: 'Zen 4',
+        architecture: 'Zen 4',
         core: 'Raphael',
         countCores: 8,
         countStreams: 16,
@@ -32,7 +33,7 @@ export const products: Product[] = [
     },
     {
         id: 2,
-        category: 'cpu',
+        category: Categories.cpu,
         name: 'Intel Core i5 - 12400 OEM',
         slug: 'intel-core-i5',
         manufacturer: 'Inntel',
@@ -41,8 +42,9 @@ export const products: Product[] = [
         images: ['intel-core-i5-12400.webp'],
         warrantyMonths: 12,
         popularity: 4.5,
+        inStock: true,
         socket: 'LGA 1700',
-        acrhitecture: 'Alder Lake',
+        architecture: 'Alder Lake',
         core: 'Golden Cove',
         countCores: 6,
         countStreams: 12,
@@ -59,7 +61,7 @@ export const products: Product[] = [
     },
     {
         id: 3,
-        category: 'graphics-cards',
+        category: Categories.graphicsCards,
         name: 'NVIDIA GeForce RTX 4070 Super Gigabyte WindForce OC 12Gb',
         slug: 'nvidia',
         manufacturer: 'Gigabyte',
@@ -75,6 +77,7 @@ export const products: Product[] = [
         ],
         warrantyMonths: 36,
         popularity: 4.6,
+        inStock: true,
         serie: 'GeForce RTX 4070 Super',
         interface: 'PCI Express 4.0',
         countSlots: 3,

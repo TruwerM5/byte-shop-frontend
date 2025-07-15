@@ -23,7 +23,7 @@ export type Route =
 
 export type AbstractProduct = {
     id: number | string;
-    category: string;
+    category: Categories;
     name: string;
     manufacturer: string;
     brand: string;
@@ -32,6 +32,7 @@ export type AbstractProduct = {
     warrantyMonths: number;
     popularity: number;
     slug: string;
+    inStock: boolean;
     reviews?: string[];
     color?: string;
     sizes?: string;
@@ -39,7 +40,7 @@ export type AbstractProduct = {
 
 export type CPU = AbstractProduct & {
     socket: string;
-    acrhitecture: string;
+    architecture: string;
     core: string;
     countCores: number;
     countStreams: number;
@@ -78,3 +79,12 @@ export type GraphicsCard = AbstractProduct & {
 };
 
 export type Product = CPU | GraphicsCard;
+
+export enum Categories {
+    cpu = 'cpu',
+    graphicsCards = 'graphics-cards',
+    ram = 'ram',
+    cases = 'cases',
+    motherboards = 'motherboards',
+    periphery = 'periphery'
+}
