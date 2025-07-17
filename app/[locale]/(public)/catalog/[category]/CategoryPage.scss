@@ -7,6 +7,12 @@
         display: none;
     }
 
+    &__title {
+        margin-bottom: 15px;
+        font-size: 24px;
+        font-weight: bold;
+    }
+
     @media screen and (min-width: $tablet) {
         &__sidebar {
             display: block;

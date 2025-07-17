@@ -2,7 +2,7 @@
 
 import { fetchProductsByParam } from '@/api/products';
 import { useProductStore } from '@/store/productStore';
-import { use, useEffect, useState } from 'react';
+import { use, useEffect, useMemo, useState } from 'react';
 import Search from '@/components/Search/Search';
 import ProductList from '@/components/ProductList/ProductList';
 import { Product } from '@/types';
@@ -16,6 +16,7 @@ export default function CategoryPage({
     params: Promise<{ category: string }>;
 }) {
     const t = useTranslations('common');
+    const tProducts = useTranslations('slugs');
     const { category } = useParams<{ category: string }>();
     const { storeProducts, getProductsByCategory } = useProductStore();
 
@@ -38,13 +39,17 @@ export default function CategoryPage({
     return (
         <>
             <Search />
-            <div className='category-page flex'>
-                <div className='category-page__sidebar'>Sidebar</div>
-                {products ? (
-                    <ProductList products={products} />
-                ) : (
-                    <span>{t('Nothing found matching your request')}</span>
-                )}
+            <div className='category-page'>
+                <h3 className='category-page__title'>{tProducts(category)}</h3>
+                <div className='category-page__inner flex'>
+                    <div className='category-page__sidebar'>Sidebar</div>
+                    {products ? (
+                        <ProductList products={products} />
+                    ) : (
+                        <span>{t('Nothing found matching your request')}</span>
+                    )}
+                </div>
+                
             </div>
         </>
     );

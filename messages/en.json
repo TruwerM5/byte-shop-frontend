@@ -28,5 +28,26 @@
         "Laptops": "Laptops",
         "Mechanical": "Mechanical",
         "Membrane": "Membrane"
+    },
+    "slugs": {
+        "cpu": "CPU",
+        "motherboards": "Motherboards",
+        "graphics-cards": "Graphics Cards",
+        "ram": "RAM",
+        "power-supplies": "Power Supplies",
+        "cases": "Cases",
+        "cooling-systems": "Cooling Systems",
+        "hdd": "HDD",
+        "ssd": "SSD",
+        "periphery": "Periphery",
+        "keyboards": "Keyboards",
+        "mice": "Mice",
+        "nvidia": "NVIDIA",
+        "amd-radeon": "AMD Radeon",
+        "monitors": "Monitors",
+        "headphones": "Headphones",
+        "laptops": "Laptops",
+        "mechanical": "Mechanical",
+        "membrane": "Membrane"
     }
 }

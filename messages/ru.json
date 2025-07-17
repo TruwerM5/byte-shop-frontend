@@ -28,5 +28,26 @@
         "Membrane": "Мембранные",
         "NVIDIA": "NVIDIA",
         "AMD Radeon": "AMD Radeon"
+    },
+    "slugs": {
+        "cpu": "Процессоры",
+        "motherboards": "Материнские платы",
+        "graphics-cards": "Видеокарты",
+        "ram": "ОЗУ",
+        "power-supplies": "Блоки питания",
+        "cases": "Корпусы",
+        "cooling-systems": "Системы охлаждение",
+        "hdd": "HDD",
+        "ssd": "SSD",
+        "periphery": "Периферия",
+        "keyboards": "Клавиатуры",
+        "mice": "Мыши",
+        "nvidia": "NVIDIA",
+        "amd-radeon": "AMD Radeon",
+        "monitors": "Мониторы",
+        "headphones": "Наушники",
+        "laptops": "Ноутбуки",
+        "mechanical": "Механические",
+        "membrane": "Мембранные"
     }
 }
