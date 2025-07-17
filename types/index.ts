@@ -16,7 +16,7 @@ export type Route =
       }
     | {
           id: number;
-          title: string;
+          title: string | SVGAElement;
           href: string;
           nestedRoutes: NestedRoute[];
       };

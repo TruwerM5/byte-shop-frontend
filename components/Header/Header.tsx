@@ -9,6 +9,9 @@ import Logo from '@/components/Logo/Logo';
 import { useMemo, useState } from 'react';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import type { Route } from '@/types';
+import { FaCartShopping } from "react-icons/fa6";
+import { useCartStore } from '@/store/cartStore';
+
 import './Header.scss';
 
 export default function Header({ locale }: { locale: string }) {
@@ -26,7 +29,12 @@ export default function Header({ locale }: { locale: string }) {
             {
                 id: 3,
                 title: 'About',
-                href: '/',
+                href: '/about',
+            },
+            {
+                id: 4,
+                title: 'Cart',
+                href: '/about',
             },
         ],
         [],
@@ -104,6 +112,8 @@ export default function Header({ locale }: { locale: string }) {
 
     const t = useTranslations('common');
 
+    const cartStore = useCartStore();
+
     const [isCatalogOpened, setIsCatalogOpened] = useState(false);
 
     function toggleCatalog() {
@@ -137,6 +147,12 @@ export default function Header({ locale }: { locale: string }) {
                             )}
                         </li>
                     ))}
+                    <li className='header__list-item'>
+                        <Link href='/cart'>
+                            <FaCartShopping />
+                            <span>{cartStore.getCartCount()}</span>
+                        </Link>
+                    </li>
                 </ul>
                 {isCatalogOpened && (
                     <Catalog links={catalogData} closeCatalogFn={toggleCatalog} />

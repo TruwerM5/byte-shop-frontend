@@ -5,7 +5,8 @@
         "Catalog": "Catalog",
         "Bestsellers": "Bestsellers",
         "Product name or ID": "Product name or ID",
-        "Nothing found matching your request": "Nothing found matching your request"
+        "Nothing found matching your request": "Nothing found matching your request",
+        "Add to Cart": "Add to Cart"
     },
     "products": {
         "All Categories": "All Categories",

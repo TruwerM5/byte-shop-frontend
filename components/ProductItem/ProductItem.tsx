@@ -3,10 +3,10 @@
 import type { Product } from '@/types';
 import Link from 'next/link';
 import Image from 'next/image';
-import ProductPopularuty from '../Popularity/Popularity';
+import ProductPopularuty from '@/components/Popularity/Popularity';
+import AddToCartButton from '@/components/AddToCartButton/AddToCartButton';
 import './ProductItem.scss';
 import beautifyPrice from '@/utils/beautifyPrice';
-
 export default function ProductItem({ product }: { product: Product }) {
     const imgSrc = `/images/products/${product.images[0]}`;
 
@@ -40,6 +40,7 @@ export default function ProductItem({ product }: { product: Product }) {
                 <span className="product-item__price">
                     {beautifiedPrice} &#8381;
                 </span>
+                <AddToCartButton productId={product.id} />
             </div>
         </div>
     );
