@@ -5,9 +5,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 import ProductPopularuty from '../Popularity/Popularity';
 import './ProductItem.scss';
+import beautifyPrice from '@/utils/beautifyPrice';
 
 export default function ProductItem({ product }: { product: Product }) {
     const imgSrc = `/images/products/${product.images[0]}`;
+
+    const beautifiedPrice = beautifyPrice(product.price);
 
     return (
         <div className="product-item">
@@ -35,7 +38,7 @@ export default function ProductItem({ product }: { product: Product }) {
             </div>
             <div className="product-item__actions">
                 <span className="product-item__price">
-                    {product.price} &#8381;
+                    {beautifiedPrice} &#8381;
                 </span>
             </div>
         </div>
