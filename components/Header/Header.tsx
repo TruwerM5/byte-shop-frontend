@@ -1,46 +1,46 @@
 'use client';
 
-import Link from 'next/link';
-import { useTranslations } from 'next-intl';
 import LocaleSwitcher from '@/components/LocaleSwitcher/LocaleSwitcher';
 import Catalog from '@/components/Catalog/Catalog';
 import CatalogMobile from '../CatalogMobile/CatalogMobile';
 import Logo from '@/components/Logo/Logo';
-import { useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { RxHamburgerMenu } from 'react-icons/rx';
-import type { Route } from '@/types';
-import { FaCartShopping } from "react-icons/fa6";
-import { useCartStore } from '@/store/cartStore';
-
+import type { Header, CatalogData } from '@/types';
+import CartLink from '../CartLink/CartLink';
+import HeaderLinkItem from '../HeaderLinkItem/HeaderLinkItem';
 import './Header.scss';
 
 export default function Header({ locale }: { locale: string }) {
-    const headerLinks = useMemo(
-        () => [
-            {
-                id: 1,
-                title: 'Home',
-                href: '/',
-            },
-            {
-                id: 2,
-                title: 'Catalog',
-            },
-            {
-                id: 3,
-                title: 'About',
-                href: '/about',
-            },
-            {
-                id: 4,
-                title: 'Cart',
-                href: '/about',
-            },
-        ],
-        [],
-    );
+    const headerLinks: Header = [
+        {
+            id: 1,
+            title: 'Home',
+            href: '/',
+            type: 'link',
+        },
+        {
+            id: 2,
+            title: 'Catalog',
+            type: 'button',
+            onClick: toggleCatalog,
+        },
+        {
+            id: 3,
+            title: 'About',
+            href: '/about',
+            type: 'link',
+        },
+        {
+            id: 4,
+            title: 'Cart',
+            href: '/cart',
+            component: <CartLink />,
+            type: 'link',
+        },
+    ];
 
-    const catalogData: Route[] = useMemo(
+    const catalogData: CatalogData[] = useMemo(
         () => [
             {
                 id: 1,
@@ -110,10 +110,6 @@ export default function Header({ locale }: { locale: string }) {
         [],
     );
 
-    const t = useTranslations('common');
-
-    const cartStore = useCartStore();
-
     const [isCatalogOpened, setIsCatalogOpened] = useState(false);
 
     function toggleCatalog() {
@@ -121,41 +117,27 @@ export default function Header({ locale }: { locale: string }) {
     }
 
     return (
-        <header className='header bg-black text-white px-[25px]'>
-            <nav className='header__nav'>
-                <button className='header__burger-button' onClick={toggleCatalog}>
-                    <RxHamburgerMenu className='header__burger-icon' />
+        <header className="header bg-black text-white px-[25px]">
+            <nav className="header__nav">
+                <button
+                    className="header__burger-button"
+                    onClick={toggleCatalog}
+                >
+                    <RxHamburgerMenu className="header__burger-icon" />
                 </button>
                 <Logo />
-                <ul className='header__list'>
+                <ul className="header__list">
                     {headerLinks.map((headerLink) => (
-                        <li key={headerLink.id} className='header__list-item'>
-                            {headerLink.href ? (
-                                <Link
-                                    href={headerLink.href}
-                                    className='header__button'
-                                >
-                                    {t(headerLink.title)}
-                                </Link>
-                            ) : (
-                                <button
-                                    onClick={toggleCatalog}
-                                    className='header__button'
-                                >
-                                    {t(headerLink.title)}
-                                </button>
-                            )}
+                        <li key={headerLink.id} className="header__list-item">
+                            <HeaderLinkItem link={headerLink} />
                         </li>
                     ))}
-                    <li className='header__list-item'>
-                        <Link href='/cart'>
-                            <FaCartShopping />
-                            <span>{cartStore.getCartCount()}</span>
-                        </Link>
-                    </li>
                 </ul>
                 {isCatalogOpened && (
-                    <Catalog links={catalogData} closeCatalogFn={toggleCatalog} />
+                    <Catalog
+                        links={catalogData}
+                        closeCatalogFn={toggleCatalog}
+                    />
                 )}
                 <CatalogMobile
                     buttons={catalogData}

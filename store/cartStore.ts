@@ -10,19 +10,19 @@ interface CartStore {
 }
 
 export const useCartStore = create<CartStore>((set, get) => ({
-    cart: <(number | string)[]>([]),
+    cart: <(number | string)[]>[],
     addToCart: (id: number | string) => {
-        set(state => ({
-            cart: [...state.cart, id]
-        }))
+        set((state) => ({
+            cart: [...state.cart, id],
+        }));
     },
     getCart: () => {
         const { cart } = get();
-        return products.filter(product => cart.includes(product.id));
+        return products.filter((product) => cart.includes(product.id));
     },
     getCartCount: () => {
         const { getCart } = get();
         const cart = getCart();
         return cart.length;
-    }
+    },
 }));

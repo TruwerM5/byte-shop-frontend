@@ -1,6 +1,5 @@
 @use '../../styles/variables' as *;
 
-
 .header {
     display: block;
     padding-block: 3px;
@@ -18,9 +17,9 @@
         margin: 0 auto;
 
         @media screen and (min-width: $tablet) {
-            display: flex;    
+            display: flex;
         }
-        
+
         @media screen and (min-width: $monitor-sm) {
             gap: 60px;
         }

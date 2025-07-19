@@ -1,5 +1,3 @@
-
-
 export type NestedRoute = {
     id: number;
     parentId: number;
@@ -7,7 +5,23 @@ export type NestedRoute = {
     href: string;
 };
 
-export type Route =
+export type HeaderLink = {
+    id: number;
+    title: string;
+    href: string;
+    type: 'link';
+    component?: React.ReactNode;
+};
+
+export type HeaderButton = {
+    id: number;
+    title: string;
+    type: 'button';
+    onClick: () => void;
+};
+
+export type Header = (HeaderLink | HeaderButton)[];
+export type CatalogData =
     | {
           id: number;
           title: string;
@@ -16,7 +30,7 @@ export type Route =
       }
     | {
           id: number;
-          title: string | SVGAElement;
+          title: string;
           href: string;
           nestedRoutes: NestedRoute[];
       };
@@ -86,5 +100,5 @@ export enum Categories {
     ram = 'ram',
     cases = 'cases',
     motherboards = 'motherboards',
-    periphery = 'periphery'
+    periphery = 'periphery',
 }

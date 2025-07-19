@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 
 export default function ClientCategoryPage({
     serverProducts,
-    title
+    title,
 }: {
     serverProducts: Product[];
     title: string;
@@ -23,14 +23,13 @@ export default function ClientCategoryPage({
     return (
         <>
             <Search />
-            
+
             <div className="category-page">
                 <h3></h3>
                 <div className="category-page__inner flex">
                     <div className="category-page__sidebar">Sidebar</div>
-                    <ProductList products={serverProducts} />    
-                </div>    
-                
+                    <ProductList products={serverProducts} />
+                </div>
             </div>
         </>
     );

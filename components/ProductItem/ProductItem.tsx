@@ -25,12 +25,13 @@ export default function ProductItem({ product }: { product: Product }) {
             </div>
             <div className="product-item__content product-info">
                 <div className="product-info__top">
-                    <span className="product-info__id">
-                        ID: {product.id}
-                    </span>
+                    <span className="product-info__id">ID: {product.id}</span>
                 </div>
                 <div className="product-info__bottom">
-                    <Link href={`/product/${product.id}`} className='product-item__name'>
+                    <Link
+                        href={`/product/${product.id}`}
+                        className="product-item__name"
+                    >
                         {product.name}
                     </Link>
                     <ProductPopularuty popularity={4.6} />

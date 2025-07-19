@@ -1,0 +1,21 @@
+@use '../../styles/variables' as *;
+
+.cart-link {
+    position: relative;
+
+    &__count {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        padding: 2px;
+        width: 13px;
+        height: 13px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: $white;
+        color: $black;
+        font-size: 10px;
+        border-radius: 50%;
+    }
+}

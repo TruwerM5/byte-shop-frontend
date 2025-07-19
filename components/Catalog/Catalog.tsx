@@ -15,7 +15,6 @@ export default function Catalog({
     links: Route[];
     closeCatalogFn: () => void;
 }) {
-
     const t = useTranslations('products');
     const path = usePathname();
     const ref = useOutsideClick<HTMLDivElement>(() => {
@@ -28,7 +27,7 @@ export default function Catalog({
         links.forEach((link) => {
             if (link.nestedRoutes) {
                 link.nestedRoutes.forEach((nestedRoute) => {
-                    result.push({...nestedRoute});
+                    result.push({ ...nestedRoute });
                 });
             }
         });
@@ -61,9 +60,7 @@ export default function Catalog({
                             <Link
                                 href={`/catalog${link.href}`}
                                 onClick={closeCatalogFn}
-                                onMouseEnter={() =>
-                                    setActiveNestedId(link.id)
-                                }
+                                onMouseEnter={() => setActiveNestedId(link.id)}
                                 className={buttonClassName}
                             >
                                 {t(link.title)}

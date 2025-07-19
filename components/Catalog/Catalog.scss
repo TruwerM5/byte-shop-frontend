@@ -27,7 +27,9 @@
         font-size: 18px;
         text-align: left;
         color: $white;
-        transition: color 0.3s, background-color 0.3s;
+        transition:
+            color 0.3s,
+            background-color 0.3s;
 
         &::after {
             content: '';
@@ -38,7 +40,7 @@
             bottom: 0;
             left: 0;
             background-color: $white;
-            transition: width .3s;
+            transition: width 0.3s;
         }
 
         &:hover,

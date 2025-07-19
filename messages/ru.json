@@ -6,7 +6,8 @@
         "Bestsellers": "Хиты продаж",
         "Product name or ID": "Название или ID товара",
         "Nothing found matching your request": "По вашему запросу ничего не найдено",
-        "Add to Cart": "В корзину"
+        "Add to Cart": "В корзину",
+        "Cart": "Корзина"
     },
     "products": {
         "All Categories": "Все Категории",

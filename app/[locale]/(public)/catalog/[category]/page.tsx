@@ -39,17 +39,16 @@ export default function CategoryPage({
     return (
         <>
             <Search />
-            <div className='category-page'>
-                <h3 className='category-page__title'>{tProducts(category)}</h3>
-                <div className='category-page__inner flex'>
-                    <div className='category-page__sidebar'>Sidebar</div>
+            <div className="category-page">
+                <h3 className="category-page__title">{tProducts(category)}</h3>
+                <div className="category-page__inner flex">
+                    <div className="category-page__sidebar">Sidebar</div>
                     {products ? (
                         <ProductList products={products} />
                     ) : (
                         <span>{t('Nothing found matching your request')}</span>
                     )}
                 </div>
-                
             </div>
         </>
     );
