@@ -9,15 +9,14 @@ export default function ClientCalalogPage({
 }: {
     serverProducts: Product[];
 }) {
-
     const tCommon = useTranslations('common');
 
     return (
         <>
             <Search />
-            <div className='catalog-page'>
+            <div className="catalog-page">
                 <h1>{tCommon('Catalog')}</h1>
-                <div className='bestsellers'>
+                <div className="bestsellers">
                     <h3>{tCommon('Bestsellers')}</h3>
                 </div>
             </div>
