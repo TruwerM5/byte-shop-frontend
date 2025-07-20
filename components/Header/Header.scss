@@ -22,7 +22,6 @@
         gap: 20px;
         padding: 30px 20px;
         background-color: $black;
-        
 
         @media screen and (min-width: $tablet) {
             width: 100%;
@@ -56,7 +55,6 @@
     }
 }
 
-
 .header-list-wrapper {
     display: flex;
     position: fixed;
@@ -67,9 +65,12 @@
     background-color: transparent;
     z-index: -1;
     visibility: hidden;
-    transition: .2s left, .2s top, .2s background-color;
+    transition:
+        0.2s left,
+        0.2s top,
+        0.2s background-color;
 
-    &.active {    
+    &.active {
         top: 0;
         background-color: $black;
         visibility: visible;
@@ -90,7 +91,7 @@
     right: 10px;
     font-size: 30px;
 
-     @media screen and (min-width: $tablet) {
+    @media screen and (min-width: $tablet) {
         display: none;
-     }
+    }
 }

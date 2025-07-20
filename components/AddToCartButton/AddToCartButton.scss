@@ -19,3 +19,47 @@
         color: $white;
     }
 }
+
+.add-to-cart {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+
+    &__link {
+        width: 100%;
+        padding: 5px 10px;
+        font-size: 14px;
+        color: $white;
+        text-align: center;
+        background-color: $black;
+        border-radius: 4px;
+    }
+
+    &__inner {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        font-size: 14px;
+        border: 1px solid $black;
+    }
+
+    &__action-btn {
+        padding: 5px;
+        color: $white;
+        background-color: $black;
+    }
+
+    &__quantity {
+        font-weight: 500;
+    }
+}
+
+@media screen and (min-width: $tablet) {
+    .add-to-cart {
+        flex-direction: row;
+    }
+}

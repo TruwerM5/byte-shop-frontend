@@ -4,7 +4,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    
+
     &__title {
         @media screen and (min-width: $tablet) {
             display: none;

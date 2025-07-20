@@ -17,10 +17,11 @@ export default function ProductItem({ product }: { product: Product }) {
             <div className="product-item__image-wrapper">
                 <Image
                     priority={true}
-                    width="120"
-                    height="120"
+                    width="150"
+                    height="150"
                     src={imgSrc}
                     alt={product.name}
+                    className="product-item__image"
                 />
             </div>
             <div className="product-item__content product-info">

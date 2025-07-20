@@ -12,7 +12,10 @@ export const fetchProductsByParamOrSlug = async (
     page = 0,
 ): Promise<Product[] | undefined> => {
     if (page === 0) {
-        const res = products.filter((product) => product.category === param || product.slugs.includes(param));
+        const res = products.filter(
+            (product) =>
+                product.category === param || product.slugs.includes(param),
+        );
         return res;
     }
     const res = products.slice(page, page + 10);

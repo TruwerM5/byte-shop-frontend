@@ -9,7 +9,7 @@ export default function CatalogMobile({
     buttons,
     isOpened,
     closeCatalogFn,
-    closeAllFn
+    closeAllFn,
 }: {
     buttons: CatalogData[];
     isOpened: boolean;

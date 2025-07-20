@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 
 export default function HeaderLinkItem({
     link,
-    onClick
+    onClick,
 }: {
     link: HeaderLink | HeaderButton;
     onClick: () => void;

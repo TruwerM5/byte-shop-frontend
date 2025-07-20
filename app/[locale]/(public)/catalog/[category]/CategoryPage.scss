@@ -16,11 +16,16 @@
     @media screen and (min-width: $tablet) {
         &__sidebar {
             display: block;
+            width: 20%;
         }
 
         &__title {
             font-size: 30px;
             margin-bottom: 30px;
+        }
+
+        &__inner {
+            display: flex;
         }
     }
 }

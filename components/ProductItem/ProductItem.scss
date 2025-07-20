@@ -10,8 +10,9 @@
     &__actions {
         grid-column: 2/3;
         display: flex;
-        align-items: center;
         justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px;
     }
 
     &__price {
@@ -22,5 +23,14 @@
     &__name {
         display: block;
         margin-bottom: 8px;
+        transition: 0.2s color;
+
+        &:hover {
+            color: $primary-blue;
+        }
+    }
+
+    &__image-wrapper {
+        grid-row: 1/3;
     }
 }

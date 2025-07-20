@@ -3,7 +3,7 @@ import { FaCartShopping } from 'react-icons/fa6';
 import './AddToCartButton.scss';
 import { useCartStore } from '@/store/cartStore';
 import { Link } from '@/i18n/navigation';
-import { useEffect } from 'react';
+import { FiMinus, FiPlus } from 'react-icons/fi';
 
 export default function AddToCartButton({
     productId,
@@ -12,10 +12,12 @@ export default function AddToCartButton({
 }) {
     const t = useTranslations('common');
 
-    const cart = useCartStore(state => state.cart);
-    const addToCart = useCartStore(state => state.addToCart);
-    const removeFromCart = useCartStore(state => state.removeFromCart);
-    const itemInCartAmount = cart.find(item => item.id === productId && item.quantity > 0)?.quantity || 0;
+    const cart = useCartStore((state) => state.cart);
+    const addToCart = useCartStore((state) => state.addToCart);
+    const removeFromCart = useCartStore((state) => state.removeFromCart);
+    const itemInCartAmount =
+        cart.find((item) => item.id === productId && item.quantity > 0)
+            ?.quantity || 0;
 
     function add() {
         addToCart(productId);
@@ -25,17 +27,28 @@ export default function AddToCartButton({
         removeFromCart(productId);
     }
 
-    if(itemInCartAmount > 0) {
+    if (itemInCartAmount > 0) {
         return (
-            <span className="flex items-center gap-[5px]">
-                <Link href="/cart">{t("In cart")}</Link>
-                <span className="flex items-center">
-                    <button onClick={add}>+</button>
-                    {itemInCartAmount}
-                    <button onClick={remove}>-</button>
+            <span className="add-to-cart">
+                <Link href="/cart" className="add-to-cart__link">
+                    {t('In cart')}
+                </Link>
+                <span className="add-to-cart__inner">
+                    <button
+                        onClick={remove}
+                        className="add-to-cart__action-btn"
+                    >
+                        <FiMinus />
+                    </button>
+                    <span className="add-to-cart__quantity">
+                        {itemInCartAmount}
+                    </span>
+                    <button onClick={add} className="add-to-cart__action-btn">
+                        <FiPlus />
+                    </button>
                 </span>
             </span>
-        )
+        );
     }
 
     return (

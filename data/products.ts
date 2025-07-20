@@ -5,7 +5,7 @@ export const products: Product[] = [
         id: 1,
         category: Categories.cpu,
         name: 'AMD Ryzen 7 7700 OEM',
-        slugs: ['amd-ryzen','amd-ryzen-7'],
+        slugs: ['amd-ryzen', 'amd-ryzen-7'],
         manufacturer: 'AMD',
         brand: 'AMD',
         price: 18340,
