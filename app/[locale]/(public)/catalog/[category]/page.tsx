@@ -1,6 +1,6 @@
 'use client';
 
-import { fetchProductsByParam } from '@/api/products';
+import { fetchProductsByParamOrSlug } from '@/api/products';
 import { useProductStore } from '@/store/productStore';
 import { use, useEffect, useMemo, useState } from 'react';
 import Search from '@/components/Search/Search';
@@ -25,7 +25,7 @@ export default function CategoryPage({
     useEffect(() => {
         const productsFromStore = getProductsByCategory(category);
         if (!productsFromStore || productsFromStore.length === 0) {
-            fetchProductsByParam(category).then((res) => {
+            fetchProductsByParamOrSlug(category).then((res) => {
                 if (res) {
                     storeProducts(res);
                     setProducts(res);
@@ -41,9 +41,9 @@ export default function CategoryPage({
             <Search />
             <div className="category-page">
                 <h3 className="category-page__title">{tProducts(category)}</h3>
-                <div className="category-page__inner flex">
+                <div className="category-page__inner">
                     <div className="category-page__sidebar">Sidebar</div>
-                    {products ? (
+                    {products && products.length > 0 ? (
                         <ProductList products={products} />
                     ) : (
                         <span>{t('Nothing found matching your request')}</span>

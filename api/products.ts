@@ -7,12 +7,12 @@ export const fetchAllProducts = async (): Promise<Product[] | undefined> => {
     });
 };
 
-export const fetchProductsByParam = async (
+export const fetchProductsByParamOrSlug = async (
     param: string,
     page = 0,
 ): Promise<Product[] | undefined> => {
     if (page === 0) {
-        const res = products.filter((product) => product.category === param);
+        const res = products.filter((product) => product.category === param || product.slugs.includes(param));
         return res;
     }
     const res = products.slice(page, page + 10);

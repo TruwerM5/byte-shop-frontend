@@ -1,4 +1,4 @@
-import { NestedRoute, Route } from '@/types';
+import { CatalogData } from '@/types';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -8,11 +8,13 @@ import { IoMdClose } from 'react-icons/io';
 export default function CatalogMobile({
     buttons,
     isOpened,
-    closeMenuFn,
+    closeCatalogFn,
+    closeAllFn
 }: {
-    buttons: Route[];
+    buttons: CatalogData[];
     isOpened: boolean;
-    closeMenuFn: () => void;
+    closeCatalogFn: () => void;
+    closeAllFn: () => void;
 }) {
     const t = useTranslations('products');
 
@@ -28,10 +30,10 @@ export default function CatalogMobile({
 
     function closeAll() {
         setOpenedSubmenuIndex(0);
-        closeMenuFn();
+        closeAllFn();
     }
 
-    const buttonsWithAllCategories: Route[] = buttons.map((btn) => {
+    const buttonsWithAllCategories: CatalogData[] = buttons.map((btn) => {
         if (btn.nestedRoutes) {
             return {
                 ...btn,
@@ -55,7 +57,7 @@ export default function CatalogMobile({
         <div className="catalog-mobile" onClick={(e) => e.stopPropagation()}>
             <button
                 className="catalog-mobile__close-button"
-                onClick={closeMenuFn}
+                onClick={closeCatalogFn}
             >
                 <IoMdClose className="catalog-mobile__close-icon" />
             </button>

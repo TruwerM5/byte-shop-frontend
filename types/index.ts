@@ -45,7 +45,7 @@ export type AbstractProduct = {
     images: string[];
     warrantyMonths: number;
     popularity: number;
-    slug: string;
+    slugs: string[];
     inStock: boolean;
     reviews?: string[];
     color?: string;

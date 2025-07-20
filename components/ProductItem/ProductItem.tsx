@@ -13,7 +13,7 @@ export default function ProductItem({ product }: { product: Product }) {
     const beautifiedPrice = beautifyPrice(product.price);
 
     return (
-        <div className="product-item">
+        <div className="product-item border-b-[5px] border-[#ccc]">
             <div className="product-item__image-wrapper">
                 <Image
                     priority={true}
