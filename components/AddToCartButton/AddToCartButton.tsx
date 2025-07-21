@@ -4,6 +4,7 @@ import './AddToCartButton.scss';
 import { useCartStore } from '@/store/cartStore';
 import { Link } from '@/i18n/navigation';
 import { FiMinus, FiPlus } from 'react-icons/fi';
+import { useAlertStore } from '@/store/alertStore';
 
 export default function AddToCartButton({
     productId,
@@ -11,6 +12,8 @@ export default function AddToCartButton({
     productId: number | string;
 }) {
     const t = useTranslations('common');
+
+    const { showAlert } = useAlertStore()
 
     const cart = useCartStore((state) => state.cart);
     const addToCart = useCartStore((state) => state.addToCart);
@@ -21,10 +24,12 @@ export default function AddToCartButton({
 
     function add() {
         addToCart(productId);
+        showAlert("The item was added to cart", "success");
     }
 
     function remove() {
         removeFromCart(productId);
+        showAlert("The item was removed from cart", "success");
     }
 
     if (itemInCartAmount > 0) {
