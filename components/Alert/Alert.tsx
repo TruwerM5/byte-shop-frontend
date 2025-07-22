@@ -7,40 +7,53 @@ import { useAlertStore } from '@/store/alertStore';
 
 export default function Alert () {
 
-    const {isActive, message, type, showAlert, hideAlert} = useAlertStore();
+    const {isActive, message, type, instanceId, showAlert, hideAlert} = useAlertStore();
 
     const [progress, setProgress] = useState(0); 
+    const [transitionEnabled, setTransitionEnabled] = useState(false);
     const timerId = useRef<any>(null);
 
+
     useEffect(() => {
+        
         if(!isActive) return;
+        if(timerId.current) {
+            clearInterval(timerId.current);
+        }
+
+        setTransitionEnabled(false);
         setProgress(0);
-        if(timerId.current) clearInterval(timerId.current);
+
+        setTimeout(() => {
+            setTransitionEnabled(true);
+        }, 10);
+
         timerId.current = setInterval(() => {
-            setProgress((prev) => {
-                if(prev >= 100) {
-                    clearInterval(timerId.current);
-                    return 100;
-                }
-                return prev + 1;
-            });
+            setProgress(p => p + 1);
         }, 50);
 
-        console.log('qweqwe');
         return () => {
             if(timerId.current) {
                 clearInterval(timerId.current);
             }
         }
-    }, [isActive]);
+
+    }, [instanceId]);
 
     useEffect(() => {
-        if(progress === 100 && isActive) {
+        if(isActive && progress > 100) {
             hideAlert();
+            setProgress(0);
+            return () => {
+                if(timerId.current) {
+                    
+                    clearInterval(timerId.current);
+                }
+            }
         }
-    }, [progress, isActive, hideAlert])
-
-    if(!isActive) return null;
+    }, [isActive, progress]);
+    
+    if(!isActive || progress > 100) return null;
 
     return (
         <div className={clsx("alert fixed z-20 top-[10px] right-[20px] p-[30px] text-white", {
@@ -55,7 +68,10 @@ export default function Alert () {
             <span className="alert__message">
                 {message}
             </span>
-            <div className="alert__progress h-[2px] bg-white transition-all ease-linear" 
+            <div  className={clsx(
+                    'alert__progress h-[2px] bg-white',
+                        transitionEnabled && 'transition-all ease-linear'
+                    )}
                 style={{width: `${progress}%`}}>
             </div>
         </div>
