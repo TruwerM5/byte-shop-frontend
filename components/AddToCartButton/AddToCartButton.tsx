@@ -5,6 +5,7 @@ import { useCartStore } from '@/store/cartStore';
 import { Link } from '@/i18n/navigation';
 import { FiMinus, FiPlus } from 'react-icons/fi';
 import { useAlertStore } from '@/store/alertStore';
+import { useEffect } from 'react';
 
 export default function AddToCartButton({
     productId,

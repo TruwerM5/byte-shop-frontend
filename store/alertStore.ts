@@ -1,25 +1,33 @@
 import { create } from 'zustand';
 
-interface AlertState {
-    isActive: boolean;
+type AlertType = 'success' | 'error';
+
+interface Alert {
+    id: number;
     message: string;
-    type: 'error' | 'success';
-    instanceId: number;
-    showAlert: (message: string, type: 'error' | 'success') => void;
-    hideAlert: () => void;
+    type: AlertType;
 }
 
+interface AlertState {
+    alerts: Alert[];
+    showAlert: (message: string, type: AlertType) => void;
+    hideAlert: (id: number) => void;
+}
+
+let idCounter = 0;
+
 export const useAlertStore = create<AlertState>((set, get) => ({
-    isActive: false,
-    message: '',
-    type: 'success',
-    instanceId: 0,
-    showAlert: (message: string, type: 'error' | 'success') => 
+    alerts: [],
+    showAlert: (message: string, type: 'error' | 'success') => {
+        const id = idCounter++;
         set((state) => ({
-            isActive: true, 
-            message, 
-            type,
-            instanceId: state.instanceId + 1,
-        })),
-    hideAlert: () => set({ isActive: false })
+            alerts: [...state.alerts, {id, message, type}]
+        }));
+    },
+    
+    hideAlert: (id: number) => {
+        set((state) => ({
+            alerts: state.alerts.filter((alert) => alert.id !== id),
+        }));
+    }
 }))

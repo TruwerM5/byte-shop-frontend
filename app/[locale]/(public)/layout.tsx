@@ -1,5 +1,5 @@
 import Header from '@/components/Header/Header';
-import Alert from '@/components/Alert/Alert';
+import AlertsContainer from '@/components/AlertsContainer/AlertsContainer';
 
 export default async function PublicLayout({
     children,
@@ -12,7 +12,7 @@ export default async function PublicLayout({
 
     return (
         <>
-            <Alert />
+            <AlertsContainer />
             <Header locale={locale} />
             <main className="page">{children}</main>
         </>
