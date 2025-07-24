@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { FaChevronDown } from 'react-icons/fa';
 import { usePathname } from '@/i18n/navigation';
 import useOutsideClick from '@/hooks/useOutsideClick';
+import clsx from 'clsx';
 
 import './LocaleSwitcher.scss';
 
@@ -24,11 +25,6 @@ export default function LocaleSwitcher({
         setIsOpened(!isOpened);
     }
 
-    let iconClassName = 'transition-transform ';
-    if (isOpened) {
-        iconClassName += 'rotate-180';
-    }
-
     const anotherLocales = routing.locales.filter(
         (locale) => locale !== currentLocale,
     );
@@ -40,7 +36,7 @@ export default function LocaleSwitcher({
                 className="uppercase cursor-pointer flex items-center justify-center gap-[5px]"
             >
                 {currentLocale}
-                <FaChevronDown className={iconClassName} />
+                <FaChevronDown className={clsx('transition-transform', {'rotate-180': isOpened})} />
             </button>
             {isOpened && (
                 <ul ref={ref} className="locale-switcher">

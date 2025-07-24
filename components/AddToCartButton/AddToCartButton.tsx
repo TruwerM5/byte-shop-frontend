@@ -5,7 +5,6 @@ import { useCartStore } from '@/store/cartStore';
 import { Link } from '@/i18n/navigation';
 import { FiMinus, FiPlus } from 'react-icons/fi';
 import { useAlertStore } from '@/store/alertStore';
-import { useEffect } from 'react';
 
 export default function AddToCartButton({
     productId,
@@ -14,23 +13,21 @@ export default function AddToCartButton({
 }) {
     const t = useTranslations('common');
 
-    const { showAlert } = useAlertStore()
+    const { showAlert } = useAlertStore();
 
     const cart = useCartStore((state) => state.cart);
     const addToCart = useCartStore((state) => state.addToCart);
     const removeFromCart = useCartStore((state) => state.removeFromCart);
-    const itemInCartAmount =
-        cart.find((item) => item.id === productId && item.quantity > 0)
-            ?.quantity || 0;
+    const itemInCartAmount = cart.find((item) => item.id === productId && item.quantity > 0)?.quantity || 0;
 
     function add() {
         addToCart(productId);
-        showAlert("The item was added to cart", "success");
+        showAlert(t("The item has been added to cart"), "success");
     }
 
     function remove() {
         removeFromCart(productId);
-        showAlert("The item was removed from cart", "success");
+        showAlert(t("The item has been removed from cart"), "success");
     }
 
     if (itemInCartAmount > 0) {

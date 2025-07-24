@@ -18,7 +18,7 @@ let idCounter = 0;
 
 export const useAlertStore = create<AlertState>((set, get) => ({
     alerts: [],
-    showAlert: (message: string, type: 'error' | 'success') => {
+    showAlert: (message: string, type: AlertType) => {
         const id = idCounter++;
         set((state) => ({
             alerts: [...state.alerts, {id, message, type}]

@@ -21,6 +21,7 @@ export type HeaderButton = {
 };
 
 export type Header = (HeaderLink | HeaderButton)[];
+
 export type CatalogData =
     | {
           id: number;

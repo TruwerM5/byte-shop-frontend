@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl';
 import { IoSearch } from 'react-icons/io5';
 import { IoMdClose } from 'react-icons/io';
 import { useSearchParams } from 'next/navigation';
+import clsx from 'clsx';
 
 import './Search.scss';
 
@@ -14,7 +15,7 @@ export default function Search() {
 
     const [searchValue, setSearchValue] = useState(search || '');
 
-    let placeholderClassName = 'search__placeholder';
+    let placeholderClassName = '';
 
     function onChange(e: React.ChangeEvent<HTMLInputElement>) {
         setSearchValue(e.target.value);
@@ -28,10 +29,6 @@ export default function Search() {
         setSearchValue('');
     }
 
-    if (searchValue.length > 0) {
-        placeholderClassName += ' search__placeholder_moved';
-    }
-
     return (
         <div className="search">
             <input
@@ -43,7 +40,7 @@ export default function Search() {
                 onFocus={onFocus}
                 className="search__input"
             />
-            <span className={placeholderClassName}>
+            <span className={clsx('search__placeholder', {'search__placeholder_moved': searchValue.length > 0})}>
                 {t('Product name or ID')}
             </span>
             {searchValue.length > 0 && (

@@ -1,18 +1,17 @@
-import { Route } from '@/types';
 import Link from 'next/link';
 import { useState, useMemo } from 'react';
 import Submenu from '@/components/Submenu/Submenu';
 import { usePathname } from '@/i18n/navigation';
 import './Catalog.scss';
 import { useTranslations } from 'next-intl';
-import type { NestedRoute } from '@/types';
+import type { NestedRoute, CatalogData } from '@/types';
 import useOutsideClick from '@/hooks/useOutsideClick';
 
 export default function Catalog({
     links,
     closeCatalogFn,
 }: {
-    links: Route[];
+    links: CatalogData[];
     closeCatalogFn: () => void;
 }) {
     const t = useTranslations('products');

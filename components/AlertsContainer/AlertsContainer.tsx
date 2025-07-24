@@ -2,13 +2,13 @@
 'use client';
 import { useAlertStore } from "@/store/alertStore";
 import Alert from "../Alert/Alert";
-
+import './AlertsContainer.scss';
 
 export default function AlertsContainer() {
     const alerts = useAlertStore((state) => state.alerts);
 
     return (
-        <div className="fixed top-5 right-5 z-50 flex flex-col gap-4">
+        <div className="alerts-container">
             {alerts.map(alert => (
                 <Alert
                     key={alert.id}

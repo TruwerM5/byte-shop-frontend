@@ -4,6 +4,7 @@ import { IoMdClose } from 'react-icons/io';
 import clsx from 'clsx';
 import { useState, useEffect, useRef } from 'react';
 import { useAlertStore } from '@/store/alertStore';
+import './Alert.scss';
 
 export default function Alert ({
     id,
@@ -47,11 +48,11 @@ export default function Alert ({
     }, [progress]);
 
     return (
-        <div className={clsx("relative p-[30px] text-white", {
-            'bg-blue-600': type === 'success',
-            'bg-red-400': type === 'error'
+        <div className={clsx("alert relative p-[30px] text-white", {
+            'alert_status-success': type === 'success',
+            'alert_status-error': type === 'error'
         })}>
-            <button className="alert__close-button absolute top-[5px] right-[5px] text-white text-[10px]" 
+            <button className="alert__close-button" 
                 onClick={() => {
                     if(timerId.current) {
                         clearInterval(timerId.current);
@@ -64,7 +65,7 @@ export default function Alert ({
             <span className="alert__message">
                 {message}
             </span>
-            <div  className={'alert__progress h-[2px] bg-white transition-all ease-linear'}
+            <div  className={'alert__progress'}
                 style={{width: `${progress}%`}}>
             </div>
         </div>

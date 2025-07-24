@@ -8,7 +8,9 @@
         "Nothing found matching your request": "Nothing found matching your request",
         "Add to Cart": "Add to Cart",
         "Cart": "Cart",
-        "In cart": "In Cart"
+        "In cart": "In Cart",
+        "The item has been added to cart": "The item has been added to cart",
+        "The item has been removed from cart": "The item has been removed from cart"
     },
     "products": {
         "All Categories": "All Categories",

@@ -8,7 +8,9 @@
         "Nothing found matching your request": "По вашему запросу ничего не найдено",
         "Add to Cart": "В корзину",
         "Cart": "Корзина",
-        "In cart": "В корзине"
+        "In cart": "В корзине",
+        "The item has been added to cart": "Товар добавлен в корзину",
+        "The item has been removed from cart": "Товар удален из корзины"
     },
     "products": {
         "All Categories": "Все Категории",
