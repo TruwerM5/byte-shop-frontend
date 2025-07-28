@@ -32,6 +32,9 @@ export const useProductStore = create<ProductStore>((set, get) => ({
 
     getProductsByCategory(category) {
         const { products } = get();
-        return products.filter((product) => product.category === category);
+        const filtered = products.filter((product) => 
+            product.category === category || product.slugs.includes(category)
+        );
+        return filtered;
     },
 }));
