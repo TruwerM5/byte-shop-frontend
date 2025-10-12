@@ -3,6 +3,7 @@ import './CategoryPage.scss';
 import { useTranslations } from 'next-intl';
 import CatalogSkeleton from '@/components/UI/Skeletons/CatalogSkeleton/CatalogSkeleton';
 import ProductList from '@/components/ProductList/ProductList';
+import SortCategories from '@/components/SortCategories/SortCategories';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useProductStore } from '@/store/productStore';
@@ -16,6 +17,7 @@ export default function ClientCategoryPage() {
     const [isLoading, setIsLoading] = useState(false);
     const [products, setProducts] = useState<Product[] | null>(null);
     const { storeProducts, getProductsByCategory } = useProductStore();
+    const defaultProducts: Product[] = [];
 
     useEffect(() => {
         const productsFromStore = getProductsByCategory(category);
@@ -26,6 +28,7 @@ export default function ClientCategoryPage() {
                 if (res) {
                     storeProducts(res);
                     setProducts(res);
+                    defaultProducts.push(...res);
                 }
             })
             .finally(() => {
@@ -36,6 +39,10 @@ export default function ClientCategoryPage() {
         }
     }, [category, getProductsByCategory, storeProducts]);
 
+    function handleSort(sorted: Product[]) {
+        setProducts(sorted);
+    }
+
     return (
         <div className='category-page'>
             <h3 className='category-page__title'>{tProducts(category)}</h3>
@@ -44,7 +51,13 @@ export default function ClientCategoryPage() {
                 {isLoading ? (
                     <CatalogSkeleton />
                 ) : products && products.length > 0 ? (
-                    <ProductList products={products} />
+                    <div className='category-page__product-list-wrapper'>
+                        <SortCategories
+                            products={products} 
+                            onSort={handleSort} 
+                        />
+                        <ProductList products={products} />
+                    </div>
                 ) : (
                     <span>{t('Nothing found matching your request')}</span>
                 )}

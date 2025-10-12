@@ -16,7 +16,10 @@ export const fetchProductsByParamOrSlug = async (
             (product) =>
                 product.category === param || product.slugs.includes(param),
         );
-        return res;
+        res.sort((a, b) => b.popularity - a.popularity);
+        return new Promise((resolve) => {
+            setTimeout(() => resolve(res), 3000);
+        });
     }
     const res = products.slice(page, page + 10);
     return res;

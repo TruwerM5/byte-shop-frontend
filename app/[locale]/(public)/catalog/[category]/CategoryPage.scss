@@ -13,6 +13,12 @@
         font-weight: bold;
     }
 
+    &__product-list-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
     @media screen and (min-width: $tablet) {
         &__sidebar {
             display: block;
