@@ -4,5 +4,5 @@ export default function beautifyPrice(price: number) {
     while (rest.length < 3) {
         rest += '0';
     }
-    return `${Math.round(price / 1000)} ${rest}`;
+    return `${(Math.floor(price / 1000))} ${rest}`;
 }
