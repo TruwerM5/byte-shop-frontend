@@ -36,7 +36,7 @@ export const products: Product[] = [
         category: Categories.cpu,
         name: 'Intel Core i5 - 12400 OEM',
         slugs: ['intel', 'intel-core-i5'],
-        manufacturer: 'Inntel',
+        manufacturer: 'Intel',
         brand: 'Intel',
         price: 11390,
         images: ['intel-core-i5-12400.webp'],
@@ -94,4 +94,51 @@ export const products: Product[] = [
         videoMemoryFrequency: 21000,
         recommendedPower: 750,
     },
+    {
+        id: 4,
+        category: Categories.motherboards,
+        name: 'MSI PRO B650-S WIFI',
+        slugs: ['msi'],
+        manufacturer: 'MSI',
+        brand: 'MSI',
+        price: 12920,
+        images: [
+            'msi-pro-b-650s-1.webp'
+        ],
+        warrantyMonths: 36,
+        popularity: 4.3,
+        inStock: true,
+        socket: 'AM5',
+        chipset: 'AMD B650',
+        interfaces: [
+            '4 x USB 3.2 Gen1', 
+            '3 x USB 3.2 Gen2', 
+            'USB 3.2 Gen2x2 Type-C', 
+            'HDMI', 
+            'DisplayPort', 
+            'RJ-45'
+        ],
+        sataController: '4 x SATA-III (6 Гб/с)',
+        expandSlots: [
+            '2 x PCI-E 4.0 x16', 
+            'PCI-E x1', 
+            '2 x PCI-E M.2'
+        ],
+        networkInterfaces: [
+            '2.5 Gigabit Ethernet (2.5 Гбит/с)', 
+            'Wi-Fi', 
+            'Bluetooth'
+        ],
+        networkController: 'Realtek RTL8125BG',
+        memoryType: 'DDR5',
+        countMemorySlots: 4,
+        formFactor: 'ATX',
+        coolerInterfaces: '4 x 4-pin',
+        usbInterfaces: [
+            '2 x USB 2.0', 
+            'USB 3.2 Gen1', 
+            'USB 3.2 Gen2 Type-C'
+        ],
+        argbInterfaces: ['2 x 3-pin']
+    }
 ];

@@ -93,7 +93,24 @@ export type GraphicsCard = AbstractProduct & {
     clockSpeedTurbo?: number;
 };
 
-export type Product = CPU | GraphicsCard;
+export type Motherboard = AbstractProduct & {
+    socket: string;
+    chipset: string;
+    interfaces: string[];
+    sataController: string;
+    expandSlots: string[];
+    networkInterfaces: string[];
+    networkController: string;
+    memoryType: string;
+    countMemorySlots: number;
+    formFactor: string;
+    coolerInterfaces: string;
+    usbInterfaces: string[];
+    argbInterfaces?: string[];
+};
+
+
+export type Product = CPU | GraphicsCard | Motherboard;
 
 export enum Categories {
     cpu = 'cpu',
