@@ -1,3 +1,6 @@
+// Variables
+$skeleton-bg: #CCCCCC;
+
 .menu-link {
     display: block;
     color: #fff;
@@ -19,4 +22,20 @@
     max-width: 1440px;
     margin: 1rem auto;
     padding: 0 1rem;
+}
+
+.skeleton {
+    color: transparent;
+    background-color: $skeleton-bg;
+    animation: skeleton-animation 1s linear 0s infinite alternate;
+}
+
+@keyframes skeleton-animation {
+    from {
+        opacity: 1;
+    }
+    
+    to {
+        opacity: 0.3;
+    }
 }

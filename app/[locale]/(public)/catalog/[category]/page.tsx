@@ -9,6 +9,7 @@ import { Product } from '@/types';
 import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import './CategoryPage.scss';
+import CatalogSkeleton from '@/components/UI/Skeletons/CatalogSkeleton/CatalogSkeleton';
 
 export default function CategoryPage({
     params,
@@ -21,15 +22,20 @@ export default function CategoryPage({
     const { storeProducts, getProductsByCategory } = useProductStore();
 
     const [products, setProducts] = useState<Product[] | null>(null);
-
+    const [isLoading, setIsLoading] = useState(false);
     useEffect(() => {
         const productsFromStore = getProductsByCategory(category);
         if (!productsFromStore || productsFromStore.length === 0) {
-            fetchProductsByParamOrSlug(category).then((res) => {
+            setIsLoading(true);
+            fetchProductsByParamOrSlug(category)
+            .then((res) => {
                 if (res) {
                     storeProducts(res);
                     setProducts(res);
                 }
+            })
+            .finally(() => {
+                setIsLoading(false);
             });
         } else {
             setProducts(productsFromStore);
@@ -43,7 +49,9 @@ export default function CategoryPage({
                 <h3 className="category-page__title">{tProducts(category)}</h3>
                 <div className="category-page__inner">
                     <div className="category-page__sidebar">Sidebar</div>
-                    {products && products.length > 0 ? (
+                    {isLoading ? (
+                        <CatalogSkeleton />
+                    ) : products && products.length > 0 ? (
                         <ProductList products={products} />
                     ) : (
                         <span>{t('Nothing found matching your request')}</span>

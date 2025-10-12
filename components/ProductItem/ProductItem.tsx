@@ -35,7 +35,7 @@ export default function ProductItem({ product }: { product: Product }) {
                     >
                         {product.name}
                     </Link>
-                    <ProductPopularuty popularity={4.6} />
+                    <ProductPopularuty popularity={product.popularity} />
                 </div>
             </div>
             <div className="product-item__actions">
