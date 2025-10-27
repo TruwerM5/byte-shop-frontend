@@ -14,7 +14,7 @@ export default function ClientCategoryPage() {
     const { category } = useParams<{ category: string }>();
     const t = useTranslations('common');
     const tProducts = useTranslations('slugs');
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [products, setProducts] = useState<Product[] | null>(null);
     const { storeProducts, getProductsByCategory } = useProductStore();
     const defaultProducts: Product[] = [];
@@ -22,7 +22,6 @@ export default function ClientCategoryPage() {
     useEffect(() => {
         const productsFromStore = getProductsByCategory(category);
         if (!productsFromStore || productsFromStore.length === 0) {
-            setIsLoading(true);
             fetchProductsByParamOrSlug(category)
             .then((res) => {
                 if (res) {
@@ -36,6 +35,7 @@ export default function ClientCategoryPage() {
             });
         } else {
             setProducts(productsFromStore);
+            setIsLoading(false);
         }
     }, [category, getProductsByCategory, storeProducts]);
 
