@@ -2,7 +2,6 @@ import { NextIntlClientProvider, hasLocale } from 'next-intl';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import '@/styles/style.scss';
-import Header from '@/components/Header/Header';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
