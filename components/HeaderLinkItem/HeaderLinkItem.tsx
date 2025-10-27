@@ -14,7 +14,7 @@ export default function HeaderLinkItem({
     if (link.type === 'link') {
         const content = link.component ?? title;
         return (
-            <Link href={link.href} onClick={onClick} className="header__button">
+            <Link href={link.href} className="header__button">
                 {content}
             </Link>
         );
