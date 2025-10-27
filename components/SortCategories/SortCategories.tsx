@@ -76,7 +76,7 @@ export default function SortCategories({
                                     onClick={() => handleClick(sortItem)}
                                     className='sort-categories__button'
                                 >
-                                    {sortItem.title}
+                                    {t(sortItem.title)}
                                 </button>
                             ))}
                         </div>
