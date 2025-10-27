@@ -1,6 +1,4 @@
-'use client';
 import './CategoryPage.scss';
-import { useTranslations } from 'next-intl';
 import CatalogSkeleton from '@/components/UI/Skeletons/CatalogSkeleton/CatalogSkeleton';
 import ProductList from '@/components/ProductList/ProductList';
 import SortCategories from '@/components/SortCategories/SortCategories';
