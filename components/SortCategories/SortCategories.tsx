@@ -1,3 +1,5 @@
+'use client';
+
 import { Product } from '@/types';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
@@ -44,7 +46,7 @@ export default function SortCategories({
     }
 
     function sortBy(sortType: SortType) {
-        const sortedProducts = [...products]
+        const sortedProducts = [...products];
         if(sortType === 'popularuty') {
             sortedProducts.sort((a, b) => b.popularity - a.popularity);
         } else if(sortType === 'price-high') {

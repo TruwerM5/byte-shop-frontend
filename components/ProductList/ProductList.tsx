@@ -1,22 +1,31 @@
 'use client';
 
-import type { Product } from '@/types';
 import ProductItem from '../ProductItem/ProductItem';
 import './ProductList.scss';
+import SortCategories from '@/components/SortCategories/SortCategories';
+import { Product } from '@/types';
+import { useState } from 'react';
 
-export default function ProductList({ products }: { products: Product[] | undefined }) {
+export default function ProductList({ 
+    serverProducts 
+}: { 
+    serverProducts: Product[]
+}) {
 
-    if(!products || products.length === 0) {
-        return (
-            <div>Not found</div>
-        )
+    const [clientProducts, setClientProducts] = useState(serverProducts);
+
+    function handleSort(sorted: Product[]) {
+        setClientProducts(sorted);
     }
 
     return (
-        <div className="product-list">
-            {products.map((product) => (
-                <ProductItem product={product} key={product.id} />
-            ))}
-        </div>
+        <>
+            <SortCategories products={clientProducts} onSort={handleSort} />
+            <div className='product-list'>
+                {clientProducts.map((product) => (
+                    <ProductItem product={product} key={product.id} />
+                ))}
+            </div>
+        </>
     );
 }
