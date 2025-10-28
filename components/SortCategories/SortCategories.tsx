@@ -2,7 +2,7 @@
 
 import { Product } from '@/types';
 import { useTranslations } from 'next-intl';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { GoTriangleDown } from 'react-icons/go';
 import './SortCategories.scss';
 
@@ -38,6 +38,7 @@ export default function SortCategories({
 
     const [currentSort, setCurrentSort] = useState<Sort>(sortings[0]);
     const [isOpened, setIsOpened] = useState(false);
+    const sortRef = useRef(null);
 
     function handleClick(sort: Sort) {
         setCurrentSort(sort);
@@ -57,8 +58,21 @@ export default function SortCategories({
         return sortedProducts;
     }
 
+    function onClickOutSide(e: MouseEvent) {
+        if(e.currentTarget !== sortRef.current) {
+            setIsOpened(false);
+        }
+    }
+
+    useEffect(() => {
+        document.addEventListener('click', onClickOutSide);
+        return () => {
+            document.removeEventListener('click', onClickOutSide);
+        }
+    }, []);
+
     return (
-        <div className='sort-categories'>
+        <div className='sort-categories' ref={sortRef}>
             <div className='sort-categories__inner'>
                 <span className='sort-categories__title'>
                     {t('Show')}:
