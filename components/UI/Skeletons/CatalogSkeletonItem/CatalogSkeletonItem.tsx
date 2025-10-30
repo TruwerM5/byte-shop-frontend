@@ -1,18 +1,14 @@
-
-import './CatalogSkeletonItem.scss';
-import clsx from 'clsx';
-
 export default function CatalogSkeletonItem() {
     return (
-        <div className='catalog-skeleton-item min-h-[141px]'>
-            <div className='catalog-skeleton-item__image skeleton rounded-[5px]'></div>
-            <div className='catalog-skeleton-item__content'>
-                <span className='catalog-skeleton-item__id skeleton rounded-[5px]'>ID: 000</span>
-                <span className='catalog-skeleton-item__name skeleton rounded-[5px]'>
+        <div className='min-h-[141px] flex items-center gap-[15px] py-[10px] border-b-1 border-b-solid border-b-[#d8d8d8]'>
+            <div className='skeleton rounded-[5px] w-[120px] h-[120px] delay-[.5s]'></div>
+            <div className='w-full h-full min-h-[120px] flex flex-col justify-between'>
+                <span className='skeleton w-fit rounded-[5px]'>ID: 000</span>
+                <span className='max-w-[400px] skeleton rounded-[5px]'>
                     skeleton name
                 </span>
-                <span className='catalog-skeleton-item__popularity skeleton rounded-[5px]'>popularity</span>
-                <span className='catalog-skeleton-item__price skeleton rounded-[5px]'>
+                <span className='block min-w-[80px] w-fit skeleton rounded-[5px]'>popularity</span>
+                <span className='w-fit skeleton rounded-[5px]'>
                     99 999
                 </span>
             </div>
