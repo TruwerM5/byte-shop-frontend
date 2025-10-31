@@ -28,5 +28,8 @@ export const fetchProductsByParamOrSlug = async (
 export const fetchProductById = async (
     id: number,
 ): Promise<Product | undefined> => {
-    return products.find((product) => product.id === id);
+    const product = products.find((product) => product.id === id);
+    return new Promise(res => {
+        setTimeout(() => res(product), 2000);
+    })
 };
