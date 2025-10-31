@@ -4,7 +4,8 @@ import ProductItem from '../ProductItem/ProductItem';
 import './ProductList.scss';
 import SortCategories from '@/components/SortCategories/SortCategories';
 import { Product } from '@/types';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useProductStore } from '@/store/productStore';
 
 export default function ProductList({ 
     serverProducts 
@@ -12,12 +13,17 @@ export default function ProductList({
     serverProducts: Product[]
 }) {
 
+    const { storeProducts } = useProductStore();
     const [clientProducts, setClientProducts] = useState(serverProducts);
 
     function handleSort(sorted: Product[]) {
         setClientProducts(sorted);
     }
 
+    useEffect(() => {
+        storeProducts(serverProducts);
+    }, [serverProducts]);
+    
     return (
         <>
             <SortCategories products={clientProducts} onSort={handleSort} />
