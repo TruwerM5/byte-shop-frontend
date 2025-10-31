@@ -6,31 +6,43 @@ import { useProductStore } from '@/store/productStore';
 import { fetchProductById } from '@/api/products';
 
 export default function ClientProductPage({
-    initialProduct,
     productId,
 }: {
-    initialProduct: Product;
+    
     productId: number;
 }) {
-    const [product, setProduct] = useState<Product>(initialProduct);
+    const [product, setProduct] = useState<Product>();
+    const [isLoading, setIsLoading] = useState(true);
     const { getProductById, storeProducts, products } = useProductStore();
 
     useEffect(() => {
-        const storeProduct = getProductById(productId);
+        const storeProduct = getProductById(Number(productId));
         if (storeProduct) {
             setProduct(storeProduct);
+            setIsLoading(false);
             return;
-        }
-
-        if (!initialProduct) {
-            fetchProductById(productId).then((res) => {
-                if (res) {
+        } else {
+            fetchProductById(Number(productId)).then((res) => {
+                if (res) {                    
                     setProduct(res);
                     storeProducts([...products, res]);
+                    setIsLoading(false);
                 }
             });
         }
-    }, [productId, initialProduct]);
+    }, [productId]);
+
+    if(isLoading) {
+        return (
+            <p>Loading...</p>
+        )
+    }
+
+    if(!product) {
+        return (
+            <p>Not found</p>
+        )
+    }
 
     return (
         <div>
