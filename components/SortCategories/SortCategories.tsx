@@ -38,7 +38,7 @@ export default function SortCategories({
 
     const [currentSort, setCurrentSort] = useState<Sort>(sortings[0]);
     const [isOpened, setIsOpened] = useState(false);
-    const sortRef = useRef(null);
+    const sortButtonRef = useRef(null);
 
     function handleClick(sort: Sort) {
         setCurrentSort(sort);
@@ -59,7 +59,7 @@ export default function SortCategories({
     }
 
     function onClickOutSide(e: MouseEvent) {
-        if(e.currentTarget !== sortRef.current) {
+        if(e.target !== sortButtonRef.current) {
             setIsOpened(false);
         }
     }
@@ -72,14 +72,15 @@ export default function SortCategories({
     }, []);
 
     return (
-        <div className='sort-categories' ref={sortRef}>
+        <div className='sort-categories'>
             <div className='sort-categories__inner'>
                 <span className='sort-categories__title'>
                     {t('Show')}:
                 </span>
                 <div className='sort-categories__list-inner'>
                     <button
-                        onClick={() => setIsOpened(!isOpened)} 
+                        onClick={() => setIsOpened(true)}
+                        ref={sortButtonRef}
                         className='sort-categories__button sort-categories__button_selected flex items-center'>
                         {t(currentSort.title)}
                         <GoTriangleDown />
