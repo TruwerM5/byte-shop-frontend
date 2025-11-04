@@ -10,7 +10,8 @@
         "Cart": "Корзина",
         "In cart": "В корзине",
         "The item has been added to cart": "Товар добавлен в корзину",
-        "The item has been removed from cart": "Товар удален из корзины"
+        "The item has been removed from cart": "Товар удален из корзины",
+        "Filters": "Фильтры"
     },
     "products": {
         "All Categories": "Все Категории",

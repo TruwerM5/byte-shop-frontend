@@ -10,7 +10,8 @@
         "Cart": "Cart",
         "In cart": "In Cart",
         "The item has been added to cart": "The item has been added to cart",
-        "The item has been removed from cart": "The item has been removed from cart"
+        "The item has been removed from cart": "The item has been removed from cart",
+        "Filters": "Filters"
     },
     "products": {
         "All Categories": "All Categories",

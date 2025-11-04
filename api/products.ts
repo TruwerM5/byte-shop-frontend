@@ -1,5 +1,6 @@
 import { products } from '@/data/products';
 import type { Product } from '@/types';
+import { filterProducts } from '@/utils/filterProducts';
 
 export const fetchAllProducts = async (): Promise<Product[] | undefined> => {
     return new Promise((res, rej) => {
@@ -10,12 +11,18 @@ export const fetchAllProducts = async (): Promise<Product[] | undefined> => {
 export const fetchProductsByParamOrSlug = async (
     param: string,
     page = 0,
+    filters?: any
 ): Promise<Product[] | undefined> => {
     if (page === 0) {
-        const res = products.filter(
+        let res = products.filter(
             (product) =>
                 product.category === param || product.slugs.includes(param),
         );
+
+        if(Object.keys(filters).length) {
+            res = filterProducts(res, filters);
+        }
+
         res.sort((a, b) => b.popularity - a.popularity);
         return new Promise((resolve) => {
             setTimeout(() => resolve(res), 3000);
