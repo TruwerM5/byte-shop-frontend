@@ -18,8 +18,7 @@ export const fetchProductsByParamOrSlug = async (
             (product) =>
                 product.category === param || product.slugs.includes(param),
         );
-
-        if(Object.keys(filters).length) {
+        if(Object.keys(filters).length > 0) {
             res = filterProducts(res, filters);
         }
 
