@@ -1,0 +1,8 @@
+@use '../../styles/_variables' as *;
+
+.filters {
+    &__price-input {
+        max-width: calc(50% - 10px);
+        @include default-text-input;
+    }
+}
