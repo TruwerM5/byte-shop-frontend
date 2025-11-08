@@ -1,9 +1,9 @@
-import {Product } from '@/types';
+import { Product } from '@/types';
 
 
 export function filterProducts(products: Product[], filters: any) {
-    const filtered = [];
-    if(filters.price_min || filters.price_max) {
+    const filtered = [...products];
+    if(filters?.price_min > 0 || filters?.price_max > 0) {
         const filteredByPrice = filterProductsByPrices(products, Number(filters.price_min), Number(filters.price_max)); 
         filtered.push(...filteredByPrice);
     }
