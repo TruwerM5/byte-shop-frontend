@@ -1,31 +1,41 @@
 'use client';
 import { useTranslations } from 'next-intl';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { useDebouncedCallback } from 'use-debounce';
 import { beutifyFilterInputPrice } from '@/utils/beautifyPrice';
 import Accordion from '../Accordion/Accordion';
+import { filterList } from '@/data/filters';
+import { slugifyString } from '@/utils/slugify-query';
 import './Filters.scss';
+
+type HandleInputChange = (query: string, value: string[]) => void;
 
 export default function Filters({
     productSlug,
     applyFilters
 }: {
     productSlug: string;
-    applyFilters: (query: string, value: string) => void;
+    applyFilters: HandleInputChange;
 }) {
-    const t = useTranslations('common');
-
-    const handleInputChange = useDebouncedCallback((query: string, value: string) => {
+    const tCommon = useTranslations('common');
+    const tDetails = useTranslations('details');
+    const handleInputChange = useDebouncedCallback<HandleInputChange>((query, value) => {
         applyFilters(query, value);
     }, 300);
+
+    const handleChecboxChange: HandleInputChange = (query, value) => {
+        applyFilters(query, value);
+    };
+
+    const filtersForCategory = filterList.find(filter => filter.slug === productSlug);
 
     return (
         <div className='filters'>
             <span className='filters__title'>
-                {t('Filters')}
+                {tCommon('Filters')}
             </span>
-            <Accordion title='Price'>
+            <Accordion title={`${tCommon('Price')}, ₽`}>
                 <div className='flex gap-[10px]'>
                     <FilterPriceInput
                         type='from'
@@ -37,6 +47,81 @@ export default function Filters({
                     />
                 </div>
             </Accordion>
+            {filtersForCategory && filtersForCategory.filters.map(filterItem => (
+                <Accordion key={filterItem.id} title={tDetails(filterItem.title)}>
+                    <div className='filter-item flex flex-col gap-[5px]'>
+                        {filterItem.values.map((filterValue, index) => {
+                            return (
+                                <FilterItem
+                                    key={index}
+                                    query={filterItem.title}
+                                    value={filterValue}
+                                    handleCheckboxChange={handleChecboxChange}
+                                />
+                            )
+                        })}
+                    </div>
+                </Accordion>
+            ))}
+        </div>
+    )
+}
+
+function FilterItem({
+    query,
+    value,
+    handleCheckboxChange
+}: {
+    query: string;
+    value: string;
+    handleCheckboxChange: HandleInputChange;
+}) {
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
+    const queryParams = useMemo(() => new URLSearchParams(searchParams), [searchParams]);
+    const { replace } = useRouter();
+    const slugValue = slugifyString(value);
+    const uglifiedQuery = slugifyString(query);
+    const hasQueryString = searchParams.get(uglifiedQuery);
+    const isChecked = !!hasQueryString?.split(',').includes(slugValue);
+
+    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+        const isTargetChecked = e.target.checked;
+        const updatedValues = updateQueryArray(queryParams, uglifiedQuery, slugValue, isTargetChecked);
+        handleCheckboxChange(uglifiedQuery, updatedValues);
+        replace(`${pathname}?${queryParams}`);
+    }
+
+    function updateQueryArray(params: URLSearchParams, key: string, value: string, checked: boolean) {
+        let current = params.get(key)?.split(',') ?? [];
+
+        if(checked) {
+            current = [...new Set([...current, value])];
+        } else {
+            current = current.filter(v => v !== value);
+        }
+
+        if(current.length > 0) {
+            params.set(key, current.join(','));
+        } else {
+            params.delete(key);
+        }
+
+        return current;
+    }
+
+    return (
+        <div className='filter-item flex flex-col gap-[5px]'>
+            <label htmlFor={slugValue} className='flex gap-[5px]'>
+                <input 
+                    type="checkbox"
+                    name={slugValue}
+                    value={slugValue}
+                    onChange={handleChange}
+                    checked={isChecked}
+                />
+                {value}
+            </label>
         </div>
     )
 }
@@ -46,16 +131,15 @@ function FilterPriceInput({
     setQueryCallback
 }: {
     type: 'from' | 'to';
-    setQueryCallback: (query: string, value: string) => void;
+    setQueryCallback: HandleInputChange
 }) {
-
     const searchParams = useSearchParams();
-    const queryParams = new URLSearchParams(searchParams.toString());
+    const queryParams = new URLSearchParams(searchParams);
     const pathname = usePathname();
     const { replace } = useRouter();
     const placeholder = type === 'from' ? 'min' : 'max';
     const query = type === 'from' ? 'price_min' : 'price_max';
-    const currentQuery = searchParams.get(query)?.toString() || '';
+    const currentQuery = searchParams.get(query) || '';
     const [price, setPrice] = useState<string>(currentQuery);
     
     function onInputChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -79,8 +163,8 @@ function FilterPriceInput({
         } else {
             queryParams.delete(query);
         }
-        replace(`${pathname}?${queryParams.toString()}`);
-        setQueryCallback(query, value);
+        replace(`${pathname}?${queryParams}`);
+        setQueryCallback(query, value ? [value] : []);
     }
 
     function removeNonNumbers(value: string) {
@@ -96,5 +180,4 @@ function FilterPriceInput({
             defaultValue={beutifyFilterInputPrice(price)}
         />
     )
-
 }
