@@ -29,7 +29,7 @@ export const products: Product[] = [
         isWithCooler: false,
         isGraphicsIntegrated: true,
         graphicsCard: 'Radeon Graphics, RDNA 2',
-        line: 'Ryzen 7',
+        line: 'AMD-Ryzen-7',
     },
     {
         id: 2,
@@ -43,7 +43,7 @@ export const products: Product[] = [
         warrantyMonths: 12,
         popularity: 4.1,
         inStock: true,
-        socket: 'LGA 1700',
+        socket: 'LGA-1700',
         architecture: 'Alder Lake',
         core: 'Golden Cove',
         countCores: 6,
@@ -57,7 +57,7 @@ export const products: Product[] = [
         isWithCooler: false,
         isGraphicsIntegrated: true,
         graphicsCard: 'Intel UHD Graphics 730',
-        line: 'Core i5',
+        line: 'Core-i5',
     },
     {
         id: 3,
