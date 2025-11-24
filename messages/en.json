@@ -11,7 +11,8 @@
         "In cart": "In Cart",
         "The item has been added to cart": "The item has been added to cart",
         "The item has been removed from cart": "The item has been removed from cart",
-        "Filters": "Filters"
+        "Filters": "Filters",
+        "Price": "Price"
     },
     "products": {
         "All Categories": "All Categories",
@@ -69,5 +70,10 @@
         "Cheapest first": "Cheapest first",
         "The most expensive first": "The most expensive first",
         "Show": "Show"
+    },
+    "details": {
+        "Line": "Line",
+        "Socket": "Socket",
+        "CPU Manufacturer": "CPU Manufacturer"
     }
 }

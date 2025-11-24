@@ -11,7 +11,8 @@
         "In cart": "В корзине",
         "The item has been added to cart": "Товар добавлен в корзину",
         "The item has been removed from cart": "Товар удален из корзины",
-        "Filters": "Фильтры"
+        "Filters": "Фильтры",
+        "Price": "Цена"
     },
     "products": {
         "All Categories": "Все Категории",
@@ -70,5 +71,10 @@
         "Cheapest first": "Сначала с самой низкой ценой",
         "The most expensive first": "Сначала дорогие",
         "Show": "Показать"
-    }
+    },
+    "details": {
+        "Line": "Линейка",
+        "Socket": "Socket",
+        "CPU Manufacturer": "Производитель процессора"
+    }  
 }
