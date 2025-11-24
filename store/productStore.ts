@@ -36,9 +36,7 @@ export const useProductStore = create<ProductStore>((set, get) => ({
         const categoryProducts = products.filter((product) => 
             product.category === category || product.slugs.includes(category)
         );
-        if(filters) {
-            return filterProducts(categoryProducts, filters);
-        }
-        return categoryProducts;
+        
+        return filterProducts(categoryProducts, filters);
     },
 }));
