@@ -13,7 +13,6 @@ export default function Accordion(
     children: React.ReactNode
 }) {
 
-    const tCommon = useTranslations('common');
     const [isOpened, setIsOpened] = useState(false);
 
     function handleClick() {
@@ -22,14 +21,14 @@ export default function Accordion(
 
     return (
         <div className='accordion'>
-            <button onClick={handleClick} className='accordion__title flex gap-[3px] items-center mb-[5px] font-bold'>
+            <button onClick={handleClick} className='accordion__title flex gap-[3px] items-center mb-[5px] text-[14px] font-bold'>
                 <RxTriangleDown className={
                     clsx(
                         'transition-transform duration-300',
                         {'rotate-180': isOpened}
                     )} 
                 />
-                {tCommon(title)}, &#8381;
+                {title}
             </button>
             <div className={
                 clsx(
