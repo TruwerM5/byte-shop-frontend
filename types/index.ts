@@ -38,7 +38,6 @@ export type CatalogData =
 
 export type AbstractProduct = {
     id: number | string;
-    category: Categories;
     name: string;
     manufacturer: string;
     brand: string;
@@ -54,6 +53,7 @@ export type AbstractProduct = {
 };
 
 export type CPU = AbstractProduct & {
+    category: Categories.cpu;
     socket: string;
     architecture: string;
     core: string;
@@ -69,13 +69,14 @@ export type CPU = AbstractProduct & {
     dateOfRelease?: Date | string;
     clockSpeedTurbo?: number;
     graphicsCard?: string;
-    line?: string;
+    line: string;
     cashLOne?: number;
     cashLTwo?: string;
     cashLThree?: string;
 };
 
 export type GraphicsCard = AbstractProduct & {
+    category: Categories.graphicsCards;
     serie: string;
     interface: string;
     countSlots: number;
@@ -94,6 +95,7 @@ export type GraphicsCard = AbstractProduct & {
 };
 
 export type Motherboard = AbstractProduct & {
+    category: Categories.motherboards;
     socket: string;
     chipset: string;
     interfaces: string[];
