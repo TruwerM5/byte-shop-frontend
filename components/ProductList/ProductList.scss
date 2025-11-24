@@ -1,6 +1,13 @@
+@use '@/styles/_variables' as *;
+
 .products-wrapper {
     display: flex;
+    flex-direction: column;
     gap: 30px;
+
+    @media screen and (min-width: $tablet) {
+        flex-direction: row;
+    }
 }
 
 .product-list-wrapper {
@@ -8,7 +15,7 @@
 }
 
 .filters-wrapper {
-    width: 200px;
+    width: 210px;
 }
 
 .product-list {
