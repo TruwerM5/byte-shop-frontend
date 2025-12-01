@@ -45,11 +45,15 @@ export default function ProductList({
         }));
     }
 
-    function getProducts(category: string, filters?: any) {
+    function getProducts(category: string, filters?: any, signal?: AbortSignal) {
         setProductsState('pending');
         fetchProductsByParamOrSlug(category, 0, filters)
         .then(res => {
-            if(res && res.length > 0) {
+            if(!res || signal?.aborted) {
+                return;
+            }
+
+            if(res.length > 0) {
                 setProducts(res);
                 storeProducts(res);
                 setProductsState('success');
@@ -64,13 +68,17 @@ export default function ProductList({
         });
     }
 
-    useEffect(() => {
-        getProducts(category, filters);
-    },  [category, filters, getProductsByCategory]);
+    const isPending = productsState === 'pending';
+    const isEmpty = products.length === 0;
 
-    if(productsState === 'pending') {
-        return <CatalogSkeleton />
-    }
+    useEffect(() => {
+        const controller = new AbortController();
+        getProducts(category, filters, controller.signal);
+        return () => {
+            controller.abort();
+        }
+
+    },  [category, filters, getProductsByCategory]);
 
     if(productsState === 'error') {
         return <p className='error'>{message}</p>
@@ -84,7 +92,8 @@ export default function ProductList({
                     <Filters productSlug={category} applyFilters={applyFilters} />
                 </div>
                 <div className='product-list-wrapper'>
-                    {products.length > 0 ? (
+                    {isPending && <CatalogSkeleton />}
+                    {products.length > 0 && !isPending && (
                         <>
                             <div className='applied-filters'>
                                 Applied filters
@@ -96,9 +105,8 @@ export default function ProductList({
                                 ))}
                             </div>
                         </>
-                    ) : (
-                        <p className='not-found-message'>{tCommon('Nothing found matching your request')}</p>
                     )}
+                    { isEmpty && <p className='not-found-message'>{tCommon('Nothing found matching your request')}</p>}
                 </div>
             </div>
         </>
