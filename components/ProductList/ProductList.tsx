@@ -65,14 +65,8 @@ export default function ProductList({
     }
 
     useEffect(() => {
-        const productFromStore = getProductsByCategory(category, filters);
-        if(productFromStore && productFromStore.length > 0) {
-            setProducts(productFromStore);
-            setProductsState('success');
-        } else {
-            getProducts(category, filters);
-        }
-    },  [category, filters, getProductsByCategory, storeProducts]);
+        getProducts(category, filters);
+    },  [category, filters, getProductsByCategory]);
 
     if(productsState === 'pending') {
         return <CatalogSkeleton />
