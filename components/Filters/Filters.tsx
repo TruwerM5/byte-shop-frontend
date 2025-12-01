@@ -49,7 +49,6 @@ export default function Filters({
             </Accordion>
             {filtersForCategory && filtersForCategory.filters.map(filterItem => (
                 <Accordion key={filterItem.id} title={tDetails(filterItem.title)}>
-                    <div className='filter-item flex flex-col gap-[5px]'>
                         {filterItem.values.map((filterValue, index) => {
                             return (
                                 <FilterItem
@@ -60,7 +59,6 @@ export default function Filters({
                                 />
                             )
                         })}
-                    </div>
                 </Accordion>
             ))}
         </div>
@@ -177,7 +175,7 @@ function FilterPriceInput({
             className='filters__price-input' 
             type='text' 
             placeholder={placeholder}
-            defaultValue={beutifyFilterInputPrice(price)}
+            value={beutifyFilterInputPrice(price)}
         />
     )
 }
