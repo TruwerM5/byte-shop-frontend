@@ -139,7 +139,7 @@ function FilterPriceInput({
     const query = type === 'from' ? 'price_min' : 'price_max';
     const currentQuery = searchParams.get(query) || '';
     const [price, setPrice] = useState<string>(currentQuery);
-    
+
     function onInputChange(e: React.ChangeEvent<HTMLInputElement>) {
         const value = removeNonNumbers(e.target.value);
         e.target.value = value;
@@ -149,6 +149,7 @@ function FilterPriceInput({
         }
         if(Number(value) === 0) {
             e.target.value = '';
+            return;
         } 
         setPrice(value);
         setQuery(query, value);
