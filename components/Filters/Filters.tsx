@@ -49,6 +49,7 @@ export default function Filters({
             </Accordion>
             {filtersForCategory && filtersForCategory.filters.map(filterItem => (
                 <Accordion key={filterItem.id} title={tDetails(filterItem.title)}>
+                    <div className='filter-item-wrapper flex flex-col gap-[2px]'>
                         {filterItem.values.map((filterValue, index) => {
                             return (
                                 <FilterItem
@@ -59,6 +60,7 @@ export default function Filters({
                                 />
                             )
                         })}
+                    </div>
                 </Accordion>
             ))}
         </div>
@@ -109,12 +111,13 @@ function FilterItem({
     }
 
     return (
-        <div className='filter-item flex flex-col gap-[5px]'>
-            <label htmlFor={slugValue} className='flex gap-[5px]'>
-                <input 
+        <div className='filter-item flex flex-col gap-[5px] px-2 py-1 hover:bg-zinc-100 hover:text-primary-blue'>
+            <label htmlFor={slugValue} className='flex gap-[5px] cursor-pointer'>
+                <input
                     type="checkbox"
+                    id={slugValue}
                     name={slugValue}
-                    value={slugValue}
+                    defaultValue={slugValue}
                     onChange={handleChange}
                     checked={isChecked}
                 />
