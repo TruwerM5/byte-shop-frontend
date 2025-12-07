@@ -9,24 +9,40 @@ import { filterList } from '@/data/filters';
 import { slugifyString } from '@/utils/slugify-query';
 import './Filters.scss';
 
-type HandleInputChange = (query: string, value: string[]) => void;
+type HandleInputChange = (key: string, values: string[]) => void;
 
 export default function Filters({
     productSlug,
     applyFilters
 }: {
     productSlug: string;
-    applyFilters: HandleInputChange;
+    applyFilters: (newFilters: any) => void;
 }) {
     const tCommon = useTranslations('common');
     const tDetails = useTranslations('details');
-    const handleInputChange = useDebouncedCallback<HandleInputChange>((query, value) => {
-        applyFilters(query, value);
+    const appliedFilters: any = {};
+    const handleInputChange = useDebouncedCallback<HandleInputChange>((newFilters) => {
+        applyFilters(newFilters);
     }, 300);
 
-    const handleChecboxChange: HandleInputChange = (query, value) => {
-        applyFilters(query, value);
+    const handleChecboxChange: HandleInputChange = (newFilters) => {
+        applyFilters(newFilters);
     };
+
+    const handleInputItemChange = (key: string, values: string[]) => {
+        console.log(values);
+        if(values.length === 0) {
+            return;
+        } 
+        
+        if(!appliedFilters[key] || appliedFilters[key]?.length === 0) {
+            appliedFilters[key] = values;
+        } else {
+            appliedFilters[key] = appliedFilters[key].concat(values);
+        }
+
+        console.log(appliedFilters);
+    }
 
     const filtersForCategory = filterList.find(filter => filter.slug === productSlug);
 
@@ -56,7 +72,7 @@ export default function Filters({
                                     key={index}
                                     query={filterItem.title}
                                     value={filterValue}
-                                    handleCheckboxChange={handleChecboxChange}
+                                    handleCheckboxChange={handleInputItemChange}
                                 />
                             )
                         })}
@@ -83,13 +99,15 @@ function FilterItem({
     const slugValue = slugifyString(value);
     const uglifiedQuery = slugifyString(query);
     const hasQueryString = searchParams.get(uglifiedQuery);
-    const isChecked = !!hasQueryString?.split(',').includes(slugValue);
+    const [isChecked, setIsChecked] = useState(!!hasQueryString?.split(',').includes(slugValue));
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         const isTargetChecked = e.target.checked;
         const updatedValues = updateQueryArray(queryParams, uglifiedQuery, slugValue, isTargetChecked);
-        handleCheckboxChange(uglifiedQuery, updatedValues);
-        replace(`${pathname}?${queryParams}`);
+        const values = isTargetChecked ? [slugValue] : [];
+        setIsChecked(isTargetChecked);
+        handleCheckboxChange(uglifiedQuery, values);
+        // replace(`${pathname}?${queryParams}`);
     }
 
     function updateQueryArray(params: URLSearchParams, key: string, value: string, checked: boolean) {
@@ -166,7 +184,7 @@ function FilterPriceInput({
             queryParams.delete(query);
         }
         replace(`${pathname}?${queryParams}`);
-        setQueryCallback(query, value ? [value] : []);
+        // setQueryCallback(query, value ? [value] : []);
     }
 
     function removeNonNumbers(value: string) {
@@ -181,5 +199,17 @@ function FilterPriceInput({
             placeholder={placeholder}
             value={beutifyFilterInputPrice(price)}
         />
+    )
+}
+
+function ApplyFiltersButton({
+    handleApply
+}: {
+    handleApply: () => void
+}) {
+    return (
+        <button onClick={handleApply}>
+            apply
+        </button>
     )
 }
