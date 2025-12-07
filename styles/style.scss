@@ -2,3 +2,7 @@
 @use './_reset.scss';
 @use './_variables.scss';
 @use './common.scss';
+
+@theme {
+    --color-primary-blue: #016fff;
+}
