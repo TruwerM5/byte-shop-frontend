@@ -20,16 +20,18 @@ export default function ProductList({
     category: string;
 }) {
     const searchParams = useSearchParams();
-    const { storeProducts, getProductsByCategory } = useProductStore();
+    const { storeProducts, getProductsByCategory, storeFilters } = useProductStore();
     const [products, setProducts] = useState<Product[]>([]);
     const [productsState, setProductsState] = useState<ProductsState>('pending');
-    const [filters, setFilters] = useState({
+    const defaultFilters = {
         price_min: searchParams.get('price_min'),
         price_max: searchParams.get('price_max'),
-        socket: searchParams.get('socket')?.toString().split(',') || [],
+        socket: searchParams.get('socket')?.toString().split(',') || ['AM4', 'AM5'],
         line: searchParams.get('line')?.toString().split(',') || [],
         'cpu-manufacturer': searchParams.get('cpu-manufacturer')?.toString().split(',') || [],
-    });
+    };
+    
+    const [filters, setFilters] = useState(defaultFilters);
     const [message, setMessage] = useState('');
     const tCommon = useTranslations('common');
     const tSlugs = useTranslations('slugs');
@@ -38,11 +40,11 @@ export default function ProductList({
         setProducts(sorted);
     }
 
-    function applyFilters(query: string, value: string[]){
-        setFilters(prev => ({
-            ...prev,
-            [query]: value,
-        }));
+    function applyFilters(){
+        // setFilters(prev => ({
+        //     ...prev,
+        //     [query]: value,
+        // }));
     }
 
     function getProducts(category: string, filters?: any, signal?: AbortSignal) {
@@ -79,6 +81,10 @@ export default function ProductList({
         }
 
     },  [category, filters, getProductsByCategory]);
+
+    useEffect(() => {
+        storeFilters(defaultFilters);
+    }, []);
 
     if(productsState === 'error') {
         return <p className='error'>{message}</p>

@@ -4,13 +4,17 @@ import { filterProducts } from '@/utils/filterProducts';
 
 interface ProductStore {
     products: Product[];
+    filters: any;
     storeProducts: (products: Product[]) => void;
     getProductById: (id: number) => Product | undefined;
+    storeFilters: (newFilters: any) => void;
+    getFilters: () => any;
     getProductsByCategory: (category: string, filters?: any) => Product[] | undefined;
 }
 
 export const useProductStore = create<ProductStore>((set, get) => ({
     products: <Product[]>[],
+    filters: <any>{},
     storeProducts: (newProducts: Product[]) => {
         set((state) => {
             const uniqueExistingProducts = state.products.filter(
@@ -39,4 +43,11 @@ export const useProductStore = create<ProductStore>((set, get) => ({
         
         return filterProducts(categoryProducts, filters);
     },
+    storeFilters(newFilters: any) {
+        set(() => ({filters: newFilters}));
+    },
+    getFilters() {
+        const {filters} = get();
+        return filters;
+    }
 }));

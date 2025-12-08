@@ -1,6 +1,6 @@
 'use client';
 import { useTranslations } from 'next-intl';
-import { useMemo, useState } from 'react';
+import { Fragment, useEffect, useMemo, useState } from 'react';
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { useDebouncedCallback } from 'use-debounce';
 import { beutifyFilterInputPrice } from '@/utils/beautifyPrice';
@@ -8,8 +8,10 @@ import Accordion from '../Accordion/Accordion';
 import { filterList } from '@/data/filters';
 import { slugifyString } from '@/utils/slugify-query';
 import './Filters.scss';
+import { useProductStore } from '@/store/productStore';
+import clsx from 'clsx';
 
-type HandleInputChange = (query: string, value: string[]) => void;
+type HandleInputChange = () => void;
 
 export default function Filters({
     productSlug,
@@ -18,15 +20,36 @@ export default function Filters({
     productSlug: string;
     applyFilters: HandleInputChange;
 }) {
+    const filters = useProductStore(state => state.filters);
     const tCommon = useTranslations('common');
     const tDetails = useTranslations('details');
-    const handleInputChange = useDebouncedCallback<HandleInputChange>((query, value) => {
-        applyFilters(query, value);
-    }, 300);
+    const [isApplyBtnVisible, setIsApplyBtnVisible] = useState(false);
+    const [newFilters, setNewFilters] = useState<any>(filters);
 
-    const handleChecboxChange: HandleInputChange = (query, value) => {
-        applyFilters(query, value);
+    const handleInputChange = (query: string, value: string, isChecked?: boolean) => {
+        setNewFilters((prev: any) => {
+            const current = prev[query] || [];
+            const updated = isChecked
+            ? [...new Set([...current, value])]
+            : current.filter((v: string) => v !== value);
+
+            return {
+                ...prev,
+                [query]: updated,
+            }
+        });
+
+        setIsApplyBtnVisible(true);
     };
+
+    const handleApplyBtnClick = () => {
+        applyFilters();
+        setIsApplyBtnVisible(false);
+    }
+
+    useEffect(() => {
+        setNewFilters(filters);
+    }, [filters]);
 
     const filtersForCategory = filterList.find(filter => filter.slug === productSlug);
 
@@ -47,22 +70,32 @@ export default function Filters({
                     />
                 </div>
             </Accordion>
-            {filtersForCategory && filtersForCategory.filters.map(filterItem => (
+            {filtersForCategory?.filters.map(filterItem => (
                 <Accordion key={filterItem.id} title={tDetails(filterItem.title)}>
-                    <div className='filter-item-wrapper flex flex-col gap-[2px]'>
+                    <div className='filter-item-wrapper flex flex-col gap-[2px] relative'>
                         {filterItem.values.map((filterValue, index) => {
+                            const lowerCaseTitle = filterItem.title.toLowerCase();
+                            const isChecked = newFilters[lowerCaseTitle]?.includes(filterValue);
                             return (
                                 <FilterItem
-                                    key={index}
+                                    key={'filter-item'+index}
                                     query={filterItem.title}
                                     value={filterValue}
-                                    handleCheckboxChange={handleChecboxChange}
+                                    handleCheckboxChange={handleInputChange}
+                                    isChecked={isChecked}
                                 />
                             )
                         })}
                     </div>
                 </Accordion>
             ))}
+            <ApplyFiltersButton
+                onClick={handleApplyBtnClick}
+                className={clsx({
+                    'hidden': !isApplyBtnVisible,
+                    'block': isApplyBtnVisible,
+                })}
+            />
         </div>
     )
 }
@@ -70,59 +103,35 @@ export default function Filters({
 function FilterItem({
     query,
     value,
+    isChecked,
     handleCheckboxChange
 }: {
     query: string;
     value: string;
-    handleCheckboxChange: HandleInputChange;
+    isChecked: boolean;
+    handleCheckboxChange: (query: string, values: string, isChecked?: boolean) => void;
 }) {
-    const pathname = usePathname();
-    const searchParams = useSearchParams();
-    const queryParams = useMemo(() => new URLSearchParams(searchParams), [searchParams]);
-    const { replace } = useRouter();
+
     const slugValue = slugifyString(value);
     const uglifiedQuery = slugifyString(query);
-    const hasQueryString = searchParams.get(uglifiedQuery);
-    const isChecked = !!hasQueryString?.split(',').includes(slugValue);
-
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         const isTargetChecked = e.target.checked;
-        const updatedValues = updateQueryArray(queryParams, uglifiedQuery, slugValue, isTargetChecked);
-        handleCheckboxChange(uglifiedQuery, updatedValues);
-        replace(`${pathname}?${queryParams}`);
-    }
-
-    function updateQueryArray(params: URLSearchParams, key: string, value: string, checked: boolean) {
-        let current = params.get(key)?.split(',') ?? [];
-
-        if(checked) {
-            current = [...new Set([...current, value])];
-        } else {
-            current = current.filter(v => v !== value);
-        }
-
-        if(current.length > 0) {
-            params.set(key, current.join(','));
-        } else {
-            params.delete(key);
-        }
-
-        return current;
+        handleCheckboxChange(uglifiedQuery, value, isTargetChecked);
     }
 
     return (
-        <div className='filter-item flex flex-col gap-[5px] px-2 py-1 hover:bg-zinc-100 hover:text-primary-blue'>
-            <label htmlFor={slugValue} className='flex gap-[5px] cursor-pointer'>
+        <div className='relative filter-item flex flex-col gap-[5px] px-2 py-1 hover:bg-zinc-100 hover:text-primary-blue'>
+            <label htmlFor={slugValue} className='flex gap-[5px] cursor-pointer w-fit'>
                 <input
                     type="checkbox"
                     id={slugValue}
                     name={slugValue}
-                    defaultValue={slugValue}
+                    value={slugValue}
                     onChange={handleChange}
-                    checked={isChecked}
+                    checked={!!isChecked}
                 />
                 {value}
-            </label>
+            </label>            
         </div>
     )
 }
@@ -132,7 +141,7 @@ function FilterPriceInput({
     setQueryCallback
 }: {
     type: 'from' | 'to';
-    setQueryCallback: HandleInputChange
+    setQueryCallback: (query: string, value: string) => void
 }) {
     const searchParams = useSearchParams();
     const queryParams = new URLSearchParams(searchParams);
@@ -166,7 +175,7 @@ function FilterPriceInput({
             queryParams.delete(query);
         }
         replace(`${pathname}?${queryParams}`);
-        setQueryCallback(query, value ? [value] : []);
+        setQueryCallback(query, value);
     }
 
     function removeNonNumbers(value: string) {
@@ -176,10 +185,24 @@ function FilterPriceInput({
     return (
         <input
             onChange={onInputChange}
-            className='filters__price-input' 
-            type='text' 
+            className='filters__price-input'
+            type='text'
             placeholder={placeholder}
             value={beutifyFilterInputPrice(price)}
         />
+    )
+}
+
+function ApplyFiltersButton({
+    onClick,
+    className
+}: {
+    onClick: () => void;
+    className: string;
+}) {
+    return (
+        <button onClick={onClick} className={className}>
+            apply
+        </button>
     )
 }
