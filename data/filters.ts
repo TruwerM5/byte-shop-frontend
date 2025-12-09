@@ -1,21 +1,6 @@
-import type { Filters } from '@/types/filters';
+import type { Filters, CheckboxFilter } from '@/types/filters';
 
-export const filterList: Filters[] = [
-    {
-        type: 'price',
-        filters: [
-            {
-                id: 1,
-                key: 'price_min',
-                value: '',
-            },
-            {
-                id: 2,
-                key: 'price_max',
-                value: '',
-            },
-        ],
-    },
+export const filterList: CheckboxFilter[] = [
     {
         type: 'checkbox',
         slug: 'cpu',

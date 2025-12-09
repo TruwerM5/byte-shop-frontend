@@ -64,33 +64,27 @@ export default function Filters({
     }, [filters]);
 
     const checkboxFiltersForCategory = filterList.find(
-        (filter): filter is CheckboxFilter => {
-            return filter.type === 'checkbox' && filter.slug === productSlug;
-        },
+        (filter) => filter.slug === productSlug,
     );
-    const priceFilters = filterList.find((filter) => filter.type === 'price');
 
     return (
         <div className="filters">
             <span className="filters__title">{tCommon('Filters')}</span>
-            {priceFilters && (
-                <Accordion title={`${tCommon('Price')}, ₽`}>
-                    <div className="flex gap-[10px]">
-                        {priceFilters.filters.map((priceFilter) => {
-                            return (
-                                <FilterPriceInput
-                                    key={priceFilter.id}
-                                    type={priceFilter.key}
-                                    price={priceFilter.value}
-                                    handlePriceInputChange={
-                                        handlePriceInputChange
-                                    }
-                                />
-                            );
-                        })}
-                    </div>
-                </Accordion>
-            )}
+
+            <Accordion title={`${tCommon('Price')}, ₽`}>
+                <div className="flex gap-[10px]">
+                    <FilterPriceInput
+                        type="price_min"
+                        price={newFilters['price_min']}
+                        handlePriceInputChange={handlePriceInputChange}
+                    />
+                    <FilterPriceInput
+                        type="price_max"
+                        price={newFilters['price_max']}
+                        handlePriceInputChange={handlePriceInputChange}
+                    />
+                </div>
+            </Accordion>
             {checkboxFiltersForCategory?.filters.map((filterItem) => (
                 <Accordion
                     key={filterItem.id}
