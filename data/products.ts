@@ -102,43 +102,33 @@ export const products: Product[] = [
         manufacturer: 'MSI',
         brand: 'MSI',
         price: 12920,
-        images: [
-            'msi-pro-b-650s-1.webp'
-        ],
+        images: ['msi-pro-b-650s-1.webp'],
         warrantyMonths: 36,
         popularity: 4.3,
         inStock: true,
         socket: 'AM5',
         chipset: 'AMD B650',
         interfaces: [
-            '4 x USB 3.2 Gen1', 
-            '3 x USB 3.2 Gen2', 
-            'USB 3.2 Gen2x2 Type-C', 
-            'HDMI', 
-            'DisplayPort', 
-            'RJ-45'
+            '4 x USB 3.2 Gen1',
+            '3 x USB 3.2 Gen2',
+            'USB 3.2 Gen2x2 Type-C',
+            'HDMI',
+            'DisplayPort',
+            'RJ-45',
         ],
         sataController: '4 x SATA-III (6 Гб/с)',
-        expandSlots: [
-            '2 x PCI-E 4.0 x16', 
-            'PCI-E x1', 
-            '2 x PCI-E M.2'
-        ],
+        expandSlots: ['2 x PCI-E 4.0 x16', 'PCI-E x1', '2 x PCI-E M.2'],
         networkInterfaces: [
-            '2.5 Gigabit Ethernet (2.5 Гбит/с)', 
-            'Wi-Fi', 
-            'Bluetooth'
+            '2.5 Gigabit Ethernet (2.5 Гбит/с)',
+            'Wi-Fi',
+            'Bluetooth',
         ],
         networkController: 'Realtek RTL8125BG',
         memoryType: 'DDR5',
         countMemorySlots: 4,
         formFactor: 'ATX',
         coolerInterfaces: '4 x 4-pin',
-        usbInterfaces: [
-            '2 x USB 2.0', 
-            'USB 3.2 Gen1', 
-            'USB 3.2 Gen2 Type-C'
-        ],
-        argbInterfaces: ['2 x 3-pin']
-    }
+        usbInterfaces: ['2 x USB 2.0', 'USB 3.2 Gen1', 'USB 3.2 Gen2 Type-C'],
+        argbInterfaces: ['2 x 3-pin'],
+    },
 ];

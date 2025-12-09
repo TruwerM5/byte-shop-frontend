@@ -36,7 +36,11 @@ export default function LocaleSwitcher({
                 className="uppercase cursor-pointer flex items-center justify-center gap-[5px]"
             >
                 {currentLocale}
-                <FaChevronDown className={clsx('transition-transform', {'rotate-180': isOpened})} />
+                <FaChevronDown
+                    className={clsx('transition-transform', {
+                        'rotate-180': isOpened,
+                    })}
+                />
             </button>
             {isOpened && (
                 <ul ref={ref} className="locale-switcher">

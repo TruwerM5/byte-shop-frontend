@@ -11,26 +11,26 @@ type SortType = 'popularuty' | 'price-low' | 'price-high';
 type Sort = {
     title: string;
     type: SortType;
-}
+};
 
 export default function SortCategories({
     products,
-    onSort
+    onSort,
 }: {
-    products: Product[],
-    onSort: (sorted: Product[]) => void
+    products: Product[];
+    onSort: (sorted: Product[]) => void;
 }) {
-
-
     const t = useTranslations('sortings');
     const sortings: Sort[] = [
         {
             title: 'Most popular first',
             type: 'popularuty',
-        },{
+        },
+        {
             title: 'Cheapest first',
             type: 'price-low',
-        },{
+        },
+        {
             title: 'The most expensive first',
             type: 'price-high',
         },
@@ -48,9 +48,9 @@ export default function SortCategories({
 
     function sortBy(sortType: SortType) {
         const sortedProducts = [...products];
-        if(sortType === 'popularuty') {
+        if (sortType === 'popularuty') {
             sortedProducts.sort((a, b) => b.popularity - a.popularity);
-        } else if(sortType === 'price-high') {
+        } else if (sortType === 'price-high') {
             sortedProducts.sort((a, b) => b.price - a.price);
         } else {
             sortedProducts.sort((a, b) => a.price - b.price);
@@ -59,7 +59,7 @@ export default function SortCategories({
     }
 
     function onClickOutSide(e: MouseEvent) {
-        if(e.target !== sortButtonRef.current) {
+        if (e.target !== sortButtonRef.current) {
             setIsOpened(false);
         }
     }
@@ -68,38 +68,37 @@ export default function SortCategories({
         document.addEventListener('click', onClickOutSide);
         return () => {
             document.removeEventListener('click', onClickOutSide);
-        }
+        };
     }, []);
 
     return (
-        <div className='sort-categories'>
-            <div className='sort-categories__inner'>
-                <span className='sort-categories__title'>
-                    {t('Show')}:
-                </span>
-                <div className='sort-categories__list-inner'>
+        <div className="sort-categories">
+            <div className="sort-categories__inner">
+                <span className="sort-categories__title">{t('Show')}:</span>
+                <div className="sort-categories__list-inner">
                     <button
                         onClick={() => setIsOpened(true)}
                         ref={sortButtonRef}
-                        className='sort-categories__button sort-categories__button_selected flex items-center'>
+                        className="sort-categories__button sort-categories__button_selected flex items-center"
+                    >
                         {t(currentSort.title)}
                         <GoTriangleDown />
                     </button>
-                    { isOpened && 
-                        <div className='sort-categories__list absolute top-full left-0'>
-                            {sortings.map(sortItem => (
-                                <button 
-                                    key={sortItem.type} 
+                    {isOpened && (
+                        <div className="sort-categories__list absolute top-full left-0">
+                            {sortings.map((sortItem) => (
+                                <button
+                                    key={sortItem.type}
                                     onClick={() => handleClick(sortItem)}
-                                    className='sort-categories__button'
+                                    className="sort-categories__button"
                                 >
                                     {t(sortItem.title)}
                                 </button>
                             ))}
                         </div>
-                    }
-                </div>               
+                    )}
+                </div>
             </div>
         </div>
-    )
+    );
 }

@@ -21,13 +21,13 @@ export const useAlertStore = create<AlertState>((set, get) => ({
     showAlert: (message: string, type: AlertType) => {
         const id = idCounter++;
         set((state) => ({
-            alerts: [{id, message, type}, ...state.alerts ]
+            alerts: [{ id, message, type }, ...state.alerts],
         }));
     },
-    
+
     hideAlert: (id: number) => {
         set((state) => ({
             alerts: state.alerts.filter((alert) => alert.id !== id),
         }));
-    }
-}))
+    },
+}));

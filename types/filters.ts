@@ -1,6 +1,6 @@
 export interface PriceFilter {
     type: 'price';
-    filters: { 
+    filters: {
         id: number;
         key: 'price_min' | 'price_max';
         value: string;

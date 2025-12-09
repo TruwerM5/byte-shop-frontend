@@ -111,7 +111,6 @@ export type Motherboard = AbstractProduct & {
     argbInterfaces?: string[];
 };
 
-
 export type Product = CPU | GraphicsCard | Motherboard;
 
 export enum Categories {

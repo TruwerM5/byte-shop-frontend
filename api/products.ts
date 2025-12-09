@@ -11,14 +11,14 @@ export const fetchAllProducts = async (): Promise<Product[] | undefined> => {
 export const fetchProductsByParamOrSlug = async (
     param: string,
     page = 0,
-    filters?: any
+    filters?: any,
 ): Promise<Product[] | undefined> => {
     if (page === 0) {
         let res = products.filter(
             (product) =>
                 product.category === param || product.slugs.includes(param),
         );
-        if(Object.keys(filters).length > 0) {
+        if (Object.keys(filters).length > 0) {
             res = filterProducts(res, filters);
         }
 
@@ -35,7 +35,7 @@ export const fetchProductById = async (
     id: number,
 ): Promise<Product | undefined> => {
     const product = products.find((product) => product.id === id);
-    return new Promise(res => {
+    return new Promise((res) => {
         setTimeout(() => res(product), 2000);
-    })
+    });
 };

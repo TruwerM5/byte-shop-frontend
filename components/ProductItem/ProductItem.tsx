@@ -6,7 +6,7 @@ import Image from 'next/image';
 import ProductPopularuty from '@/components/Popularity/Popularity';
 import AddToCartButton from '@/components/AddToCartButton/AddToCartButton';
 import './ProductItem.scss';
-import {beautifyProductPrice} from '@/utils/beautifyPrice';
+import { beautifyProductPrice } from '@/utils/beautifyPrice';
 export default function ProductItem({ product }: { product: Product }) {
     const imgSrc = `/images/products/${product.images[0]}`;
 

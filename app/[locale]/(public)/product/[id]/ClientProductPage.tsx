@@ -8,7 +8,6 @@ import { fetchProductById } from '@/api/products';
 export default function ClientProductPage({
     productId,
 }: {
-    
     productId: number;
 }) {
     const [product, setProduct] = useState<Product>();
@@ -23,7 +22,7 @@ export default function ClientProductPage({
             return;
         } else {
             fetchProductById(Number(productId)).then((res) => {
-                if (res) {                    
+                if (res) {
                     setProduct(res);
                     storeProducts([...products, res]);
                     setIsLoading(false);
@@ -32,16 +31,12 @@ export default function ClientProductPage({
         }
     }, [productId]);
 
-    if(isLoading) {
-        return (
-            <p>Loading...</p>
-        )
+    if (isLoading) {
+        return <p>Loading...</p>;
     }
 
-    if(!product) {
-        return (
-            <p>Not found</p>
-        )
+    if (!product) {
+        return <p>Not found</p>;
     }
 
     return (

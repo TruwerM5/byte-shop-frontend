@@ -18,16 +18,18 @@ export default function AddToCartButton({
     const cart = useCartStore((state) => state.cart);
     const addToCart = useCartStore((state) => state.addToCart);
     const removeFromCart = useCartStore((state) => state.removeFromCart);
-    const itemInCartAmount = cart.find((item) => item.id === productId && item.quantity > 0)?.quantity || 0;
+    const itemInCartAmount =
+        cart.find((item) => item.id === productId && item.quantity > 0)
+            ?.quantity || 0;
 
     function add() {
         addToCart(productId);
-        showAlert(t("The item has been added to cart"), "success");
+        showAlert(t('The item has been added to cart'), 'success');
     }
 
     function remove() {
         removeFromCart(productId);
-        showAlert(t("The item has been removed from cart"), "success");
+        showAlert(t('The item has been removed from cart'), 'success');
     }
 
     if (itemInCartAmount > 0) {

@@ -1,7 +1,6 @@
-
 'use client';
-import { useAlertStore } from "@/store/alertStore";
-import Alert from "../Alert/Alert";
+import { useAlertStore } from '@/store/alertStore';
+import Alert from '../Alert/Alert';
 import './AlertsContainer.scss';
 
 export default function AlertsContainer() {
@@ -9,7 +8,7 @@ export default function AlertsContainer() {
 
     return (
         <div className="alerts-container">
-            {alerts.map(alert => (
+            {alerts.map((alert) => (
                 <Alert
                     key={alert.id}
                     id={alert.id}
@@ -18,5 +17,5 @@ export default function AlertsContainer() {
                 />
             ))}
         </div>
-    )
+    );
 }

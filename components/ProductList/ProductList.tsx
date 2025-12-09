@@ -15,25 +15,24 @@ import { useRouter } from 'next/navigation';
 
 type ProductsState = 'pending' | 'success' | 'error' | 'not-found';
 
-export default function ProductList({ 
-    category
-}: { 
-    category: string;
-}) {
+export default function ProductList({ category }: { category: string }) {
     const pathname = usePathname();
     const searchParams = useSearchParams();
-    const {replace} = useRouter();
-    const { storeProducts, getProductsByCategory, storeFilters } = useProductStore();
+    const { replace } = useRouter();
+    const { storeProducts, getProductsByCategory, storeFilters } =
+        useProductStore();
     const [products, setProducts] = useState<Product[]>([]);
-    const [productsState, setProductsState] = useState<ProductsState>('pending');
+    const [productsState, setProductsState] =
+        useState<ProductsState>('pending');
     const defaultFilters = {
         price_min: searchParams.get('price_min') || '',
         price_max: searchParams.get('price_max') || '',
         socket: searchParams.get('socket')?.toString().split(',') || [],
         line: searchParams.get('line')?.toString().split(',') || [],
-        'cpu-manufacturer': searchParams.get('cpu-manufacturer')?.toString().split(',') || [],
+        'cpu-manufacturer':
+            searchParams.get('cpu-manufacturer')?.toString().split(',') || [],
     };
-    
+
     const [filters, setFilters] = useState(defaultFilters);
     const [message, setMessage] = useState('');
     const tCommon = useTranslations('common');
@@ -43,31 +42,35 @@ export default function ProductList({
         setProducts(sorted);
     }
 
-    function applyFilters(newFilters: any){
+    function applyFilters(newFilters: any) {
         setFilters(newFilters);
     }
 
-    function getProducts(category: string, filters?: any, signal?: AbortSignal) {
+    function getProducts(
+        category: string,
+        filters?: any,
+        signal?: AbortSignal,
+    ) {
         setProductsState('pending');
         fetchProductsByParamOrSlug(category, 0, filters)
-        .then(res => {
-            if(!res || signal?.aborted) {
-                return;
-            }
+            .then((res) => {
+                if (!res || signal?.aborted) {
+                    return;
+                }
 
-            if(res.length > 0) {
-                setProducts(res);
-                storeProducts(res);
-                setProductsState('success');
-                return;
-            }
-            setProducts([]);
-            setProductsState('not-found');
-        })
-        .catch(err => {
-            setProductsState('error');
-            setMessage(err);
-        });
+                if (res.length > 0) {
+                    setProducts(res);
+                    storeProducts(res);
+                    setProductsState('success');
+                    return;
+                }
+                setProducts([]);
+                setProductsState('not-found');
+            })
+            .catch((err) => {
+                setProductsState('error');
+                setMessage(err);
+            });
     }
 
     const isPending = productsState === 'pending';
@@ -78,7 +81,7 @@ export default function ProductList({
         getProducts(category, filters, controller.signal);
         const params = new URLSearchParams(searchParams);
         Object.entries(filters).forEach(([key, value]) => {
-            if(value.length > 0) {
+            if (value.length > 0) {
                 params.set(key, value.toString());
             } else {
                 params.delete(key);
@@ -87,41 +90,53 @@ export default function ProductList({
         replace(`${pathname}?${params}`);
         return () => {
             controller.abort();
-        }
-
-    },  [category, filters, getProductsByCategory]);
+        };
+    }, [category, filters, getProductsByCategory]);
 
     useEffect(() => {
         storeFilters(defaultFilters);
     }, []);
 
-    if(productsState === 'error') {
-        return <p className='error'>{message}</p>
-    } 
+    if (productsState === 'error') {
+        return <p className="error">{message}</p>;
+    }
 
     return (
         <>
-            <h3 className='category-page__title'>{tSlugs(category)}</h3>
-            <div className='products-wrapper'>
-                <div className='filters-wrapper'>
-                    <Filters productSlug={category} applyFilters={applyFilters} />
+            <h3 className="category-page__title">{tSlugs(category)}</h3>
+            <div className="products-wrapper">
+                <div className="filters-wrapper">
+                    <Filters
+                        productSlug={category}
+                        applyFilters={applyFilters}
+                    />
                 </div>
-                <div className='product-list-wrapper'>
+                <div className="product-list-wrapper">
                     {isPending && <CatalogSkeleton />}
                     {products.length > 0 && !isPending && (
                         <>
-                            <div className='applied-filters'>
+                            <div className="applied-filters">
                                 Applied filters
                             </div>
-                            <SortCategories products={products} onSort={handleSort} />
-                            <div className='product-list'>
+                            <SortCategories
+                                products={products}
+                                onSort={handleSort}
+                            />
+                            <div className="product-list">
                                 {products.map((product) => (
-                                    <ProductItem product={product} key={product.id} />
+                                    <ProductItem
+                                        product={product}
+                                        key={product.id}
+                                    />
                                 ))}
                             </div>
                         </>
                     )}
-                    { isEmpty && <p className='not-found-message'>{tCommon('Nothing found matching your request')}</p>}
+                    {isEmpty && (
+                        <p className="not-found-message">
+                            {tCommon('Nothing found matching your request')}
+                        </p>
+                    )}
                 </div>
             </div>
         </>

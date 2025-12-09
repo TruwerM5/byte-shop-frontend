@@ -13,44 +13,51 @@ type HandleInputChange = (newFilters: any) => void;
 
 export default function Filters({
     productSlug,
-    applyFilters
+    applyFilters,
 }: {
     productSlug: string;
     applyFilters: HandleInputChange;
 }) {
-    const filters = useProductStore(state => state.filters);
+    const filters = useProductStore((state) => state.filters);
     const tCommon = useTranslations('common');
     const tDetails = useTranslations('details');
     const [isApplyBtnVisible, setIsApplyBtnVisible] = useState(false);
     const [newFilters, setNewFilters] = useState<any>(filters);
 
-    const handleInputChange = (query: string, value: string, isChecked?: boolean) => {
+    const handleInputChange = (
+        query: string,
+        value: string,
+        isChecked?: boolean,
+    ) => {
         setNewFilters((prev: any) => {
             const current = prev[query] || [];
             const updated = isChecked
-            ? [...new Set([...current, value])]
-            : current.filter((v: string) => v !== value);
+                ? [...new Set([...current, value])]
+                : current.filter((v: string) => v !== value);
 
             return {
                 ...prev,
                 [query]: updated,
-            }
+            };
         });
         setIsApplyBtnVisible(true);
     };
 
-    const handlePriceInputChange = (query: 'price_min' | 'price_max', value: string) => {
+    const handlePriceInputChange = (
+        query: 'price_min' | 'price_max',
+        value: string,
+    ) => {
         setNewFilters((prev: any) => ({
             ...prev,
             [query]: value,
         }));
         setIsApplyBtnVisible(true);
-    }
+    };
 
     const handleApplyBtnClick = () => {
         applyFilters(newFilters);
         setIsApplyBtnVisible(false);
-    }
+    };
 
     useEffect(() => {
         setNewFilters(filters);
@@ -58,48 +65,54 @@ export default function Filters({
 
     const checkboxFiltersForCategory = filterList.find(
         (filter): filter is CheckboxFilter => {
-            return filter.type === 'checkbox' && filter.slug === productSlug
-        }
-    )
-    const priceFilters = filterList.find(filter => filter.type === 'price');
+            return filter.type === 'checkbox' && filter.slug === productSlug;
+        },
+    );
+    const priceFilters = filterList.find((filter) => filter.type === 'price');
 
     return (
-        <div className='filters'>
-            <span className='filters__title'>
-                {tCommon('Filters')}
-            </span>
-            {priceFilters && 
+        <div className="filters">
+            <span className="filters__title">{tCommon('Filters')}</span>
+            {priceFilters && (
                 <Accordion title={`${tCommon('Price')}, ₽`}>
-                    <div className='flex gap-[10px]'>
-                        {priceFilters.filters.map(priceFilter => {
+                    <div className="flex gap-[10px]">
+                        {priceFilters.filters.map((priceFilter) => {
                             return (
                                 <FilterPriceInput
                                     key={priceFilter.id}
                                     type={priceFilter.key}
                                     price={priceFilter.value}
-                                    handlePriceInputChange={handlePriceInputChange}
+                                    handlePriceInputChange={
+                                        handlePriceInputChange
+                                    }
                                 />
-                            )
+                            );
                         })}
                     </div>
                 </Accordion>
-            }
-            {checkboxFiltersForCategory?.filters.map(filterItem => (
-                <Accordion key={filterItem.id} title={tDetails(filterItem.title)}>
-                    <div className='filter-item-wrapper flex flex-col gap-[2px] relative'>
+            )}
+            {checkboxFiltersForCategory?.filters.map((filterItem) => (
+                <Accordion
+                    key={filterItem.id}
+                    title={tDetails(filterItem.title)}
+                >
+                    <div className="filter-item-wrapper flex flex-col gap-[2px] relative">
                         {filterItem.values.map((filterValue, index) => {
-                            const lowerCaseTitle = filterItem.title.toLowerCase();
-                            const slugValue = slugifyString(filterValue).toUpperCase();
-                            const isChecked = newFilters[lowerCaseTitle]?.includes(slugValue);
+                            const lowerCaseTitle =
+                                filterItem.title.toLowerCase();
+                            const slugValue =
+                                slugifyString(filterValue).toUpperCase();
+                            const isChecked =
+                                newFilters[lowerCaseTitle]?.includes(slugValue);
                             return (
                                 <FilterItem
-                                    key={'filter-item'+index}
+                                    key={'filter-item' + index}
                                     query={filterItem.title}
                                     value={filterValue}
                                     handleCheckboxChange={handleInputChange}
                                     isChecked={isChecked}
                                 />
-                            )
+                            );
                         })}
                     </div>
                 </Accordion>
@@ -107,26 +120,29 @@ export default function Filters({
             <ApplyFiltersButton
                 onClick={handleApplyBtnClick}
                 className={clsx({
-                    'hidden': !isApplyBtnVisible,
-                    'block': isApplyBtnVisible,
+                    hidden: !isApplyBtnVisible,
+                    block: isApplyBtnVisible,
                 })}
             />
         </div>
-    )
+    );
 }
 
 function FilterItem({
     query,
     value,
     isChecked,
-    handleCheckboxChange
+    handleCheckboxChange,
 }: {
     query: string;
     value: string;
     isChecked: boolean;
-    handleCheckboxChange: (query: string, values: string, isChecked?: boolean) => void;
+    handleCheckboxChange: (
+        query: string,
+        values: string,
+        isChecked?: boolean,
+    ) => void;
 }) {
-
     const slugValue = slugifyString(value).toUpperCase();
     const uglifiedQuery = slugifyString(query).toLowerCase();
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -135,8 +151,11 @@ function FilterItem({
     }
 
     return (
-        <div className='relative filter-item flex flex-col gap-[5px] px-2 py-1 hover:bg-zinc-100 hover:text-primary-blue'>
-            <label htmlFor={slugValue} className='flex gap-[5px] cursor-pointer w-fit'>
+        <div className="relative filter-item flex flex-col gap-[5px] px-2 py-1 hover:bg-zinc-100 hover:text-primary-blue">
+            <label
+                htmlFor={slugValue}
+                className="flex gap-[5px] cursor-pointer w-fit"
+            >
                 <input
                     type="checkbox"
                     id={slugValue}
@@ -146,19 +165,22 @@ function FilterItem({
                     checked={!!isChecked}
                 />
                 {value}
-            </label>            
+            </label>
         </div>
-    )
+    );
 }
 
 function FilterPriceInput({
     type,
     price,
-    handlePriceInputChange
+    handlePriceInputChange,
 }: {
     type: 'price_min' | 'price_max';
     price: string;
-    handlePriceInputChange: (query:  'price_min' | 'price_max' , value: string) => void
+    handlePriceInputChange: (
+        query: 'price_min' | 'price_max',
+        value: string,
+    ) => void;
 }) {
     const placeholder = type === 'price_min' ? 'min' : 'max';
     function onInputChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -171,23 +193,26 @@ function FilterPriceInput({
     }
 
     function removeNonNumbers(value: string) {
-        return value.split('').filter(c => !isNaN(Number(c)) && c !== ' ').join('');
+        return value
+            .split('')
+            .filter((c) => !isNaN(Number(c)) && c !== ' ')
+            .join('');
     }
 
     return (
         <input
             onChange={onInputChange}
-            className='filters__price-input'
-            type='text'
+            className="filters__price-input"
+            type="text"
             placeholder={placeholder}
             defaultValue={price}
         />
-    )
+    );
 }
 
 function ApplyFiltersButton({
     onClick,
-    className
+    className,
 }: {
     onClick: () => void;
     className: string;
@@ -196,5 +221,5 @@ function ApplyFiltersButton({
         <button onClick={onClick} className={className}>
             apply
         </button>
-    )
+    );
 }

@@ -40,7 +40,11 @@ export default function Search() {
                 onFocus={onFocus}
                 className="search__input"
             />
-            <span className={clsx('search__placeholder', {'search__placeholder_moved': searchValue.length > 0})}>
+            <span
+                className={clsx('search__placeholder', {
+                    search__placeholder_moved: searchValue.length > 0,
+                })}
+            >
                 {t('Product name or ID')}
             </span>
             {searchValue.length > 0 && (

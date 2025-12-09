@@ -6,20 +6,19 @@ import './CategoryPage.scss';
 import { fetchProductsByParamOrSlug } from '@/api/products';
 
 export default async function Page({
-    params
+    params,
 }: {
-    params: Promise<{ category: string }>
+    params: Promise<{ category: string }>;
 }) {
-    
     const { category } = await params;
 
     return (
-        <div className='category-page'>
+        <div className="category-page">
             <Search />
-            <div className='category-page__inner'>                
-                <div className='category-page__product-list-wrapper'>
+            <div className="category-page__inner">
+                <div className="category-page__product-list-wrapper">
                     <ProductList category={category} />
-                </div>    
+                </div>
             </div>
         </div>
     );

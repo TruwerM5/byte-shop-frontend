@@ -13,7 +13,7 @@ export const filterList: Filters[] = [
                 id: 2,
                 key: 'price_max',
                 value: '',
-            }
+            },
         ],
     },
     {
@@ -24,25 +24,19 @@ export const filterList: Filters[] = [
                 id: 1,
                 title: 'Line',
                 values: [
-                'Core i5',
-                'Core i7',
-                'Core i9',
-                'AMD Ryzen 5',
-                'AMD Ryzen 7',
-                'AMD Ryzen 9',
-                ]
+                    'Core i5',
+                    'Core i7',
+                    'Core i9',
+                    'AMD Ryzen 5',
+                    'AMD Ryzen 7',
+                    'AMD Ryzen 9',
+                ],
             },
             {
                 id: 2,
                 title: 'Socket',
-                values: [
-                    'AM4',
-                    'AM5',
-                    'LGA 1200',
-                    'LGA 1700',
-                    'LGA 1851',
-                ]
-            }
+                values: ['AM4', 'AM5', 'LGA 1200', 'LGA 1700', 'LGA 1851'],
+            },
         ],
     },
     {
@@ -52,12 +46,8 @@ export const filterList: Filters[] = [
             {
                 id: 3,
                 title: 'CPU Manufacturer',
-                values: [
-                    'AMD',
-                    'Intel',
-                    'NVIDIA',
-                ]
-            }
-        ]
-    }
+                values: ['AMD', 'Intel', 'NVIDIA'],
+            },
+        ],
+    },
 ];

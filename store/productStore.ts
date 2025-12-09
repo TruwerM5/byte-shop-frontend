@@ -9,7 +9,10 @@ interface ProductStore {
     getProductById: (id: number) => Product | undefined;
     storeFilters: (newFilters: any) => void;
     getFilters: () => any;
-    getProductsByCategory: (category: string, filters?: any) => Product[] | undefined;
+    getProductsByCategory: (
+        category: string,
+        filters?: any,
+    ) => Product[] | undefined;
 }
 
 export const useProductStore = create<ProductStore>((set, get) => ({
@@ -37,17 +40,19 @@ export const useProductStore = create<ProductStore>((set, get) => ({
 
     getProductsByCategory(category, filters?: any) {
         const { products } = get();
-        const categoryProducts = products.filter((product) => 
-            product.category === category || product.slugs.includes(category)
+        const categoryProducts = products.filter(
+            (product) =>
+                product.category === category ||
+                product.slugs.includes(category),
         );
-        
+
         return filterProducts(categoryProducts, filters);
     },
     storeFilters(newFilters: any) {
-        set(() => ({filters: newFilters}));
+        set(() => ({ filters: newFilters }));
     },
     getFilters() {
-        const {filters} = get();
+        const { filters } = get();
         return filters;
-    }
+    },
 }));
