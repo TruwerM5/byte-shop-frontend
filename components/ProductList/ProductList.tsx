@@ -10,7 +10,8 @@ import { useProductStore } from '@/store/productStore';
 import { fetchProductsByParamOrSlug } from '@/api/products';
 import CatalogSkeleton from '@/components/UI/Skeletons/CatalogSkeleton/CatalogSkeleton';
 import { useTranslations } from 'next-intl';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 type ProductsState = 'pending' | 'success' | 'error' | 'not-found';
 
@@ -19,14 +20,16 @@ export default function ProductList({
 }: { 
     category: string;
 }) {
+    const pathname = usePathname();
     const searchParams = useSearchParams();
+    const {replace} = useRouter();
     const { storeProducts, getProductsByCategory, storeFilters } = useProductStore();
     const [products, setProducts] = useState<Product[]>([]);
     const [productsState, setProductsState] = useState<ProductsState>('pending');
     const defaultFilters = {
-        price_min: searchParams.get('price_min'),
-        price_max: searchParams.get('price_max'),
-        socket: searchParams.get('socket')?.toString().split(',') || ['AM4', 'AM5'],
+        price_min: searchParams.get('price_min') || '',
+        price_max: searchParams.get('price_max') || '',
+        socket: searchParams.get('socket')?.toString().split(',') || [],
         line: searchParams.get('line')?.toString().split(',') || [],
         'cpu-manufacturer': searchParams.get('cpu-manufacturer')?.toString().split(',') || [],
     };
@@ -40,11 +43,8 @@ export default function ProductList({
         setProducts(sorted);
     }
 
-    function applyFilters(){
-        // setFilters(prev => ({
-        //     ...prev,
-        //     [query]: value,
-        // }));
+    function applyFilters(newFilters: any){
+        setFilters(newFilters);
     }
 
     function getProducts(category: string, filters?: any, signal?: AbortSignal) {
@@ -76,6 +76,15 @@ export default function ProductList({
     useEffect(() => {
         const controller = new AbortController();
         getProducts(category, filters, controller.signal);
+        const params = new URLSearchParams(searchParams);
+        Object.entries(filters).forEach(([key, value]) => {
+            if(value.length > 0) {
+                params.set(key, value.toString());
+            } else {
+                params.delete(key);
+            }
+        });
+        replace(`${pathname}?${params}`);
         return () => {
             controller.abort();
         }

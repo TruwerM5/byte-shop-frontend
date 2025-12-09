@@ -1,5 +1,23 @@
-export const filterList = [
+import type { Filters } from '@/types/filters';
+
+export const filterList: Filters[] = [
     {
+        type: 'price',
+        filters: [
+            {
+                id: 1,
+                key: 'price_min',
+                value: '',
+            },
+            {
+                id: 2,
+                key: 'price_max',
+                value: '',
+            }
+        ],
+    },
+    {
+        type: 'checkbox',
         slug: 'cpu',
         filters: [
             {
@@ -28,6 +46,7 @@ export const filterList = [
         ],
     },
     {
+        type: 'checkbox',
         slug: 'graphics-cards',
         filters: [
             {

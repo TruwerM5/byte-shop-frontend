@@ -1,17 +1,15 @@
 'use client';
 import { useTranslations } from 'next-intl';
-import { Fragment, useEffect, useMemo, useState } from 'react';
-import { useSearchParams, usePathname, useRouter } from 'next/navigation';
-import { useDebouncedCallback } from 'use-debounce';
-import { beutifyFilterInputPrice } from '@/utils/beautifyPrice';
+import { useEffect, useState } from 'react';
 import Accordion from '../Accordion/Accordion';
 import { filterList } from '@/data/filters';
 import { slugifyString } from '@/utils/slugify-query';
 import './Filters.scss';
 import { useProductStore } from '@/store/productStore';
 import clsx from 'clsx';
+import type { CheckboxFilter } from '@/types/filters';
 
-type HandleInputChange = () => void;
+type HandleInputChange = (newFilters: any) => void;
 
 export default function Filters({
     productSlug,
@@ -38,12 +36,19 @@ export default function Filters({
                 [query]: updated,
             }
         });
-
         setIsApplyBtnVisible(true);
     };
 
+    const handlePriceInputChange = (query: 'price_min' | 'price_max', value: string) => {
+        setNewFilters((prev: any) => ({
+            ...prev,
+            [query]: value,
+        }));
+        setIsApplyBtnVisible(true);
+    }
+
     const handleApplyBtnClick = () => {
-        applyFilters();
+        applyFilters(newFilters);
         setIsApplyBtnVisible(false);
     }
 
@@ -51,31 +56,41 @@ export default function Filters({
         setNewFilters(filters);
     }, [filters]);
 
-    const filtersForCategory = filterList.find(filter => filter.slug === productSlug);
+    const checkboxFiltersForCategory = filterList.find(
+        (filter): filter is CheckboxFilter => {
+            return filter.type === 'checkbox' && filter.slug === productSlug
+        }
+    )
+    const priceFilters = filterList.find(filter => filter.type === 'price');
 
     return (
         <div className='filters'>
             <span className='filters__title'>
                 {tCommon('Filters')}
             </span>
-            <Accordion title={`${tCommon('Price')}, ₽`}>
-                <div className='flex gap-[10px]'>
-                    <FilterPriceInput
-                        type='from'
-                        setQueryCallback={handleInputChange}
-                    />
-                    <FilterPriceInput
-                        type='to'
-                        setQueryCallback={handleInputChange}
-                    />
-                </div>
-            </Accordion>
-            {filtersForCategory?.filters.map(filterItem => (
+            {priceFilters && 
+                <Accordion title={`${tCommon('Price')}, ₽`}>
+                    <div className='flex gap-[10px]'>
+                        {priceFilters.filters.map(priceFilter => {
+                            return (
+                                <FilterPriceInput
+                                    key={priceFilter.id}
+                                    type={priceFilter.key}
+                                    price={priceFilter.value}
+                                    handlePriceInputChange={handlePriceInputChange}
+                                />
+                            )
+                        })}
+                    </div>
+                </Accordion>
+            }
+            {checkboxFiltersForCategory?.filters.map(filterItem => (
                 <Accordion key={filterItem.id} title={tDetails(filterItem.title)}>
                     <div className='filter-item-wrapper flex flex-col gap-[2px] relative'>
                         {filterItem.values.map((filterValue, index) => {
                             const lowerCaseTitle = filterItem.title.toLowerCase();
-                            const isChecked = newFilters[lowerCaseTitle]?.includes(filterValue);
+                            const slugValue = slugifyString(filterValue).toUpperCase();
+                            const isChecked = newFilters[lowerCaseTitle]?.includes(slugValue);
                             return (
                                 <FilterItem
                                     key={'filter-item'+index}
@@ -112,11 +127,11 @@ function FilterItem({
     handleCheckboxChange: (query: string, values: string, isChecked?: boolean) => void;
 }) {
 
-    const slugValue = slugifyString(value);
-    const uglifiedQuery = slugifyString(query);
+    const slugValue = slugifyString(value).toUpperCase();
+    const uglifiedQuery = slugifyString(query).toLowerCase();
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         const isTargetChecked = e.target.checked;
-        handleCheckboxChange(uglifiedQuery, value, isTargetChecked);
+        handleCheckboxChange(uglifiedQuery, slugValue, isTargetChecked);
     }
 
     return (
@@ -138,44 +153,21 @@ function FilterItem({
 
 function FilterPriceInput({
     type,
-    setQueryCallback
+    price,
+    handlePriceInputChange
 }: {
-    type: 'from' | 'to';
-    setQueryCallback: (query: string, value: string) => void
+    type: 'price_min' | 'price_max';
+    price: string;
+    handlePriceInputChange: (query:  'price_min' | 'price_max' , value: string) => void
 }) {
-    const searchParams = useSearchParams();
-    const queryParams = new URLSearchParams(searchParams);
-    const pathname = usePathname();
-    const { replace } = useRouter();
-    const placeholder = type === 'from' ? 'min' : 'max';
-    const query = type === 'from' ? 'price_min' : 'price_max';
-    const currentQuery = searchParams.get(query) || '';
-    const [price, setPrice] = useState<string>(currentQuery);
-
+    const placeholder = type === 'price_min' ? 'min' : 'max';
     function onInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-        const value = removeNonNumbers(e.target.value);
-        e.target.value = value;
-        if(value.length === 0) {
-            setQuery(query, value);
-            return;
-        }
-        if(Number(value) === 0) {
-            e.target.value = '';
-            return;
-        } 
-        setPrice(value);
-        setQuery(query, value);
-        e.target.value = beutifyFilterInputPrice(value);
+        const value = e.target.value;
+        setQuery(type, value);
     }
 
-    function setQuery(query: string, value: string) {
-        if(query && value) {
-            queryParams.set(query, value);
-        } else {
-            queryParams.delete(query);
-        }
-        replace(`${pathname}?${queryParams}`);
-        setQueryCallback(query, value);
+    function setQuery(query: 'price_min' | 'price_max', value: string) {
+        handlePriceInputChange(query, value);
     }
 
     function removeNonNumbers(value: string) {
@@ -188,7 +180,7 @@ function FilterPriceInput({
             className='filters__price-input'
             type='text'
             placeholder={placeholder}
-            value={beutifyFilterInputPrice(price)}
+            defaultValue={price}
         />
     )
 }
