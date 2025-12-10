@@ -17,3 +17,13 @@ export interface CheckboxFilter {
 }
 
 export type Filters = PriceFilter | CheckboxFilter;
+
+export interface FilterQueryParams {
+    price_min: string;
+    price_max: string;
+    socket?: string[];
+    line?: string[];
+    'cpu-manufacturer'?: string[];
+}
+
+export type FilterQueryKeys = keyof FilterQueryParams;

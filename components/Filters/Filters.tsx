@@ -7,9 +7,9 @@ import { slugifyString } from '@/utils/slugify-query';
 import './Filters.scss';
 import { useProductStore } from '@/store/productStore';
 import clsx from 'clsx';
-import type { CheckboxFilter } from '@/types/filters';
+import type { FilterQueryParams, FilterQueryKeys } from '@/types/filters';
 
-type HandleInputChange = (newFilters: any) => void;
+type HandleInputChange = (newFilters: FilterQueryParams) => void;
 
 export default function Filters({
     productSlug,
@@ -22,7 +22,7 @@ export default function Filters({
     const tCommon = useTranslations('common');
     const tDetails = useTranslations('details');
     const [isApplyBtnVisible, setIsApplyBtnVisible] = useState(false);
-    const [newFilters, setNewFilters] = useState<any>(filters);
+    const [newFilters, setNewFilters] = useState<FilterQueryParams>(filters);
 
     const handleInputChange = (
         query: string,
@@ -75,12 +75,12 @@ export default function Filters({
                 <div className="flex gap-[10px]">
                     <FilterPriceInput
                         type="price_min"
-                        price={newFilters['price_min']}
+                        price={newFilters.price_min}
                         handlePriceInputChange={handlePriceInputChange}
                     />
                     <FilterPriceInput
                         type="price_max"
-                        price={newFilters['price_max']}
+                        price={newFilters.price_max}
                         handlePriceInputChange={handlePriceInputChange}
                     />
                 </div>
@@ -92,12 +92,11 @@ export default function Filters({
                 >
                     <div className="filter-item-wrapper flex flex-col gap-[2px] relative">
                         {filterItem.values.map((filterValue, index) => {
-                            const lowerCaseTitle =
-                                filterItem.title.toLowerCase();
+                            const lowerCaseTitle = filterItem.title.toLowerCase();
+                            const key = lowerCaseTitle as FilterQueryKeys;
                             const slugValue =
                                 slugifyString(filterValue).toUpperCase();
-                            const isChecked =
-                                newFilters[lowerCaseTitle]?.includes(slugValue);
+                            const isChecked = !!newFilters[key]?.includes(slugValue);
                             return (
                                 <FilterItem
                                     key={'filter-item' + index}
@@ -184,13 +183,6 @@ function FilterPriceInput({
 
     function setQuery(query: 'price_min' | 'price_max', value: string) {
         handlePriceInputChange(query, value);
-    }
-
-    function removeNonNumbers(value: string) {
-        return value
-            .split('')
-            .filter((c) => !isNaN(Number(c)) && c !== ' ')
-            .join('');
     }
 
     return (

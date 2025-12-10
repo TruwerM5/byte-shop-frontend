@@ -12,6 +12,7 @@ import CatalogSkeleton from '@/components/UI/Skeletons/CatalogSkeleton/CatalogSk
 import { useTranslations } from 'next-intl';
 import { useSearchParams, usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
+import type { FilterQueryParams } from '@/types/filters';
 
 type ProductsState = 'pending' | 'success' | 'error' | 'not-found';
 
@@ -24,13 +25,12 @@ export default function ProductList({ category }: { category: string }) {
     const [products, setProducts] = useState<Product[]>([]);
     const [productsState, setProductsState] =
         useState<ProductsState>('pending');
-    const defaultFilters = {
+    const defaultFilters: FilterQueryParams = {
         price_min: searchParams.get('price_min') || '',
         price_max: searchParams.get('price_max') || '',
         socket: searchParams.get('socket')?.toString().split(',') || [],
         line: searchParams.get('line')?.toString().split(',') || [],
-        'cpu-manufacturer':
-            searchParams.get('cpu-manufacturer')?.toString().split(',') || [],
+        'cpu-manufacturer': searchParams.get('cpu-manufacturer')?.toString().split(',') || [],
     };
 
     const [filters, setFilters] = useState(defaultFilters);
