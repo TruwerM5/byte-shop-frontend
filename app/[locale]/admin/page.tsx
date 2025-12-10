@@ -3,11 +3,11 @@
 import { redirect } from 'next/navigation';
 
 export default async function AdminRedirectPage() {
-    const isAuthorizedAsAdmin = false;
+  const isAuthorizedAsAdmin = false;
 
-    if (!isAuthorizedAsAdmin) {
-        redirect('/admin/auth');
-    }
+  if (!isAuthorizedAsAdmin) {
+    redirect('/admin/auth');
+  }
 
-    redirect('/admin/dashboard');
+  redirect('/admin/dashboard');
 }

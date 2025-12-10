@@ -8,42 +8,40 @@ import AddToCartButton from '@/components/AddToCartButton/AddToCartButton';
 import './ProductItem.scss';
 import { beautifyProductPrice } from '@/utils/beautifyPrice';
 export default function ProductItem({ product }: { product: Product }) {
-    const imgSrc = `/images/products/${product.images[0]}`;
+  const imgSrc = `/images/products/${product.images[0]}`;
 
-    const beautifiedPrice = beautifyProductPrice(product.price);
+  const beautifiedPrice = beautifyProductPrice(product.price);
 
-    return (
-        <div className="product-item">
-            <div className="product-item__image-wrapper">
-                <Image
-                    priority={true}
-                    width="150"
-                    height="150"
-                    src={imgSrc}
-                    alt={product.name}
-                    className="product-item__image"
-                />
-            </div>
-            <div className="product-item__content product-info">
-                <div className="product-info__top">
-                    <span className="product-info__id">ID: {product.id}</span>
-                </div>
-                <div className="product-info__bottom">
-                    <Link
-                        href={`/product/${product.id}`}
-                        className="product-item__name"
-                    >
-                        {product.name}
-                    </Link>
-                    <ProductPopularuty popularity={product.popularity} />
-                </div>
-            </div>
-            <div className="product-item__actions">
-                <span className="product-item__price">
-                    {beautifiedPrice} &#8381;
-                </span>
-                <AddToCartButton productId={product.id} />
-            </div>
+  return (
+    <div className="product-item">
+      <div className="product-item__image-wrapper">
+        <Image
+          priority={true}
+          width="150"
+          height="150"
+          src={imgSrc}
+          alt={product.name}
+          className="product-item__image"
+        />
+      </div>
+      <div className="product-item__content product-info">
+        <div className="product-info__top">
+          <span className="product-info__id">ID: {product.id}</span>
         </div>
-    );
+        <div className="product-info__bottom">
+          <Link
+            href={`/product/${product.id}`}
+            className="product-item__name"
+          >
+            {product.name}
+          </Link>
+          <ProductPopularuty popularity={product.popularity} />
+        </div>
+      </div>
+      <div className="product-item__actions">
+        <span className="product-item__price">{beautifiedPrice} &#8381;</span>
+        <AddToCartButton productId={product.id} />
+      </div>
+    </div>
+  );
 }

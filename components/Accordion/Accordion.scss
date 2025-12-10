@@ -1,7 +1,7 @@
 @use '../../styles/_variables' as *;
 
 .accordion {
-    &__title {
-        @include hover-text;
-    }
+  &__title {
+    @include hover-text;
+  }
 }

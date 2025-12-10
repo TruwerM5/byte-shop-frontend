@@ -10,8 +10,8 @@ $danger-red: #e82734;
 
 // Box-shadow
 $box-shadow:
-    rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
-    rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+  rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
 
 // Screens
 $mobile: 600px;
@@ -23,21 +23,21 @@ $monitor-large: 1920px;
 
 // Mixins
 @mixin hover-text {
-    transition: color 0.2s;
+  transition: color 0.2s;
 
-    &:hover {
-        color: $primary-blue;
-    }
+  &:hover {
+    color: $primary-blue;
+  }
 }
 
 @mixin default-text-input {
-    border: 1px solid $border-gray-dark;
-    padding: 3px 5px;
-    border-radius: 2px;
+  border: 1px solid $border-gray-dark;
+  padding: 3px 5px;
+  border-radius: 2px;
 
-    &:hover,
-    &:focus {
-        border-color: $primary-blue;
-    }
+  &:hover,
+  &:focus {
+    border-color: $primary-blue;
+  }
 }
 //max-w-1/2 w-fit border-1 border-b border-black rounded-[3px] px-[5px] py-[3px] outline-none

@@ -1,3 +1,3 @@
 export function slugifyString(key: string) {
-    return key.split(' ').join('-');
+  return key.split(' ').join('-');
 }

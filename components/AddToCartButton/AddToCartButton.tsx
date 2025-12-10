@@ -6,60 +6,61 @@ import { Link } from '@/i18n/navigation';
 import { FiMinus, FiPlus } from 'react-icons/fi';
 import { useAlertStore } from '@/store/alertStore';
 
-export default function AddToCartButton({
-    productId,
-}: {
-    productId: number | string;
-}) {
-    const t = useTranslations('common');
+export default function AddToCartButton({ productId }: { productId: number | string }) {
+  const t = useTranslations('common');
 
-    const { showAlert } = useAlertStore();
+  const { showAlert } = useAlertStore();
 
-    const cart = useCartStore((state) => state.cart);
-    const addToCart = useCartStore((state) => state.addToCart);
-    const removeFromCart = useCartStore((state) => state.removeFromCart);
-    const itemInCartAmount =
-        cart.find((item) => item.id === productId && item.quantity > 0)
-            ?.quantity || 0;
+  const cart = useCartStore((state) => state.cart);
+  const addToCart = useCartStore((state) => state.addToCart);
+  const removeFromCart = useCartStore((state) => state.removeFromCart);
+  const itemInCartAmount = cart.find((item) => item.id === productId && item.quantity > 0)?.quantity || 0;
 
-    function add() {
-        addToCart(productId);
-        showAlert(t('The item has been added to cart'), 'success');
-    }
+  function add() {
+    addToCart(productId);
+    showAlert(t('The item has been added to cart'), 'success');
+  }
 
-    function remove() {
-        removeFromCart(productId);
-        showAlert(t('The item has been removed from cart'), 'success');
-    }
+  function remove() {
+    removeFromCart(productId);
+    showAlert(t('The item has been removed from cart'), 'success');
+  }
 
-    if (itemInCartAmount > 0) {
-        return (
-            <span className="add-to-cart">
-                <Link href="/cart" className="add-to-cart__link">
-                    {t('In cart')}
-                </Link>
-                <span className="add-to-cart__inner">
-                    <button
-                        onClick={remove}
-                        className="add-to-cart__action-btn"
-                    >
-                        <FiMinus />
-                    </button>
-                    <span className="add-to-cart__quantity">
-                        {itemInCartAmount}
-                    </span>
-                    <button onClick={add} className="add-to-cart__action-btn">
-                        <FiPlus />
-                    </button>
-                </span>
-            </span>
-        );
-    }
-
+  if (itemInCartAmount > 0) {
     return (
-        <button onClick={add} className="add-to-cart-button">
-            <FaCartShopping className="add-to-cart-button__icon" />
-            <span className="add-cart-button__text">{t('Add to Cart')}</span>
-        </button>
+      <span className="add-to-cart">
+        <Link
+          href="/cart"
+          className="add-to-cart__link"
+        >
+          {t('In cart')}
+        </Link>
+        <span className="add-to-cart__inner">
+          <button
+            onClick={remove}
+            className="add-to-cart__action-btn"
+          >
+            <FiMinus />
+          </button>
+          <span className="add-to-cart__quantity">{itemInCartAmount}</span>
+          <button
+            onClick={add}
+            className="add-to-cart__action-btn"
+          >
+            <FiPlus />
+          </button>
+        </span>
+      </span>
     );
+  }
+
+  return (
+    <button
+      onClick={add}
+      className="add-to-cart-button"
+    >
+      <FaCartShopping className="add-to-cart-button__icon" />
+      <span className="add-cart-button__text">{t('Add to Cart')}</span>
+    </button>
+  );
 }

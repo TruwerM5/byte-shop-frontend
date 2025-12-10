@@ -1,15 +1,15 @@
 @use '../../styles/_variables' as *;
 
 .filters {
-    &__title {
-        display: block;
-        font-size: 18px;
-        font-weight: bold;
-        margin-bottom: 10px;
-    }
+  &__title {
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
 
-    &__price-input {
-        max-width: calc(50% - 10px);
-        @include default-text-input;
-    }
+  &__price-input {
+    max-width: calc(50% - 10px);
+    @include default-text-input;
+  }
 }

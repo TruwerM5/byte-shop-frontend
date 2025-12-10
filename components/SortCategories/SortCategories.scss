@@ -1,41 +1,41 @@
 @use '@/styles/_variables' as *;
 
 .sort-categories {
-    &__inner {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
+  &__inner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
 
-    &__title {
-        opacity: 0.7;
-    }
+  &__title {
+    opacity: 0.7;
+  }
 
-    &__list-inner {
-        position: relative;
-    }
+  &__list-inner {
+    position: relative;
+  }
 
-    &__list {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 200px;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 5px;
-        padding: 10px;
-        z-index: 10;
-        background-color: white;
-        box-shadow: $box-shadow;
-    }
+  &__list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    padding: 10px;
+    z-index: 10;
+    background-color: white;
+    box-shadow: $box-shadow;
+  }
 
-    &__button {
-        text-align: left;
-        transition: 0.2s color;
+  &__button {
+    text-align: left;
+    transition: 0.2s color;
 
-        &:hover {
-            color: $primary-blue;
-        }
+    &:hover {
+      color: $primary-blue;
     }
+  }
 }

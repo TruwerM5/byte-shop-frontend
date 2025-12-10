@@ -2,40 +2,40 @@
 $skeleton-bg: #cccccc;
 
 .menu-link {
-    display: block;
-    color: #fff;
-    transition:
-        color 0.2s,
-        border-color 0.2s;
-    padding-block: 5px;
-    color: #fff;
-    background-color: #000;
-    border: 1px solid #000;
+  display: block;
+  color: #fff;
+  transition:
+    color 0.2s,
+    border-color 0.2s;
+  padding-block: 5px;
+  color: #fff;
+  background-color: #000;
+  border: 1px solid #000;
 
-    &_active {
-        border-bottom-color: #fff;
-    }
+  &_active {
+    border-bottom-color: #fff;
+  }
 }
 
 .page {
-    width: 100%;
-    max-width: 1440px;
-    margin: 1rem auto;
-    padding: 0 1rem;
+  width: 100%;
+  max-width: 1440px;
+  margin: 1rem auto;
+  padding: 0 1rem;
 }
 
 .skeleton {
-    color: transparent;
-    background-color: $skeleton-bg;
-    animation: skeleton-animation 1s linear 0s infinite alternate;
+  color: transparent;
+  background-color: $skeleton-bg;
+  animation: skeleton-animation 1s linear 0s infinite alternate;
 }
 
 @keyframes skeleton-animation {
-    from {
-        opacity: 1;
-    }
+  from {
+    opacity: 1;
+  }
 
-    to {
-        opacity: 0.3;
-    }
+  to {
+    opacity: 0.3;
+  }
 }

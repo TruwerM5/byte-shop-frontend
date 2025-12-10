@@ -1,66 +1,66 @@
 @use '@/styles/_variables' as *;
 
 .catalog {
-    position: fixed;
-    inset: 0;
-    height: 70%;
+  position: fixed;
+  inset: 0;
+  height: 70%;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 300px);
+  gap: 80px;
+  padding: 30px;
+  background-color: $black;
+  z-index: 10;
+  display: none;
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &__button {
+    position: relative;
+    display: block;
     width: 100%;
-    display: grid;
-    grid-template-columns: repeat(2, 300px);
-    gap: 80px;
-    padding: 30px;
-    background-color: $black;
-    z-index: 10;
-    display: none;
+    padding: 15px;
+    font-size: 18px;
+    text-align: left;
+    color: $white;
+    transition:
+      color 0.3s,
+      background-color 0.3s;
 
-    &__list {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+      height: 2px;
+      width: 0;
+      bottom: 0;
+      left: 0;
+      background-color: $white;
+      transition: width 0.3s;
     }
 
-    &__button {
-        position: relative;
-        display: block;
+    &:hover,
+    &_active-link {
+      &::after {
         width: 100%;
-        padding: 15px;
-        font-size: 18px;
-        text-align: left;
-        color: $white;
-        transition:
-            color 0.3s,
-            background-color 0.3s;
-
-        &::after {
-            content: '';
-            display: block;
-            position: absolute;
-            height: 2px;
-            width: 0;
-            bottom: 0;
-            left: 0;
-            background-color: $white;
-            transition: width 0.3s;
-        }
-
-        &:hover,
-        &_active-link {
-            &::after {
-                width: 100%;
-            }
-        }
+      }
     }
+  }
 
-    &__close-button {
-        position: absolute;
-        top: 40px;
-        right: 40px;
-        font-size: 30px;
-    }
+  &__close-button {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    font-size: 30px;
+  }
 }
 
 @media screen and (min-width: $laptop) {
-    .catalog {
-        display: grid;
-    }
+  .catalog {
+    display: grid;
+  }
 }

@@ -5,9 +5,9 @@ import { NextRequest, NextResponse } from 'next/server';
 const intlMiddleware = createMiddleware(routing);
 
 export default function proxy(request: NextRequest) {
-    return intlMiddleware(request);
+  return intlMiddleware(request);
 }
 
 export const config = {
-    matcher: '/((?!api|trpc|_next|_vercel|.*\\..*).*)',
+  matcher: '/((?!api|trpc|_next|_vercel|.*\\..*).*)',
 };

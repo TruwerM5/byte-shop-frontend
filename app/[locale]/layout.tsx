@@ -5,26 +5,26 @@ import '@/styles/style.scss';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: 'ByteShop',
+  title: 'ByteShop',
 };
 
 export default async function LocaleLayout({
-    children,
-    params,
+  children,
+  params,
 }: {
-    children: React.ReactNode;
-    params: Promise<{ locale: string }>;
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }) {
-    const { locale } = await params;
-    if (!hasLocale(routing.locales, locale)) {
-        notFound();
-    }
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) {
+    notFound();
+  }
 
-    return (
-        <html lang={locale}>
-            <body>
-                <NextIntlClientProvider>{children}</NextIntlClientProvider>
-            </body>
-        </html>
-    );
+  return (
+    <html lang={locale}>
+      <body>
+        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+      </body>
+    </html>
+  );
 }
