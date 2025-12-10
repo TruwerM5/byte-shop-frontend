@@ -7,6 +7,7 @@ import { slugifyString } from '@/utils/slugify-query';
 import './Filters.scss';
 import { useProductStore } from '@/store/productStore';
 import clsx from 'clsx';
+import Button from '../Button/Button';
 import type { FilterQueryParams, FilterQueryKeys } from '@/types/filters';
 
 type HandleInputChange = (newFilters: FilterQueryParams) => void;
@@ -19,6 +20,7 @@ export default function Filters({
   applyFilters: HandleInputChange;
 }) {
   const filters = useProductStore((state) => state.filters);
+  const clearFilters = useProductStore((state) => state.clearFilters);
   const tCommon = useTranslations('common');
   const tDetails = useTranslations('details');
   const [isApplyBtnVisible, setIsApplyBtnVisible] = useState(false);
@@ -105,6 +107,9 @@ export default function Filters({
           block: isApplyBtnVisible,
         })}
       />
+      <Button onClick={clearFilters}>
+        <span>Reset</span>
+      </Button>
     </div>
   );
 }
