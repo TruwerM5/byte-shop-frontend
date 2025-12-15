@@ -19,13 +19,12 @@ export default function Filters({
   productSlug: string;
   applyFilters: HandleInputChange;
 }) {
-  const filters = useProductStore((state) => state.filters);
-  const clearFilters = useProductStore((state) => state.clearFilters);
+  const { filters, clearFilters } = useProductStore((state) => state);
   const tCommon = useTranslations('common');
   const tDetails = useTranslations('details');
   const [isApplyBtnVisible, setIsApplyBtnVisible] = useState(false);
   const [newFilters, setNewFilters] = useState<FilterQueryParams>(filters);
-
+  const hasFilters = Object.values(newFilters).some((filter) => filter.length > 0);
   const handleInputChange = (query: string, value: string, isChecked?: boolean) => {
     setNewFilters((prev: any) => {
       const current = prev[query] || [];
@@ -51,6 +50,11 @@ export default function Filters({
     applyFilters(newFilters);
     setIsApplyBtnVisible(false);
   };
+
+  function resetFilters() {
+    applyFilters({} as FilterQueryParams);
+    clearFilters();
+  }
 
   useEffect(() => {
     setNewFilters(filters);
@@ -107,9 +111,11 @@ export default function Filters({
           block: isApplyBtnVisible,
         })}
       />
-      <Button onClick={clearFilters}>
-        <span>Reset</span>
-      </Button>
+      {hasFilters && (
+        <Button onClick={resetFilters}>
+          <span>Reset</span>
+        </Button>
+      )}
     </div>
   );
 }
