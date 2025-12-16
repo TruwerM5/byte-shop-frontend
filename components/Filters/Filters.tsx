@@ -8,6 +8,7 @@ import './Filters.scss';
 import { useProductStore } from '@/store/productStore';
 import clsx from 'clsx';
 import Button from '../Button/Button';
+import emptyFilters from '@/constants/empty-filters';
 import type { FilterQueryParams, FilterQueryKeys } from '@/types/filters';
 
 type HandleInputChange = (newFilters: FilterQueryParams) => void;
@@ -19,16 +20,21 @@ export default function Filters({
   productSlug: string;
   applyFilters: HandleInputChange;
 }) {
-  const { filters, clearFilters } = useProductStore((state) => state);
+  const { filters } = useProductStore((state) => state);
   const tCommon = useTranslations('common');
   const tDetails = useTranslations('details');
   const [isApplyBtnVisible, setIsApplyBtnVisible] = useState(false);
   const [newFilters, setNewFilters] = useState<FilterQueryParams>(filters);
-  const hasFilters = Object.values(newFilters).some((filter) => filter.length > 0);
+  const hasFilters = Object.values(filters).some((filter) => {
+    return filter.length > 0;
+  });
+
   const handleInputChange = (query: FilterQueryKeys, value: string, isChecked?: boolean) => {
     setNewFilters((prev: FilterQueryParams) => {
       const current = prev[query] || [];
-      const updated = isChecked ? [...new Set([...current, value])] : Array.from(current).filter((v: string) => v !== value);
+      const updated = isChecked
+        ? [...new Set([...current, value])]
+        : Array.from(current).filter((v: string) => v !== value);
 
       return {
         ...prev,
@@ -52,8 +58,7 @@ export default function Filters({
   };
 
   function resetFilters() {
-    applyFilters({} as FilterQueryParams);
-    clearFilters();
+    applyFilters(emptyFilters);
   }
 
   useEffect(() => {

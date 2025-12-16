@@ -10,7 +10,6 @@ interface ProductStore {
   getProductById: (id: number) => Product | undefined;
   storeFilters: (newFilters: FilterQueryParams) => void;
   getFilters: () => any;
-  clearFilters: () => void;
   getProductsByCategory: (category: string, filters?: any) => Product[] | undefined;
 }
 
@@ -43,22 +42,10 @@ export const useProductStore = create<ProductStore>((set, get) => ({
     return filterProducts(categoryProducts, filters);
   },
   storeFilters(newFilters: FilterQueryParams) {
-    set(() => ({ filters: newFilters }));
+    set(() => ({ filters: { ...newFilters } }));
   },
   getFilters() {
     const { filters } = get();
     return filters;
-  },
-  clearFilters() {
-    // TODO: extract to variable
-    set(() => ({
-      filters: {
-        price_max: '',
-        price_min: '',
-        socket: [],
-        line: [],
-        'cpu-manufacturer': [],
-      },
-    }));
   },
 }));
