@@ -25,10 +25,10 @@ export default function Filters({
   const [isApplyBtnVisible, setIsApplyBtnVisible] = useState(false);
   const [newFilters, setNewFilters] = useState<FilterQueryParams>(filters);
   const hasFilters = Object.values(newFilters).some((filter) => filter.length > 0);
-  const handleInputChange = (query: string, value: string, isChecked?: boolean) => {
-    setNewFilters((prev: any) => {
+  const handleInputChange = (query: FilterQueryKeys, value: string, isChecked?: boolean) => {
+    setNewFilters((prev: FilterQueryParams) => {
       const current = prev[query] || [];
-      const updated = isChecked ? [...new Set([...current, value])] : current.filter((v: string) => v !== value);
+      const updated = isChecked ? [...new Set([...current, value])] : Array.from(current).filter((v: string) => v !== value);
 
       return {
         ...prev,
@@ -39,7 +39,7 @@ export default function Filters({
   };
 
   const handlePriceInputChange = (query: 'price_min' | 'price_max', value: string) => {
-    setNewFilters((prev: any) => ({
+    setNewFilters((prev: FilterQueryParams) => ({
       ...prev,
       [query]: value,
     }));
@@ -129,10 +129,10 @@ function FilterItem({
   query: string;
   value: string;
   isChecked: boolean;
-  handleCheckboxChange: (query: string, values: string, isChecked?: boolean) => void;
+  handleCheckboxChange: (query: FilterQueryKeys, values: string, isChecked?: boolean) => void;
 }) {
   const slugValue = slugifyString(value).toUpperCase();
-  const uglifiedQuery = slugifyString(query).toLowerCase();
+  const uglifiedQuery = slugifyString(query).toLowerCase() as FilterQueryKeys;
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const isTargetChecked = e.target.checked;
     handleCheckboxChange(uglifiedQuery, slugValue, isTargetChecked);

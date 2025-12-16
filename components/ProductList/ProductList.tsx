@@ -40,7 +40,7 @@ export default function ProductList({ category }: { category: string }) {
     setProducts(sorted);
   }
 
-  function applyFilters(newFilters: any) {
+  function applyFilters(newFilters: FilterQueryParams) {
     setFilters(newFilters);
   }
 
@@ -52,7 +52,7 @@ export default function ProductList({ category }: { category: string }) {
     return searchParams.get(param)?.toString().split(',') || [];
   }
 
-  function getProducts(category: string, filters?: any, signal?: AbortSignal) {
+  function getProducts(category: string, filters?: FilterQueryParams, signal?: AbortSignal) {
     setProductsState('pending');
     fetchProductsByParamOrSlug(category, 0, filters)
       .then((res) => {
