@@ -97,11 +97,11 @@ export default function ProductList({ category }: { category: string }) {
     return () => {
       controller.abort();
     };
-  }, [category, filters, pathname, getProducts, replace]);
+  }, [category, filters, pathname]);
 
   useEffect(() => {
     storeFilters(defaultFilters);
-  });
+  }, []);
 
   if (productsState === 'error') {
     return <p className="error">{message}</p>;
