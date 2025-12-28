@@ -74,6 +74,7 @@
   "details": {
     "Line": "Line",
     "Socket": "Socket",
+    "Core": "Core",
     "CPU Manufacturer": "CPU Manufacturer"
   }
 }
