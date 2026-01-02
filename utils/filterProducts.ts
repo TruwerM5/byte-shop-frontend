@@ -1,15 +1,18 @@
-import { Product } from '@/types';
+import type { CpuProduct, Product } from '@/types';
+import type { AnyFilters, Category } from '@/types/filters';
 import removeDuplicates from './removeDuplicates';
+import { getFilteredCPU } from './getFiltersFromUrl';
 
-export function filterProducts(products: Product[], filters: any) {
+export function filterProducts(products: Product[], filters: AnyFilters, category: Category) {
   let filtered = [...products];
-  const hasFilters = Object.values(filters).some((filter: any) => filter?.length > 0);
+
+  const hasFilters = Object.values(filters).some((filter) => filter?.length > 0);
 
   if (!hasFilters) {
     return products;
   }
 
-  if (filters?.price_min > 0 || filters?.price_max > 0) {
+  if (Number(filters?.price_min) > 0 || Number(filters?.price_max) > 0) {
     let min = undefined;
     let max = undefined;
     if (filters.price_min) {
@@ -22,14 +25,11 @@ export function filterProducts(products: Product[], filters: any) {
     filtered = [...filteredByPrice];
   }
 
-  if (filters.socket.length > 0) {
-    const filteredBySocket = filterProductsBySocket(filtered, filters.socket);
-    filtered = [...filteredBySocket];
-  }
-
-  if (filters.line.length > 0) {
-    const filteredByCPULine = filterProductsByCPULine(filtered, filters.line);
-    filtered = [...filteredByCPULine];
+  switch (category) {
+    case 'cpu':
+      const CPUs = products.filter((product) => product.category === 'cpu');
+      filtered.concat(getFilteredCPU(CPUs, filters));
+      break;
   }
 
   const uniques = removeDuplicates(filtered);
@@ -46,23 +46,5 @@ export function filterProductsByPrices(products: Product[], priceMin?: number, p
       return product.price <= priceMax;
     }
     return product;
-  });
-}
-
-export function filterProductsBySocket(products: Product[], sockets: string[]) {
-  return products.filter((product) => {
-    if (product.category === 'cpu') {
-      const upperCaseProduct = product.socket.toUpperCase();
-      return sockets.map((socket) => socket.toUpperCase()).includes(upperCaseProduct);
-    }
-  });
-}
-
-export function filterProductsByCPULine(products: Product[], lines: string[]) {
-  return products.filter((product) => {
-    if (product.category === 'cpu') {
-      const upperCaseProductLine = product.line?.toUpperCase();
-      return lines.map((line) => line.toUpperCase()).includes(upperCaseProductLine);
-    }
   });
 }

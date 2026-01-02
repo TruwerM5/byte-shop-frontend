@@ -53,7 +53,7 @@ export type AbstractProduct = {
 };
 
 export type CPU = AbstractProduct & {
-  category: Categories.cpu;
+  category: 'cpu';
   socket: string;
   architecture: string;
   core: string;
@@ -76,7 +76,7 @@ export type CPU = AbstractProduct & {
 };
 
 export type GraphicsCard = AbstractProduct & {
-  category: Categories.graphicsCards;
+  category: 'graphics-cards';
   serie: string;
   interface: string;
   countSlots: number;
@@ -95,7 +95,7 @@ export type GraphicsCard = AbstractProduct & {
 };
 
 export type Motherboard = AbstractProduct & {
-  category: Categories.motherboards;
+  category: 'motherboards';
   socket: string;
   chipset: string;
   interfaces: string[];
@@ -112,6 +112,8 @@ export type Motherboard = AbstractProduct & {
 };
 
 export type Product = CPU | GraphicsCard | Motherboard;
+
+export type CpuProduct = Extract<Product, { category: 'cpu' }>;
 
 export enum Categories {
   cpu = 'cpu',

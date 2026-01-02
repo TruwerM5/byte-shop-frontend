@@ -1,21 +1,24 @@
 import { create } from 'zustand';
 import type { Product } from '@/types';
 import { filterProducts } from '@/utils/filterProducts';
-import type { FilterQueryParams } from '@/types/filters';
+import type { AnyFilters, Category } from '@/types/filters';
 
 interface ProductStore {
   products: Product[];
-  filters: FilterQueryParams;
+  filters: AnyFilters;
   storeProducts: (products: Product[]) => void;
   getProductById: (id: number) => Product | undefined;
-  storeFilters: (newFilters: FilterQueryParams) => void;
-  getFilters: () => any;
-  getProductsByCategory: (category: string, filters?: any) => Product[] | undefined;
+  storeFilters: (newFilters: AnyFilters) => void;
+  getProductsByCategory: (category: Category, filters: AnyFilters) => Product[] | undefined;
 }
 
 export const useProductStore = create<ProductStore>((set, get) => ({
   products: <Product[]>[],
-  filters: <FilterQueryParams>{},
+  filters: {
+    line: [],
+    socket: [],
+    core: [],
+  },
   storeProducts: (newProducts: Product[]) => {
     set((state) => {
       const uniqueExistingProducts = state.products.filter(
@@ -33,19 +36,15 @@ export const useProductStore = create<ProductStore>((set, get) => ({
     return products.find((product) => product.id === id);
   },
 
-  getProductsByCategory(category, filters?: FilterQueryParams) {
+  getProductsByCategory(category: Category, filters: AnyFilters) {
     const { products } = get();
     const categoryProducts = products.filter(
       (product) => product.category === category || product.slugs.includes(category),
     );
 
-    return filterProducts(categoryProducts, filters);
+    return filterProducts(categoryProducts, filters, category);
   },
-  storeFilters(newFilters: FilterQueryParams) {
+  storeFilters(newFilters: AnyFilters) {
     set(() => ({ filters: { ...newFilters } }));
-  },
-  getFilters() {
-    const { filters } = get();
-    return filters;
   },
 }));

@@ -1,37 +1,47 @@
 'use client';
 
-import ProductItem from '../ProductItem/ProductItem';
-import Filters from '../Filters/Filters';
-import './ProductList.scss';
-import SortCategories from '@/components/SortCategories/SortCategories';
-import { Product } from '@/types';
 import { useState, useEffect, useCallback } from 'react';
 import { useProductStore } from '@/store/productStore';
 import { fetchProductsByParamOrSlug } from '@/api/products';
 import CatalogSkeleton from '@/components/UI/Skeletons/CatalogSkeleton/CatalogSkeleton';
+import SortCategories from '@/components/SortCategories/SortCategories';
+import ProductItem from '@/components/ProductItem/ProductItem';
+import Filters from '@/components/Filters/Filters';
 import { useTranslations } from 'next-intl';
-import { useSearchParams, usePathname } from 'next/navigation';
-import { useRouter } from 'next/navigation';
-import type { FilterQueryParams } from '@/types/filters';
+import { useSearchParams, usePathname, useRouter } from 'next/navigation';
+import EMPTY_FILTERS from '@/constants/empty-filters';
+import './ProductList.scss';
+import type { Product } from '@/types';
+import type { AnyFilters, Category } from '@/types/filters';
 
 type ProductsState = 'pending' | 'success' | 'error' | 'not-found';
 
-export default function ProductList({ category }: { category: string }) {
+export default function ProductList({ category }: { category: Category }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const { replace } = useRouter();
   const { storeProducts, storeFilters } = useProductStore((state) => state);
   const [products, setProducts] = useState<Product[]>([]);
   const [productsState, setProductsState] = useState<ProductsState>('pending');
-  const defaultFilters: FilterQueryParams = {
-    price_min: getSingleSearchParam('price_min'),
-    price_max: getSingleSearchParam('price_max'),
-    socket: getMultipleSearchParams('socket'),
-    line: getMultipleSearchParams('line'),
-    'cpu-manufacturer': getMultipleSearchParams('cpu-manufacturer'),
-  };
+  const getFiltersByCategory = useCallback((category: Category) => {
+    switch (category) {
+      case 'cpu':
+        return {
+          line: searchParams.get('line')?.toString().split(',') || [],
+          socket: searchParams.get('socket')?.toString().split(',') || [],
+          core: searchParams.get('core')?.toString().split(',') || [],
+        };
+      case 'graphics-card':
+        return {
+          'cpu-manufacturer': searchParams.get('cpu-manufacturer')?.toString().split(',') || [],
+        };
+      default:
+        return EMPTY_FILTERS;
+    }
+  }, []);
 
-  const [filters, setFilters] = useState(defaultFilters);
+  const defaultFilters = getFiltersByCategory(category);
+  const [filters, setFilters] = useState<AnyFilters>(EMPTY_FILTERS);
   const [message, setMessage] = useState('');
   const tCommon = useTranslations('common');
   const tSlugs = useTranslations('slugs');
@@ -40,21 +50,13 @@ export default function ProductList({ category }: { category: string }) {
     setProducts(sorted);
   }
 
-  function applyFilters(newFilters: FilterQueryParams) {
+  function applyFilters(newFilters: AnyFilters) {
     setFilters(newFilters);
     storeFilters(newFilters);
   }
 
-  function getSingleSearchParam(param: string) {
-    return searchParams.get(param) || '';
-  }
-
-  function getMultipleSearchParams(param: string) {
-    return searchParams.get(param)?.toString().split(',') || [];
-  }
-
   const getProducts = useCallback(
-    (category: string, filters?: FilterQueryParams, signal?: AbortSignal) => {
+    (category: Category, filters: AnyFilters, signal?: AbortSignal) => {
       setProductsState('pending');
       fetchProductsByParamOrSlug(category, 0, filters)
         .then((res) => {
@@ -86,7 +88,10 @@ export default function ProductList({ category }: { category: string }) {
     const controller = new AbortController();
     getProducts(category, filters, controller.signal);
     const params = new URLSearchParams();
-    Object.entries(filters).forEach(([key, value]: [string, string | string[]]) => {
+    if (!filters) {
+      return undefined;
+    }
+    Object.entries(filters).forEach(([key, value]) => {
       if (value.length > 0) {
         params.set(key, value.toString());
       } else {

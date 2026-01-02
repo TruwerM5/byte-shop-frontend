@@ -1,9 +1,11 @@
-import type { FilterQueryParams } from '@/types/filters';
+import type { AnyFilters } from '@/types/filters';
 
 export default {
-  price_max: '',
   price_min: '',
-  socket: [],
+  price_max: '',
   line: [],
+  socket: [],
+  core: [],
   'cpu-manufacturer': [],
-} satisfies FilterQueryParams;
+  capacity: [],
+} satisfies AnyFilters;

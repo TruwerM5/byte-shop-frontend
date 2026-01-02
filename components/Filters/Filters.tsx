@@ -8,10 +8,10 @@ import './Filters.scss';
 import { useProductStore } from '@/store/productStore';
 import clsx from 'clsx';
 import Button from '../Button/Button';
-import emptyFilters from '@/constants/empty-filters';
-import type { FilterQueryParams, FilterQueryKeys } from '@/types/filters';
+import type { AnyFilters, FilterKeys, KeyAnyFilters } from '@/types/filters';
+import EMPTY_FILTERS from '@/constants/empty-filters';
 
-type HandleInputChange = (newFilters: FilterQueryParams) => void;
+type HandleInputChange = (newFilters: AnyFilters) => void;
 
 export default function Filters({
   productSlug,
@@ -24,14 +24,16 @@ export default function Filters({
   const tCommon = useTranslations('common');
   const tDetails = useTranslations('details');
   const [isApplyBtnVisible, setIsApplyBtnVisible] = useState(false);
-  const [newFilters, setNewFilters] = useState<FilterQueryParams>(filters);
+  const [newFilters, setNewFilters] = useState<AnyFilters>(filters);
   const hasFilters = Object.values(filters).some((filter) => {
     return filter.length > 0;
   });
-
-  const handleInputChange = (query: FilterQueryKeys, value: string, isChecked?: boolean) => {
-    setNewFilters((prev: FilterQueryParams) => {
-      const current = prev[query] || [];
+  const handleInputChange = (query: KeyAnyFilters, value: string, isChecked?: boolean) => {
+    setNewFilters((prev: AnyFilters) => {
+      const current = prev[query];
+      if (current === undefined) {
+        return prev;
+      }
       const updated = isChecked
         ? [...new Set([...current, value])]
         : Array.from(current).filter((v: string) => v !== value);
@@ -45,7 +47,7 @@ export default function Filters({
   };
 
   const handlePriceInputChange = (query: 'price_min' | 'price_max', value: string) => {
-    setNewFilters((prev: FilterQueryParams) => ({
+    setNewFilters((prev: AnyFilters) => ({
       ...prev,
       [query]: value,
     }));
@@ -58,7 +60,7 @@ export default function Filters({
   };
 
   function resetFilters() {
-    applyFilters(emptyFilters);
+    applyFilters(EMPTY_FILTERS);
   }
 
   useEffect(() => {
@@ -92,14 +94,13 @@ export default function Filters({
         >
           <div className="filter-item-wrapper flex flex-col gap-[2px] relative">
             {filterItem.values.map((filterValue, index) => {
-              const lowerCaseTitle = filterItem.title.toLowerCase();
-              const key = lowerCaseTitle as FilterQueryKeys;
-              const slugValue = slugifyString(filterValue).toUpperCase();
+              const key = filterItem.type;
+              const slugValue = slugifyString(String(filterValue)).toUpperCase();
               const isChecked = !!newFilters[key]?.includes(slugValue);
               return (
                 <FilterItem
                   key={'filter-item' + index}
-                  query={filterItem.title}
+                  query={filterItem.type}
                   value={filterValue}
                   handleCheckboxChange={handleInputChange}
                   isChecked={isChecked}
@@ -131,16 +132,15 @@ function FilterItem({
   isChecked,
   handleCheckboxChange,
 }: {
-  query: string;
-  value: string;
+  query: FilterKeys;
+  value: string | number;
   isChecked: boolean;
-  handleCheckboxChange: (query: FilterQueryKeys, values: string, isChecked?: boolean) => void;
+  handleCheckboxChange: (query: FilterKeys, values: string, isChecked?: boolean) => void;
 }) {
-  const slugValue = slugifyString(value).toUpperCase();
-  const uglifiedQuery = slugifyString(query).toLowerCase() as FilterQueryKeys;
+  const slugValue = slugifyString(String(value)).toUpperCase();
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const isTargetChecked = e.target.checked;
-    handleCheckboxChange(uglifiedQuery, slugValue, isTargetChecked);
+    handleCheckboxChange(query, slugValue, isTargetChecked);
   }
 
   return (
@@ -169,7 +169,7 @@ function FilterPriceInput({
   handlePriceInputChange,
 }: {
   type: 'price_min' | 'price_max';
-  price: string;
+  price?: string;
   handlePriceInputChange: (query: 'price_min' | 'price_max', value: string) => void;
 }) {
   const placeholder = type === 'price_min' ? 'min' : 'max';
