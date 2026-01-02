@@ -26,7 +26,7 @@ export default function Catalog({ links, closeCatalogFn }: { links: CatalogData[
     });
 
     return result;
-  }, []);
+  }, [links]);
 
   function setActiveNestedId(id: number) {
     setActiveSubmenuIndex(id);

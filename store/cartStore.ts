@@ -1,6 +1,4 @@
 import { create } from 'zustand';
-import type { Product } from '@/types';
-import { products } from '@/data/products';
 
 interface CartStore {
   cart: { id: number | string; quantity: number }[];

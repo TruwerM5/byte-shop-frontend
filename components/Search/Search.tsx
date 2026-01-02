@@ -15,8 +15,6 @@ export default function Search() {
 
   const [searchValue, setSearchValue] = useState(search || '');
 
-  let placeholderClassName = '';
-
   function onChange(e: React.ChangeEvent<HTMLInputElement>) {
     setSearchValue(e.target.value);
   }

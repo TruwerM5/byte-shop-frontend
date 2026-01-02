@@ -1,11 +1,9 @@
 import Search from '@/components/Search/Search';
 import ProductList from '@/components/ProductList/ProductList';
-import Filters from '@/components/Filters/Filters';
-import { getTranslations } from 'next-intl/server';
 import './CategoryPage.scss';
-import { fetchProductsByParamOrSlug } from '@/api/products';
+import type { Category } from '@/types/filters';
 
-export default async function Page({ params }: { params: Promise<{ category: string }> }) {
+export default async function Page({ params }: { params: Promise<{ category: Category }> }) {
   const { category } = await params;
 
   return (

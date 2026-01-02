@@ -1,8 +1,4 @@
-import { CPU, Product } from '@/types';
-
-function getCPUInfo(cpu: CPU) {
-  return `${cpu.socket}, ${cpu.countCores} cores`;
-}
+import { Product } from '@/types';
 
 export default function getProductInfo(product: Product) {
   switch (product.category) {

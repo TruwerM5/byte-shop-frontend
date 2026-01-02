@@ -1,10 +1,9 @@
 'use client';
 
 import Search from '@/components/Search/Search';
-import { Product } from '@/types';
 import { useTranslations } from 'next-intl';
 
-export default function ClientCalalogPage({ serverProducts }: { serverProducts: Product[] }) {
+export default function ClientCalalogPage() {
   const tCommon = useTranslations('common');
 
   return (

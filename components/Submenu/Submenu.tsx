@@ -14,10 +14,6 @@ export default function Submenu({
   const t = useTranslations('products');
   const path = usePathname();
 
-  function closeAll(e: React.MouseEvent<HTMLAnchorElement>, id: number) {
-    setActiveIndex();
-  }
-
   return (
     <ul className="catalog__list">
       {nestedRoutes
@@ -37,7 +33,7 @@ export default function Submenu({
             >
               <Link
                 href={`/catalog${route.href}`}
-                onClick={(e) => closeAll(e, 0)}
+                onClick={() => setActiveIndex()}
                 className={buttonClassName}
               >
                 {t(route.title)}

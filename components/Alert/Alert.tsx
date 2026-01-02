@@ -9,7 +9,7 @@ import './Alert.scss';
 export default function Alert({ id, type, message }: { id: number; type: 'error' | 'success'; message: string }) {
   const { hideAlert } = useAlertStore();
   const [progress, setProgress] = useState(0);
-  const timerId = useRef<any>(null);
+  const timerId = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (timerId.current) {
@@ -32,7 +32,9 @@ export default function Alert({ id, type, message }: { id: number; type: 'error'
   useEffect(() => {
     if (progress >= 100) {
       hideAlert(id);
-      clearInterval(timerId.current);
+      if(timerId.current) {
+        clearInterval(timerId.current);
+      }
     }
   }, [progress]);
 

@@ -1,23 +1,22 @@
 import { products } from '@/data/products';
 import type { Product } from '@/types';
+import { AnyFilters, Category } from '@/types/filters';
 import { filterProducts } from '@/utils/filterProducts';
 
 export const fetchAllProducts = async (): Promise<Product[] | undefined> => {
-  return new Promise((res, rej) => {
+  return new Promise((res) => {
     return res(products);
   });
 };
 
 export const fetchProductsByParamOrSlug = async (
-  param: string,
+  category: Category,
   page = 0,
-  filters?: any,
+  filters: AnyFilters,
 ): Promise<Product[] | undefined> => {
   if (page === 0) {
-    let res = products.filter((product) => product.category === param || product.slugs.includes(param));
-    if (Object.keys(filters).length > 0) {
-      res = filterProducts(res, filters);
-    }
+    let res = products.filter((product) => product.category === category);
+    res = filterProducts(res, filters, category);
 
     res.sort((a, b) => b.popularity - a.popularity);
     return new Promise((resolve) => {

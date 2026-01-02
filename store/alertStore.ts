@@ -16,7 +16,7 @@ interface AlertState {
 
 let idCounter = 0;
 
-export const useAlertStore = create<AlertState>((set, get) => ({
+export const useAlertStore = create<AlertState>((set) => ({
   alerts: [],
   showAlert: (message: string, type: AlertType) => {
     const id = idCounter++;

@@ -167,10 +167,7 @@ export default function Header({ locale }: { locale: string }) {
                 key={headerLink.id}
                 className="header__list-item"
               >
-                <HeaderLinkItem
-                  link={headerLink}
-                  onClick={() => setIsMenuOpened(false)}
-                />
+                <HeaderLinkItem link={headerLink} />
               </li>
             ))}
           </ul>
