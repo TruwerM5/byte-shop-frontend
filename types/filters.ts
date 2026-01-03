@@ -48,7 +48,7 @@ export interface EmptyFilters {
 }
 
 export type FilterKeys = 'line' | 'core' | 'cpu-manufacturer' | 'socket' | 'capacity';
-type CheckboxSelection = Partial<Record<FilterKeys, string[]>>;
+export type CheckboxSelection = Partial<Record<FilterKeys, string[]>>;
 
 export type AnyFilters = BaseFilterQueryParams & CheckboxSelection;
 export type KeyAnyFilters = keyof AnyFilters;

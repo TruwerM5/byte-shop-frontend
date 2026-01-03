@@ -1,7 +1,7 @@
-import type { CpuProduct, Product } from '@/types';
+import type { Product } from '@/types';
 import type { AnyFilters, Category } from '@/types/filters';
 import removeDuplicates from './removeDuplicates';
-import { getFilteredCPU } from './getFiltersFromUrl';
+import { getFilteredCPU } from '@/utils/filterByCategory';
 
 export function filterProducts(products: Product[], filters: AnyFilters, category: Category) {
   let filtered = [...products];

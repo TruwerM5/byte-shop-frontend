@@ -1,29 +1,26 @@
-import type { AnyFilters, CPUFilters } from '@/types/filters';
-import type { Product, CpuProduct } from '@/types';
-import removeDuplicates from './removeDuplicates';
-import { slugifyString } from './slugify-query';
+import type { AnyFilters, Category, CPUFiltersKey } from '@/types/filters';
 
-export function getFilteredCPU(products: CpuProduct[], filters: AnyFilters) {
-  let result: Product[] = [];
-  if (filters.line && filters.line.length > 0) {
-    result.push(...filterCPUByFilterKey(products, 'line', filters.line));
+const CPUFilterKeys: CPUFiltersKey[] = ['line', 'core', 'socket'];
+
+export default function getFiltersFromUrl(searchParams: URLSearchParams, category: Category) {
+  const currentKeys = getCurrentCategoryFilterKeys(category);
+  if (!currentKeys) {
+    throw new Error(`Category ${category} is not defined`);
   }
+  const params = searchParams;
+  const obj: AnyFilters = {};
+  currentKeys.forEach((query) => {
+    obj[query] = params.get(query)?.toString().split(',') || [];
+  });
 
-  if (filters.socket && filters.socket.length > 0) {
-    result.push(...filterCPUByFilterKey(products, 'socket', filters.socket));
-  }
-
-  if (filters.core && filters.core.length > 0) {
-    result.push(...filterCPUByFilterKey(products, 'core', filters.core));
-  }
-
-  result = removeDuplicates(result);
-  return result;
+  return obj;
 }
 
-function filterCPUByFilterKey(cpus: CpuProduct[], key: keyof CPUFilters, values: string[]): CpuProduct[] {
-  return cpus.filter((cpu) => {
-    const rawKey = slugifyString(cpu[key]).toUpperCase(); // 'Golden Cove' => 'GOLDEN-COVE'
-    return values.map((value) => value.toUpperCase()).includes(rawKey);
-  });
+function getCurrentCategoryFilterKeys(category: Category) {
+  switch (category) {
+    case 'cpu':
+      return CPUFilterKeys;
+    default:
+      return undefined;
+  }
 }

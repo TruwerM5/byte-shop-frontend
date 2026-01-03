@@ -9,8 +9,8 @@ import ProductItem from '@/components/ProductItem/ProductItem';
 import Filters from '@/components/Filters/Filters';
 import { useTranslations } from 'next-intl';
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
-import EMPTY_FILTERS from '@/constants/empty-filters';
 import './ProductList.scss';
+import getFiltersFromUrl from '@/utils/getFiltersFromUrl';
 import type { Product } from '@/types';
 import type { AnyFilters, Category } from '@/types/filters';
 
@@ -23,25 +23,9 @@ export default function ProductList({ category }: { category: Category }) {
   const { storeProducts, storeFilters } = useProductStore((state) => state);
   const [products, setProducts] = useState<Product[]>([]);
   const [productsState, setProductsState] = useState<ProductsState>('pending');
-  const getFiltersByCategory = useCallback((category: Category) => {
-    switch (category) {
-      case 'cpu':
-        return {
-          line: searchParams.get('line')?.toString().split(',') || [],
-          socket: searchParams.get('socket')?.toString().split(',') || [],
-          core: searchParams.get('core')?.toString().split(',') || [],
-        };
-      case 'graphics-card':
-        return {
-          'cpu-manufacturer': searchParams.get('cpu-manufacturer')?.toString().split(',') || [],
-        };
-      default:
-        return EMPTY_FILTERS;
-    }
-  }, []);
+  const getFiltersByCategory = useCallback(() => getFiltersFromUrl(searchParams, category), [searchParams, category]);
 
-  const defaultFilters = getFiltersByCategory(category);
-  const [filters, setFilters] = useState<AnyFilters>(EMPTY_FILTERS);
+  const [filters, setFilters] = useState<AnyFilters>({});
   const [message, setMessage] = useState('');
   const tCommon = useTranslations('common');
   const tSlugs = useTranslations('slugs');
@@ -105,8 +89,9 @@ export default function ProductList({ category }: { category: Category }) {
   }, [category, filters, pathname]);
 
   useEffect(() => {
-    storeFilters(defaultFilters);
-  }, []);
+    const defaultFilters = getFiltersByCategory();
+    setFilters(defaultFilters);
+  }, [getFiltersByCategory]);
 
   if (productsState === 'error') {
     return <p className="error">{message}</p>;
