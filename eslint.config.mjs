@@ -13,15 +13,13 @@ const rules = {
   'no-console': 2,
 };
 
-const ignores = [
-  'node_modules/**/*', 
-  '.next/**/*',
-];
+const ignores = ['node_modules/**/*', '.next/**/*'];
 
+// prettier-ignore
 const eslintConfig = [
   ...compat.extends('next/core-web-vitals', 'next/typescript'),
   { rules },
-  { ignores },
+  { ignores }
 ];
 
 export default eslintConfig;

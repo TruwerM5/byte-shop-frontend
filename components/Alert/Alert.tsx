@@ -32,7 +32,7 @@ export default function Alert({ id, type, message }: { id: number; type: 'error'
   useEffect(() => {
     if (progress >= 100) {
       hideAlert(id);
-      if(timerId.current) {
+      if (timerId.current) {
         clearInterval(timerId.current);
       }
     }
