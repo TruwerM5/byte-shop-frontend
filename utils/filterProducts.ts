@@ -27,12 +27,13 @@ export function filterProducts(products: Product[], filters: AnyFilters, categor
 
   switch (category) {
     case 'cpu':
-      const CPUs = products.filter((product) => product.category === 'cpu');
-      filtered.concat(getFilteredCPU(CPUs, filters));
+      const CPUs = filtered.filter((product) => product.category === 'cpu');
+      filtered = getFilteredCPU(CPUs, filters);
       break;
   }
 
   const uniques = removeDuplicates(filtered);
+  console.log(uniques);
   return uniques;
 }
 
