@@ -33,7 +33,6 @@ export function filterProducts(products: Product[], filters: AnyFilters, categor
   }
 
   const uniques = removeDuplicates(filtered);
-  console.log(uniques);
   return uniques;
 }
 
