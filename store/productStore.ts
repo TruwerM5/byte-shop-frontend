@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import type { Product } from '@/types';
 import { filterProducts } from '@/utils/filterProducts';
+import EMPTY_FILTERS from '@/constants/empty-filters';
 import type { AnyFilters, Category } from '@/types/filters';
 
 interface ProductStore {
@@ -14,11 +15,7 @@ interface ProductStore {
 
 export const useProductStore = create<ProductStore>((set, get) => ({
   products: <Product[]>[],
-  filters: {
-    line: [],
-    socket: [],
-    core: [],
-  },
+  filters: EMPTY_FILTERS,
   storeProducts: (newProducts: Product[]) => {
     set((state) => {
       const uniqueExistingProducts = state.products.filter(

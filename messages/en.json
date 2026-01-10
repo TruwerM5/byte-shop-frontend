@@ -75,6 +75,7 @@
     "Line": "Line",
     "Socket": "Socket",
     "Core": "Core",
+    "Number of cores": "Number of cores", 
     "CPU Manufacturer": "CPU Manufacturer"
   }
 }

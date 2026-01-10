@@ -23,9 +23,16 @@ export default function ProductList({ category }: { category: Category }) {
   const { storeProducts, storeFilters } = useProductStore((state) => state);
   const [products, setProducts] = useState<Product[]>([]);
   const [productsState, setProductsState] = useState<ProductsState>('pending');
-  const getFiltersByCategory = useCallback(() => getFiltersFromUrl(searchParams, category), [searchParams, category]);
+  // prettier-ignore
+  const getFiltersByCategory = useCallback(
+    () => getFiltersFromUrl(searchParams, category), 
+    []
+  );
 
-  const [filters, setFilters] = useState<AnyFilters>({});
+  // prettier-ignore
+  const [filters, setFilters] = useState<AnyFilters>(
+    () => getFiltersFromUrl(searchParams, category),
+  );
   const [message, setMessage] = useState('');
   const tCommon = useTranslations('common');
   const tSlugs = useTranslations('slugs');
@@ -89,9 +96,10 @@ export default function ProductList({ category }: { category: Category }) {
   }, [category, filters, pathname]);
 
   useEffect(() => {
-    const defaultFilters = getFiltersByCategory();
+    const defaultFilters = getFiltersFromUrl(searchParams, category);
     setFilters(defaultFilters);
-  }, [getFiltersByCategory]);
+    storeFilters(defaultFilters);
+  }, [category]);
 
   if (productsState === 'error') {
     return <p className="error">{message}</p>;

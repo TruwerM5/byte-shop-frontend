@@ -1,6 +1,5 @@
-import type { AnyFilters, Category, CPUFiltersKey } from '@/types/filters';
-
-const CPUFilterKeys: CPUFiltersKey[] = ['line', 'core', 'socket'];
+import { CPUFilterKeys } from '@/constants/empty-filters';
+import type { AnyFilters, Category } from '@/types/filters';
 
 export default function getFiltersFromUrl(searchParams: URLSearchParams, category: Category) {
   const currentKeys = getCurrentCategoryFilterKeys(category);

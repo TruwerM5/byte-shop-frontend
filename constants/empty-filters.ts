@@ -1,4 +1,4 @@
-import type { AnyFilters } from '@/types/filters';
+import type { AnyFilters, CPUFiltersKey } from '@/types/filters';
 
 export default {
   price_min: '',
@@ -6,6 +6,9 @@ export default {
   line: [],
   socket: [],
   core: [],
+  countCores: [],
   'cpu-manufacturer': [],
   capacity: [],
 } satisfies AnyFilters;
+
+export const CPUFilterKeys: CPUFiltersKey[] = ['line', 'core', 'socket', 'countCores'];

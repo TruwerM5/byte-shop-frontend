@@ -76,6 +76,7 @@
     "Line": "Линейка",
     "Socket": "Socket",
     "Core": "Ядро",
+    "Number of cores": "Количество ядер",
     "CPU Manufacturer": "Производитель процессора"
   }
 }

@@ -35,6 +35,12 @@ export const filterList: CheckboxFilter[] = [
         ],
         type: 'core',
       },
+      {
+        id: 4,
+        title: 'Number of cores',
+        values: [6, 8, 14, 16, 20],
+        type: 'countCores'
+      }
     ],
   },
   {

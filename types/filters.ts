@@ -30,9 +30,10 @@ export interface CPUFilters {
   line?: string[];
   core?: string[];
   socket?: string[];
+  countCores: string[];
 }
 
-export type CPUFiltersKey = 'line' | 'core' | 'socket';
+export type CPUFiltersKey = 'line' | 'core' | 'socket'  | 'countCores';
 export type GraphicsCardFiltersKey = 'cpu-manufacturer';
 export type RamFiltersKey = 'capacity';
 export interface GraphicsCardFilters {
@@ -47,7 +48,13 @@ export interface EmptyFilters {
   category: 'all';
 }
 
-export type FilterKeys = 'line' | 'core' | 'cpu-manufacturer' | 'socket' | 'capacity';
+export type FilterKeys =
+  | 'line' 
+  | 'core'
+  | 'cpu-manufacturer'
+  | 'socket'
+  | 'capacity'
+  | 'countCores';
 export type CheckboxSelection = Partial<Record<FilterKeys, string[]>>;
 
 export type AnyFilters = BaseFilterQueryParams & CheckboxSelection;
